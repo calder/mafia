@@ -59,6 +59,15 @@ class Investigate(Action):
     for target in self.targets:
       state.log(TurntUp(target, target.alignment, to=player))
 
+class Track(Action):
+  precedence = 2000
+
+  def resolve_meta(self, player, state):
+    visits = state.game.log.phase(state.night).type(Visited)
+    for visit in visits:
+      if visit.player in self.targets:
+        state.log(SawVisit(visit.target, to=player))
+
 class Watch(Action):
   precedence = 2000
 
@@ -66,7 +75,7 @@ class Watch(Action):
     visits = state.game.log.phase(state.night).type(Visited)
     for visit in visits:
       if visit.target in self.targets and visit.player is not player:
-        state.log(SawVisit(visit.player, to=player))
+        state.log(SawVisitor(visit.player, to=player))
 
 class Roleblock(Action):
   precedence = 0

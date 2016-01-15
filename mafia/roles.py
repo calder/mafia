@@ -17,6 +17,9 @@ class Doctor(Role):
 class Cop(Role):
   pass
 
+class Tracker(Role):
+  pass
+
 class Watcher(Role):
   pass
 

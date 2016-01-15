@@ -69,4 +69,12 @@ class SawVisit(Event):
     self.player = player
 
   def _str(self):
+    return "Your target visited %s." % self.player
+
+class SawVisitor(Event):
+  def __init__(self, player, *, to):
+    super().__init__(to=to)
+    self.player = player
+
+  def _str(self):
     return "%s visited your target." % self.player

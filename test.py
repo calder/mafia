@@ -17,6 +17,7 @@ mafia = g.add_faction(Mafia("VMX Mafia"))
 asmar   = g.add_player(Player("Asmar", role=Goon(faction=mafia)))
 brian   = g.add_player(Player("Brian", role=Watcher(faction=town)))
 calder  = g.add_player(Player("Calder", role=Villager(faction=town)))
+fejta   = g.add_player(Player("Fejta", role=Tracker(faction=town)))
 josh    = g.add_player(Player("Josh", role=Cop(faction=town)))
 justin  = g.add_player(Player("Justin", role=Watcher(faction=town)))
 spencer = g.add_player(Player("Spencer", role=Roleblocker(faction=town)))
@@ -39,6 +40,7 @@ assert calder.alive is False
 
 night1 = Night(1)
 night1.add_action(asmar, Kill(josh))
+night1.add_action(fejta, Track(asmar))
 night1.add_action(josh, Investigate(asmar))
 night1.add_action(tony, Protect(josh))
 g.resolve(night1)
@@ -49,12 +51,15 @@ assert_equal(g.log.phase(night1), Log([
   Visited(tony, josh),
   Visited(asmar, josh),
   Saved(josh),
+  Visited(fejta, asmar),
+  SawVisit(josh, to=fejta),
 ], phase=night1))
 assert josh.alive is True
 
 night2 = Night(2)
 night2.add_action(asmar, Kill(josh))
 night2.add_action(brian, Watch(josh))
+night2.add_action(fejta, Track(tony))
 night2.add_action(justin, Watch(josh))
 night2.add_action(tony, Protect(josh))
 night2.add_action(spencer, Roleblock(tony))
@@ -66,11 +71,12 @@ assert_equal(g.log.phase(night2), Log([
   Visited(asmar, josh),
   Died(josh),
   Visited(brian, josh),
+  Visited(fejta, tony),
   Visited(justin, josh),
-  SawVisit(asmar, to=brian),
-  SawVisit(justin, to=brian),
-  SawVisit(asmar, to=justin),
-  SawVisit(brian, to=justin),
+  SawVisitor(asmar, to=brian),
+  SawVisitor(justin, to=brian),
+  SawVisitor(asmar, to=justin),
+  SawVisitor(brian, to=justin),
 ], phase=night2))
 assert josh.alive is False
 
