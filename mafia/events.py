@@ -1,3 +1,5 @@
+from .util import *
+
 PUBLIC = SingletonValue()
 
 class Event(object):

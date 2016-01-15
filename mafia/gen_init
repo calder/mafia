@@ -1,0 +1,25 @@
+#!/bin/bash
+
+cd "`dirname "$0"`"
+
+if [[ `uname` == 'Darwin' ]]; then
+  REGEX_SED="sed -E"
+else
+  REGEX_SED="sed -r"
+fi
+
+exec > __init__.py
+
+ls *.py \
+| sed "/__/d" \
+| $REGEX_SED "s|(.*)\.py|from \.\1 import \*|"
+echo
+
+echo -n "__all__ = ["
+cat *.py \
+| $REGEX_SED -n "s|class ([A-z]*).*|\"\1\",|p" \
+| sort \
+| sed "/SingletonValue/d" \
+| sed "/NightState/d" \
+| tr "\n" " "
+echo "]"

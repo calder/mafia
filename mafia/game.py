@@ -1,24 +1,4 @@
-from .actions import *
-from .factions import *
 from .log import *
-from .night import *
-from .roles import *
-
-from collections import *
-from copy import deepcopy
-
-class Player(object):
-  def __init__(self, name, *, role):
-    self.name = name
-    self.role = role
-    self.alive = True
-
-  def __str__(self):
-    return self.name
-
-  @property
-  def alignment(self):
-      return self.role.faction.alignment
 
 class Game(object):
   def __init__(self):

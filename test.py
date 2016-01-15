@@ -1,3 +1,5 @@
+from mafia import *
+
 def assert_equal(x, y):
   if x != y:
     print("--------------------1--------------------")
