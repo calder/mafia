@@ -1,9 +1,11 @@
 from .log import *
+from .util import *
 
 class NightState(object):
   def __init__(self, night, game):
     self.night = night
     self.game = game
+    self.target_map = identitydefaultdict()
     self.protected = set()
     self.blocked = set()
 

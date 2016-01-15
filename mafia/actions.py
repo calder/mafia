@@ -9,16 +9,26 @@ class Action(object):
     if not isinstance(targets, list):
       targets = [targets]
 
-    self.targets    = targets
-    self.blockable  = blockable
-    self.doctorable = doctorable
-    self.visible    = visible
+    self.raw_targets = targets
+    self.targets     = targets
+    self.blockable   = blockable
+    self.doctorable  = doctorable
+    self.visible     = visible
+
+  @property
+  def target(self):
+    return self.targets[0]
+
+  @target.setter
+  def set_target(self, target):
+    self.targets[0] = target
 
   def resolve(self, player, state):
     if self.blockable:
       if player in state.blocked:
         state.log(Blocked(player))
         return
+    self.targets = [state.target_map[t] for t in self.targets]
     for target in self.targets:
       state.log(Visited(player, target, visible=self.visible))
     if self.doctorable:
@@ -41,19 +51,18 @@ class Kill(Action):
     super().__init__(targets, doctorable=doctorable, **kwargs)
 
   def _resolve(self, player, state):
-    for target in self.targets:
-      target.alive = False
-      state.log(Died(target))
+    self.target.alive = False
+    state.log(Died(self.target))
 
 class Protect(Action):
-  precedence = 100
+  precedence = 200
 
   def _resolve(self, player, state):
     for target in self.targets:
       state.protected.add(target)
 
 class Investigate(Action):
-  precedence = 100
+  precedence = 200
 
   def _resolve(self, player, state):
     for target in self.targets:
@@ -84,7 +93,7 @@ class Watch(Action):
       state.log(SawVisitor(visitor, to=player))
 
 class Autopsy(Action):
-  precedence = 100
+  precedence = 200
 
   def _resolve(self, player, state):
     visits = state.game.log.type(Visited)
@@ -96,8 +105,19 @@ class Autopsy(Action):
       state.log(SawVisitor(visitor, to=player))
 
 class Roleblock(Action):
-  precedence = 0
+  precedence = 100
 
   def _resolve(self, player, state):
     for target in self.targets:
       state.blocked.add(target)
+
+class Busdrive(Action):
+  precedence = 0
+
+  def __init__(self, player1, player2):
+    super().__init__([player1, player2])
+
+  def _resolve(self, player, state):
+    a = self.targets[0]
+    b = self.targets[1]
+    state.target_map[a], state.target_map[b] = state.target_map[b], state.target_map[a]

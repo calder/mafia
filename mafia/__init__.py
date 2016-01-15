@@ -10,4 +10,4 @@ from .player import *
 from .roles import *
 from .util import *
 
-__all__ = ["Action", "Autopsy", "Blocked", "Cop", "Died", "Doctor", "Event", "Faction", "ForensicInvestigator", "Game", "Godfather", "Goon", "Investigate", "Kill", "Log", "Mafia", "Night", "Player", "Protect", "Role", "Roleblock", "Roleblocker", "Saved", "SawVisit", "SawVisitor", "Town", "Track", "Tracker", "TurntUp", "Villager", "Visited", "Watch", "Watcher", ]
+__all__ = ["Action", "Autopsy", "Blocked", "Busdrive", "Busdriver", "Cop", "Died", "Doctor", "Event", "Faction", "ForensicInvestigator", "Game", "Godfather", "Goon", "Investigate", "Kill", "Log", "Mafia", "Night", "Player", "Protect", "Role", "Roleblock", "Roleblocker", "Saved", "SawVisit", "SawVisitor", "Town", "Track", "Tracker", "TurntUp", "Villager", "Visited", "Watch", "Watcher", "identitydefaultdict", ]

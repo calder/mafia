@@ -7,7 +7,11 @@ class Role(object):
 
   @property
   def alignment(self):
-      return self.faction.alignment
+    return self.faction.alignment
+
+  @property
+  def actions(self):
+    return []
 
 class Villager(Role):
   pass
@@ -36,4 +40,7 @@ class ForensicInvestigator(Role):
   pass
 
 class Roleblocker(Role):
+  pass
+
+class Busdriver(Role):
   pass
