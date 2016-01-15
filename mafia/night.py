@@ -5,6 +5,7 @@ class NightState(object):
     self.night = night
     self.game = game
     self.protected = set()
+    self.blocked = set()
 
   def log(self, event):
     event.phase = self.night

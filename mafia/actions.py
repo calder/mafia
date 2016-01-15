@@ -15,6 +15,10 @@ class Action(object):
     self.visible    = visible
 
   def resolve(self, player, state):
+    if self.blockable:
+      if player in state.blocked:
+        state.log(Blocked(player))
+        return
     if self.visible:
       for target in self.targets:
         state.log(Targetted(player, target))
@@ -36,6 +40,13 @@ class Kill(Action):
       target.alive = False
       state.log(Died(target))
 
+class Protect(Action):
+  precedence = 100
+
+  def _resolve(self, player, state):
+    for target in self.targets:
+      state.protected.add(target)
+
 class Investigate(Action):
   precedence = 100
 
@@ -43,9 +54,9 @@ class Investigate(Action):
     for target in self.targets:
       state.log(TurntUp(target, target.alignment, to=player))
 
-class Protect(Action):
-  precedence = 100
+class Roleblock(Action):
+  precedence = 0
 
   def _resolve(self, player, state):
     for target in self.targets:
-      state.protected.add(target)
+      state.blocked.add(target)

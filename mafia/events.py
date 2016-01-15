@@ -27,6 +27,14 @@ class Targetted(Event):
   def _str(self):
     return "%s targetted %s." % (self.player, self.target)
 
+class Blocked(Event):
+  def __init__(self, player):
+    super().__init__()
+    self.player = player
+
+  def _str(self):
+    return "%s was blocked." % self.player
+
 class Saved(Event):
   def __init__(self, player):
     super().__init__()

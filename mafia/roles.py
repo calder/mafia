@@ -11,8 +11,11 @@ class Villager(Role):
 class Goon(Role):
   pass
 
+class Doctor(Role):
+  pass
+
 class Cop(Role):
   pass
 
-class Doctor(Role):
+class Roleblocker(Role):
   pass
