@@ -15,3 +15,6 @@ class Log(list):
 
   def phase(self, phase):
     return Log(filter(lambda event: event.phase == phase, self))
+
+  def type(self, type):
+    return Log(filter(lambda event: isinstance(event, type), self))

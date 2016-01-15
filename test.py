@@ -17,6 +17,7 @@ mafia = g.add_faction(Mafia("VMX Mafia"))
 asmar   = g.add_player(Player("Asmar", role=Goon(faction=mafia)))
 calder  = g.add_player(Player("Calder", role=Villager(faction=town)))
 josh    = g.add_player(Player("Josh", role=Cop(faction=town)))
+justin  = g.add_player(Player("Justin", role=Watcher(faction=town)))
 spencer = g.add_player(Player("Spencer", role=Roleblocker(faction=town)))
 tony    = g.add_player(Player("Tony", role=Doctor(faction=town)))
 
@@ -52,6 +53,7 @@ assert josh.alive is True
 
 night2 = Night(2)
 night2.add_action(asmar, Kill(josh))
+night2.add_action(justin, Watch(josh))
 night2.add_action(tony, Protect(josh))
 night2.add_action(spencer, Roleblock(tony))
 g.resolve(night2)
@@ -61,6 +63,9 @@ assert_equal(g.log.phase(night2), Log([
   Blocked(tony),
   Visited(asmar, josh),
   Died(josh),
+  Visited(justin, josh),
+  SawVisit(asmar, to=justin),
+  # TODO: Watchers should see other all other trackers and watchers.
 ], phase=night2))
 assert josh.alive is False
 

@@ -53,6 +53,16 @@ class Investigate(Action):
     for target in self.targets:
       state.log(TurntUp(target, target.alignment, to=player))
 
+class Watch(Action):
+  precedence = 2000
+
+  def _resolve(self, player, state):
+    visits = state.game.log.phase(state.night).type(Visited)
+    print(visits)
+    for visit in visits:
+      if visit.target in self.targets and visit.player is not player:
+        state.log(SawVisit(visit.player, to=player))
+
 class Roleblock(Action):
   precedence = 0
 

@@ -3,9 +3,9 @@ from .util import *
 PUBLIC = SingletonValue()
 
 class Event(object):
-  def __init__(self):
+  def __init__(self, *, to=None):
     self.phase  = None  # Filled in by State.log
-    self.to     = None  # None, a player, a faction, or PUBLIC
+    self.to     = to    # None, a player, a faction, or PUBLIC
 
   def __eq__(self, other):
     return type(self) == type(other) and self.__dict__ == other.__dict__
@@ -56,10 +56,17 @@ class Died(Event):
 
 class TurntUp(Event):
   def __init__(self, player, alignment, *, to):
-    super().__init__()
-    self.player = player
+    super().__init__(to=to)
+    self.player    = player
     self.alignment = alignment
-    self.to = to
 
   def _str(self):
     return "%s is %s." % (self.player, self.alignment)
+
+class SawVisit(Event):
+  def __init__(self, player, *, to):
+    super().__init__(to=to)
+    self.player = player
+
+  def _str(self):
+    return "%s visited your target." % self.player

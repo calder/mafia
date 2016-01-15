@@ -17,5 +17,8 @@ class Doctor(Role):
 class Cop(Role):
   pass
 
+class Watcher(Role):
+  pass
+
 class Roleblocker(Role):
   pass
