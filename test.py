@@ -1,5 +1,7 @@
 from mafia import *
 
+from termcolor import colored
+
 def assert_equal(x, y):
   if x != y:
     print("--------------------1--------------------")
@@ -24,7 +26,10 @@ night0.add_action(tony, Protect(asmar))
 g.resolve(night0)
 
 assert_equal(g.log.phase(night0), Log([
+  Targetted(josh, tony),
   TurntUp(tony, "good", to=josh),
+  Targetted(tony, asmar),
+  Targetted(asmar, calder),
   Died(calder),
 ], phase=night0))
 assert calder.alive is False
@@ -36,6 +41,14 @@ night1.add_action(tony, Protect(josh))
 g.resolve(night1)
 
 assert_equal(g.log.phase(night1), Log([
+  Targetted(josh, asmar),
   TurntUp(asmar, "evil", to=josh),
+  Targetted(tony, josh),
+  Targetted(asmar, josh),
+  Saved(josh),
 ], phase=night1))
 assert josh.alive is True
+
+print(g.log)
+print("-----------------------------------------")
+print(colored("PASSED", "green"))

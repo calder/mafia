@@ -12,14 +12,32 @@ class Event(object):
 
   def __str__(self):
     if self.to is None:
-      return "%s: >>> %s" % (self.phase, self._str())
+      return "%s: [%s]" % (self.phase, self._str())
     elif self.to is PUBLIC:
       return "%s: %s" % (self.phase, self._str())
     else:
       return "%s: %s: %s" % (self.phase, self.to, self._str())
 
+class Targetted(Event):
+  def __init__(self, player, target):
+    super().__init__()
+    self.player = player
+    self.target = target
+
+  def _str(self):
+    return "%s targetted %s." % (self.player, self.target)
+
+class Saved(Event):
+  def __init__(self, player):
+    super().__init__()
+    self.player = player
+
+  def _str(self):
+    return "%s was saved." % self.player
+
 class Died(Event):
   def __init__(self, player):
+    super().__init__()
     self.player = player
     self.to     = PUBLIC
 
@@ -28,6 +46,7 @@ class Died(Event):
 
 class TurntUp(Event):
   def __init__(self, player, alignment, *, to):
+    super().__init__()
     self.player = player
     self.alignment = alignment
     self.to = to

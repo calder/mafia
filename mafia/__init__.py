@@ -10,4 +10,4 @@ from .player import *
 from .roles import *
 from .util import *
 
-__all__ = ["Action", "Cop", "Died", "Doctor", "Event", "Faction", "Game", "Goon", "Investigate", "Kill", "Log", "Mafia", "Night", "Player", "Protect", "Role", "Town", "TurntUp", "Villager", ]
+__all__ = ["Action", "Cop", "Died", "Doctor", "Event", "Faction", "Game", "Goon", "Investigate", "Kill", "Log", "Mafia", "Night", "Player", "Protect", "Role", "Saved", "Targetted", "Town", "TurntUp", "Villager", ]
