@@ -29,3 +29,5 @@ class Night(object):
     state = NightState(self, game)
     for player, action in self.ordered_actions():
       action.resolve(player, state)
+    for player, action in self.ordered_actions():
+      action.resolve_meta(player, state)

@@ -65,7 +65,6 @@ assert_equal(g.log.phase(night2), Log([
   Died(josh),
   Visited(justin, josh),
   SawVisit(asmar, to=justin),
-  # TODO: Watchers should see other all other trackers and watchers.
 ], phase=night2))
 assert josh.alive is False
 
