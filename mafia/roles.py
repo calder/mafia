@@ -5,11 +5,20 @@ class Role(object):
   def __str__(self):
     return "%s %s" % (str(self.faction), self.__class__.__name__)
 
+  @property
+  def alignment(self):
+      return self.faction.alignment
+
 class Villager(Role):
   pass
 
 class Goon(Role):
   pass
+
+class Godfather(Role):
+  @property
+  def alignment(self):
+      return "good"
 
 class Doctor(Role):
   pass

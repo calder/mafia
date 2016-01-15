@@ -21,6 +21,7 @@ fejta   = g.add_player(Player("Fejta", role=Tracker(faction=town)))
 josh    = g.add_player(Player("Josh", role=Cop(faction=town)))
 justin  = g.add_player(Player("Justin", role=Watcher(faction=town)))
 leese   = g.add_player(Player("Leese", role=ForensicInvestigator(faction=town)))
+sami    = g.add_player(Player("Sami", role=Godfather(faction=mafia)))
 spencer = g.add_player(Player("Spencer", role=Roleblocker(faction=town)))
 tony    = g.add_player(Player("Tony", role=Doctor(faction=town)))
 
@@ -43,12 +44,15 @@ night1 = Night(1)
 night1.add_action(asmar, Kill(josh))
 night1.add_action(fejta, Track(asmar))
 night1.add_action(josh, Investigate(asmar))
+night1.add_action(josh, Investigate(sami))
 night1.add_action(tony, Protect(josh))
 g.resolve(night1)
 
 assert_equal(g.log.phase(night1), Log([
   Visited(josh, asmar),
   TurntUp(asmar, "evil", to=josh),
+  Visited(josh, sami),
+  TurntUp(sami, "good", to=josh),
   Visited(tony, josh),
   Visited(asmar, josh),
   Saved(josh),

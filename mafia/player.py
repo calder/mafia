@@ -12,4 +12,4 @@ class Player(object):
 
   @property
   def alignment(self):
-      return self.role.faction.alignment
+      return self.role.alignment
