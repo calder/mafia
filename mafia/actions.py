@@ -19,9 +19,8 @@ class Action(object):
       if player in state.blocked:
         state.log(Blocked(player))
         return
-    if self.visible:
-      for target in self.targets:
-        state.log(Targetted(player, target))
+    for target in self.targets:
+      state.log(Visited(player, target, visible=self.visible))
     if self.doctorable:
       for target in self.targets:
         if target in state.protected:

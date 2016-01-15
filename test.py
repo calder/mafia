@@ -27,10 +27,10 @@ night0.add_action(tony, Protect(asmar))
 g.resolve(night0)
 
 assert_equal(g.log.phase(night0), Log([
-  Targetted(josh, tony),
+  Visited(josh, tony),
   TurntUp(tony, "good", to=josh),
-  Targetted(tony, asmar),
-  Targetted(asmar, calder),
+  Visited(tony, asmar),
+  Visited(asmar, calder),
   Died(calder),
 ], phase=night0))
 assert calder.alive is False
@@ -42,10 +42,10 @@ night1.add_action(tony, Protect(josh))
 g.resolve(night1)
 
 assert_equal(g.log.phase(night1), Log([
-  Targetted(josh, asmar),
+  Visited(josh, asmar),
   TurntUp(asmar, "evil", to=josh),
-  Targetted(tony, josh),
-  Targetted(asmar, josh),
+  Visited(tony, josh),
+  Visited(asmar, josh),
   Saved(josh),
 ], phase=night1))
 assert josh.alive is True
@@ -57,9 +57,9 @@ night2.add_action(spencer, Roleblock(tony))
 g.resolve(night2)
 
 assert_equal(g.log.phase(night2), Log([
-  Targetted(spencer, tony),
+  Visited(spencer, tony),
   Blocked(tony),
-  Targetted(asmar, josh),
+  Visited(asmar, josh),
   Died(josh),
 ], phase=night2))
 assert josh.alive is False

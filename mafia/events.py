@@ -18,14 +18,16 @@ class Event(object):
     else:
       return "%s: %s: %s" % (self.phase, self.to, self._str())
 
-class Targetted(Event):
-  def __init__(self, player, target):
+class Visited(Event):
+  def __init__(self, player, target, *, visible=True):
     super().__init__()
-    self.player = player
-    self.target = target
+    self.player  = player
+    self.target  = target
+    self.visible = visible
 
   def _str(self):
-    return "%s targetted %s." % (self.player, self.target)
+    visited = "visited" if self.visible else "secretly visited"
+    return "%s %s %s." % (self.player, visited, self.target)
 
 class Blocked(Event):
   def __init__(self, player):
