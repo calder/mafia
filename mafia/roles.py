@@ -23,5 +23,8 @@ class Tracker(Role):
 class Watcher(Role):
   pass
 
+class ForensicInvestigator(Role):
+  pass
+
 class Roleblocker(Role):
   pass

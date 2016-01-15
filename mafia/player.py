@@ -7,6 +7,9 @@ class Player(object):
   def __str__(self):
     return self.name
 
+  def __lt__(self, other):
+    return self.name < other.name
+
   @property
   def alignment(self):
       return self.role.faction.alignment

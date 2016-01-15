@@ -20,6 +20,7 @@ calder  = g.add_player(Player("Calder", role=Villager(faction=town)))
 fejta   = g.add_player(Player("Fejta", role=Tracker(faction=town)))
 josh    = g.add_player(Player("Josh", role=Cop(faction=town)))
 justin  = g.add_player(Player("Justin", role=Watcher(faction=town)))
+leese   = g.add_player(Player("Leese", role=ForensicInvestigator(faction=town)))
 spencer = g.add_player(Player("Spencer", role=Roleblocker(faction=town)))
 tony    = g.add_player(Player("Tony", role=Doctor(faction=town)))
 
@@ -79,6 +80,18 @@ assert_equal(g.log.phase(night2), Log([
   SawVisitor(brian, to=justin),
 ], phase=night2))
 assert josh.alive is False
+
+night3 = Night(3)
+night3.add_action(leese, Autopsy(josh))
+g.resolve(night3)
+
+assert_equal(g.log.phase(night3), Log([
+  Visited(leese, josh),
+  SawVisitor(asmar, to=leese),
+  SawVisitor(brian, to=leese),
+  SawVisitor(justin, to=leese),
+  SawVisitor(tony, to=leese),
+], phase=night3))
 
 print(g.log)
 print("-----------------------------------------")
