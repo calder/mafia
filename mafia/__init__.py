@@ -6,8 +6,47 @@ from .factions import *
 from .game import *
 from .log import *
 from .night import *
+from .placeholders import *
 from .player import *
 from .roles import *
 from .util import *
 
-__all__ = ["Action", "Autopsy", "Blocked", "Busdrive", "Busdriver", "Cop", "Died", "Doctor", "Event", "Faction", "ForensicInvestigator", "Game", "Godfather", "Goon", "Investigate", "Kill", "Log", "Mafia", "Night", "Player", "Protect", "Role", "Roleblock", "Roleblocker", "Saved", "SawVisit", "SawVisitor", "Town", "Track", "Tracker", "TurntUp", "Villager", "Visited", "Watch", "Watcher", "identitydefaultdict", ]
+__all__ = [
+  "Action",
+  "Autopsy",
+  "Blocked",
+  "Busdrive",
+  "Busdriver",
+  "Cop",
+  "Died",
+  "Doctor",
+  "Event",
+  "Faction",
+  "ForensicInvestigator",
+  "Game",
+  "Godfather",
+  "Goon",
+  "Investigate",
+  "Kill",
+  "Log",
+  "Mafia",
+  "Night",
+  "Placeholder",
+  "Player",
+  "Protect",
+  "Role",
+  "Roleblock",
+  "Roleblocker",
+  "Saved",
+  "SawVisit",
+  "SawVisitor",
+  "Town",
+  "Track",
+  "Tracker",
+  "TurntUp",
+  "Villager",
+  "Visited",
+  "Watch",
+  "Watcher",
+  "identitydefaultdict",
+]

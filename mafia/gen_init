@@ -18,11 +18,10 @@ ls *.py \
 | $REGEX_SED "s|(.*)\.py|from \.\1 import \*|"
 echo
 
-echo -n "__all__ = ["
+echo "__all__ = ["
 cat *.py \
-| $REGEX_SED -n "s|class ([A-z]*).*|\"\1\",|p" \
+| $REGEX_SED -n 's|^class ([A-z]*).*|  "\1",|p' \
 | sort \
 | sed "/SingletonValue/d" \
-| sed "/NightState/d" \
-| tr "\n" " "
+| sed "/NightState/d"
 echo "]"

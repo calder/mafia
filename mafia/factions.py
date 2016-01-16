@@ -1,3 +1,6 @@
+from .actions import *
+from .placeholders import *
+
 class Faction(object):
   def __init__(self, name):
     self.name = name
@@ -13,3 +16,4 @@ class Town(Faction):
 
 class Mafia(Faction):
   alignment = "evil"
+  action = Kill(Placeholder.Player())

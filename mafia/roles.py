@@ -1,3 +1,6 @@
+from .actions import *
+from .placeholders import *
+
 class Role(object):
   def __init__(self, *, faction):
     self.faction = faction
@@ -10,8 +13,8 @@ class Role(object):
     return self.faction.alignment
 
   @property
-  def actions(self):
-    return []
+  def action(self):
+    return None
 
 class Villager(Role):
   pass
@@ -23,22 +26,22 @@ class Godfather(Role):
   alignment = "good"
 
 class Doctor(Role):
-  pass
+  action = Protect(Placeholder.Player())
 
 class Cop(Role):
-  pass
+  action = Investigate(Placeholder.Player())
 
 class Tracker(Role):
-  pass
+  action = Track(Placeholder.Player())
 
 class Watcher(Role):
-  pass
+  action = Watch(Placeholder.Player())
 
 class ForensicInvestigator(Role):
-  pass
+  action = Autopsy(Placeholder.Player())
 
 class Roleblocker(Role):
-  pass
+  action = Roleblock(Placeholder.Player())
 
 class Busdriver(Role):
-  pass
+  action = Busdrive(Placeholder.Player(), Placeholder.Player())
