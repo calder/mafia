@@ -75,7 +75,7 @@ class Track(Action):
     visits = state.game.log.phase(state.night).type(Visited)
     targets = set()
     for visit in visits:
-      if visit.player in self.targets:
+      if visit.player in self.targets and visit.visible:
         targets.add(visit.target)
     for target in sorted(targets):
       state.log(SawVisit(target, to=player))
@@ -87,7 +87,7 @@ class Watch(Action):
     visits = state.game.log.phase(state.night).type(Visited)
     visitors = set()
     for visit in visits:
-      if visit.target in self.targets and visit.player is not player:
+      if visit.target in self.targets and visit.visible and visit.player is not player:
         visitors.add(visit.player)
     for visitor in sorted(visitors):
       state.log(SawVisitor(visitor, to=player))
@@ -99,7 +99,7 @@ class Autopsy(Action):
     visits = state.game.log.type(Visited)
     visitors = set()
     for visit in visits:
-      if visit.target in self.targets and visit.player is not player:
+      if visit.target in self.targets and visit.visible and visit.player is not player:
         visitors.add(visit.player)
     for visitor in sorted(visitors):
       state.log(SawVisitor(visitor, to=player))

@@ -5,9 +5,9 @@ from termcolor import colored
 def assert_equal(x, y):
   if x != y:
     print("--------------------1--------------------")
-    print(y)
-    print("--------------------2--------------------")
     print(x)
+    print("--------------------2--------------------")
+    print(y)
     print("-----------------------------------------")
   assert x == y
 
@@ -20,6 +20,7 @@ calder  = g.add_player(Player("Calder", role=Villager(faction=town)))
 fejta   = g.add_player(Player("Fejta", role=Tracker(faction=town)))
 josh    = g.add_player(Player("Josh", role=Cop(faction=town)))
 justin  = g.add_player(Player("Justin", role=Watcher(faction=town)))
+kim     = g.add_player(Player("Kim", role=Villager(faction=town)))
 leese   = g.add_player(Player("Leese", role=ForensicInvestigator(faction=town)))
 sami    = g.add_player(Player("Sami", role=Goon(faction=mafia)))
 sahil   = g.add_player(Player("Sahil", role=Busdriver(faction=town)))
@@ -45,15 +46,12 @@ night1 = Night(1)
 night1.add_action(asmar, Kill(josh))
 night1.add_action(fejta, Track(asmar))
 night1.add_action(josh, Investigate(asmar))
-night1.add_action(josh, Investigate(sami))
 night1.add_action(tony, Protect(josh))
 g.resolve(night1)
 
 assert_equal(g.log.phase(night1), Log([
   Visited(josh, asmar),
   TurntUp(asmar, "good", to=josh),
-  Visited(josh, sami),
-  TurntUp(sami, "evil", to=josh),
   Visited(tony, josh),
   Visited(asmar, josh),
   Saved(josh),
@@ -63,39 +61,41 @@ assert_equal(g.log.phase(night1), Log([
 assert josh.alive is True
 
 night2 = Night(2)
-night2.add_action(asmar, Kill(josh))
-night2.add_action(brian, Watch(josh))
+night2.add_action(asmar, Kill(kim))
+night2.add_action(brian, Watch(kim))
 night2.add_action(fejta, Track(tony))
-night2.add_action(justin, Watch(josh))
-night2.add_action(tony, Protect(josh))
+night2.add_action(josh, Investigate(sami))
+night2.add_action(justin, Watch(kim))
+night2.add_action(tony, Protect(kim))
 night2.add_action(spencer, Roleblock(tony))
 g.resolve(night2)
 
 assert_equal(g.log.phase(night2), Log([
   Visited(spencer, tony),
+  Visited(josh, sami),
+  TurntUp(sami, "evil", to=josh),
   Blocked(tony),
-  Visited(asmar, josh),
-  Died(josh),
-  Visited(brian, josh),
+  Visited(asmar, kim),
+  Died(kim),
+  Visited(brian, kim),
   Visited(fejta, tony),
-  Visited(justin, josh),
+  Visited(justin, kim),
   SawVisitor(asmar, to=brian),
   SawVisitor(justin, to=brian),
   SawVisitor(asmar, to=justin),
   SawVisitor(brian, to=justin),
 ], phase=night2))
-assert josh.alive is False
+assert kim.alive is False
 
 night3 = Night(3)
-night3.add_action(leese, Autopsy(josh))
+night3.add_action(leese, Autopsy(kim))
 g.resolve(night3)
 
 assert_equal(g.log.phase(night3), Log([
-  Visited(leese, josh),
+  Visited(leese, kim),
   SawVisitor(asmar, to=leese),
   SawVisitor(brian, to=leese),
   SawVisitor(justin, to=leese),
-  SawVisitor(tony, to=leese),
 ], phase=night3))
 
 night4 = Night(4)
