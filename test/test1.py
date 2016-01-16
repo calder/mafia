@@ -17,9 +17,9 @@ spencer = g.add_player(Player("Spencer", role=Roleblocker(faction=town)))
 tony    = g.add_player(Player("Tony", role=Doctor(faction=town)))
 
 night0 = Night(0)
-night0.add_action(asmar, Kill(calder))
-night0.add_action(josh, Investigate(tony))
-night0.add_action(tony, Protect(asmar))
+night0.add_action(Kill(asmar, calder))
+night0.add_action(Investigate(josh, tony))
+night0.add_action(Protect(tony, asmar))
 g.resolve(night0)
 
 assert_equal(g.log.phase(night0), Log([
@@ -32,10 +32,10 @@ assert_equal(g.log.phase(night0), Log([
 assert calder.alive is False
 
 night1 = Night(1)
-night1.add_action(asmar, Kill(josh))
-night1.add_action(fejta, Track(asmar))
-night1.add_action(josh, Investigate(asmar))
-night1.add_action(tony, Protect(josh))
+night1.add_action(Kill(asmar, josh))
+night1.add_action(Track(fejta, asmar))
+night1.add_action(Investigate(josh, asmar))
+night1.add_action(Protect(tony, josh))
 g.resolve(night1)
 
 assert_equal(g.log.phase(night1), Log([
@@ -50,13 +50,13 @@ assert_equal(g.log.phase(night1), Log([
 assert josh.alive is True
 
 night2 = Night(2)
-night2.add_action(asmar, Kill(kim))
-night2.add_action(brian, Watch(kim))
-night2.add_action(fejta, Track(tony))
-night2.add_action(josh, Investigate(sami))
-night2.add_action(justin, Watch(kim))
-night2.add_action(tony, Protect(kim))
-night2.add_action(spencer, Roleblock(tony))
+night2.add_action(Kill(asmar, kim))
+night2.add_action(Watch(brian, kim))
+night2.add_action(Track(fejta, tony))
+night2.add_action(Investigate(josh, sami))
+night2.add_action(Watch(justin, kim))
+night2.add_action(Protect(tony, kim))
+night2.add_action(Roleblock(spencer, tony))
 g.resolve(night2)
 
 assert_equal(g.log.phase(night2), Log([
@@ -77,7 +77,7 @@ assert_equal(g.log.phase(night2), Log([
 assert kim.alive is False
 
 night3 = Night(3)
-night3.add_action(leese, Autopsy(kim))
+night3.add_action(Autopsy(leese, kim))
 g.resolve(night3)
 
 assert_equal(g.log.phase(night3), Log([
@@ -88,8 +88,8 @@ assert_equal(g.log.phase(night3), Log([
 ], phase=night3))
 
 night4 = Night(4)
-night4.add_action(sahil, Busdrive(sahil, sami))
-night4.add_action(asmar, Kill(sahil))
+night4.add_action(Busdrive(sahil, sahil, sami))
+night4.add_action(Kill(asmar, sahil))
 g.resolve(night4)
 
 assert_equal(g.log.phase(night4), Log([

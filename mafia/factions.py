@@ -16,4 +16,7 @@ class Town(Faction):
 
 class Mafia(Faction):
   alignment = "evil"
-  action = Kill(Placeholder.Player())
+
+  def __init__(self, name):
+    super().__init__(name)
+    self.action = Kill(Placeholder.FactionMember(self), Placeholder.Player())

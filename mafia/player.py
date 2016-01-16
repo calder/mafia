@@ -9,7 +9,3 @@ class Player(object):
 
   def __lt__(self, other):
     return self.name < other.name
-
-  @property
-  def alignment(self):
-      return self.role.alignment

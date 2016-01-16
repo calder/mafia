@@ -21,15 +21,15 @@ class Night(object):
   def __str__(self):
     return "Night %d" % self.number
 
-  def add_action(self, player, action):
-    self.actions.append((player, action))
+  def add_action(self, action):
+    self.actions.append(action)
 
   def ordered_actions(self):
-    return sorted(self.actions, key=lambda action: action[1].precedence)
+    return sorted(self.actions, key=lambda action: action.precedence)
 
   def resolve(self, game):
     state = NightState(self, game)
-    for player, action in self.ordered_actions():
-      action.resolve(player, state)
-    for player, action in self.ordered_actions():
-      action.resolve_meta(player, state)
+    for action in self.ordered_actions():
+      action.resolve(state)
+    for action in self.ordered_actions():
+      action.resolve_meta(state)

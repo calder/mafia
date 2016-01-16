@@ -2,6 +2,11 @@ from .actions import *
 from .placeholders import *
 
 class Role(object):
+  action = None
+  doctorable = True  # Whether the role respects doctors
+  blockable  = True  # Whether the role respects roleblockers
+  visible    = True  # Whether the role respects trackers, watchers, and forensic investigators
+
   def __init__(self, *, faction):
     self.faction = faction
 
@@ -12,36 +17,51 @@ class Role(object):
   def alignment(self):
     return self.faction.alignment
 
-  @property
-  def action(self):
-    return None
-
 class Villager(Role):
   pass
 
 class Goon(Role):
-  pass
+  rank = 100
 
 class Godfather(Role):
+  rank = 1
   alignment = "good"
 
+class Usurper(Role):
+  rank = 2
+
 class Doctor(Role):
-  action = Protect(Placeholder.Player())
+  rank = 20
+  action = Protect(Placeholder.Self(), Placeholder.Player())
 
 class Cop(Role):
-  action = Investigate(Placeholder.Player())
+  rank = 30
+  action = Investigate(Placeholder.Self(), Placeholder.Player())
 
 class Tracker(Role):
-  action = Track(Placeholder.Player())
+  rank = 41
+  action = Track(Placeholder.Self(), Placeholder.Player())
 
 class Watcher(Role):
-  action = Watch(Placeholder.Player())
+  rank = 42
+  action = Watch(Placeholder.Self(), Placeholder.Player())
 
 class ForensicInvestigator(Role):
-  action = Autopsy(Placeholder.Player())
+  rank = 40
+  action = Autopsy(Placeholder.Self(), Placeholder.Player())
 
 class Roleblocker(Role):
-  action = Roleblock(Placeholder.Player())
+  rank = 51
+  action = Roleblock(Placeholder.Self(), Placeholder.Player())
 
 class Busdriver(Role):
-  action = Busdrive(Placeholder.Player(), Placeholder.Player())
+  rank = 50
+  action = Busdrive(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
+
+class Hitman(Role):
+  rank = 3
+  doctorable = False
+
+class Ninja(Role):
+  rank = 4
+  visible = False
