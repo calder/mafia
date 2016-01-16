@@ -1,7 +1,5 @@
 from mafia import *
 
-from termcolor import colored
-
 g = Game()
 town  = g.add_faction(Town())
 mafia = g.add_faction(Mafia("VMX Mafia"))
@@ -104,5 +102,3 @@ assert sami.alive is False
 assert sahil.alive is True
 
 print(g.log)
-print("-----------------------------------------")
-print(colored("PASSED", "green"))
