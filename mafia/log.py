@@ -11,7 +11,7 @@ class Log(list):
         event.phase = phase
 
   def __str__(self):
-    return "\n".join([str(event) for event in self])
+    return "\n".join([event.colored_str() for event in self])
 
   def phase(self, phase):
     return Log(filter(lambda event: event.phase == phase, self))

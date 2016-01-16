@@ -1,5 +1,7 @@
 from .util import *
 
+from termcolor import colored
+
 PUBLIC = SingletonValue()
 
 class Event(object):
@@ -17,6 +19,18 @@ class Event(object):
       return "%s: %s" % (self.phase, self._str())
     else:
       return "%s: %s: %s" % (self.phase, self.to, self._str())
+
+  @property
+  def color(self):
+    if self.to is not None: return "cyan"
+    return None
+
+  @property
+  def style(self):
+    if self.to is PUBLIC: return ["bold"]
+
+  def colored_str(self):
+    return colored(str(self), self.color, attrs=self.style)
 
 class Visited(Event):
   def __init__(self, player, target, *, visible=True):
@@ -53,6 +67,11 @@ class Died(Event):
 
   def _str(self):
     return "%s, the %s, has died." % (self.player, self.player.role)
+
+  @property
+  def color(self):
+      return "red"
+
 
 class TurntUp(Event):
   def __init__(self, player, alignment, *, to):
