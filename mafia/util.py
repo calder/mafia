@@ -1,3 +1,12 @@
+def assert_equal(x, y):
+  if x != y:
+    print("--------------------1--------------------")
+    print(x)
+    print("--------------------2--------------------")
+    print(y)
+    print("-----------------------------------------")
+  assert x == y
+
 class SingletonValue(object):
   pass
 

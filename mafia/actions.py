@@ -68,41 +68,36 @@ class Investigate(Action):
     for target in self.targets:
       state.log(TurntUp(target, target.alignment, to=player))
 
+def send_targets(visits, *, to, log):
+  targets = set(v.target for v in visits)
+  for target in sorted(targets):
+    log(SawVisit(target, to=to))
+
 class Track(Action):
   precedence = 2000
 
   def resolve_meta(self, player, state):
-    visits = state.game.log.phase(state.night).type(Visited)
-    targets = set()
-    for visit in visits:
-      if visit.player in self.targets and visit.visible:
-        targets.add(visit.target)
-    for target in sorted(targets):
-      state.log(SawVisit(target, to=player))
+    visits = state.game.log.phase(state.night).visits_by(self.target)
+    send_targets(visits, to=player, log=state.log)
+
+def send_visitors(visits, *, to, log):
+  visitors = set(v.player for v in visits if v.player is not to)
+  for visitor in sorted(visitors):
+    log(SawVisitor(visitor, to=to))
 
 class Watch(Action):
   precedence = 2000
 
   def resolve_meta(self, player, state):
-    visits = state.game.log.phase(state.night).type(Visited)
-    visitors = set()
-    for visit in visits:
-      if visit.target in self.targets and visit.visible and visit.player is not player:
-        visitors.add(visit.player)
-    for visitor in sorted(visitors):
-      state.log(SawVisitor(visitor, to=player))
+    visits = state.game.log.phase(state.night).visits_to(self.target)
+    send_visitors(visits, to=player, log=state.log)
 
 class Autopsy(Action):
   precedence = 200
 
   def _resolve(self, player, state):
-    visits = state.game.log.type(Visited)
-    visitors = set()
-    for visit in visits:
-      if visit.target in self.targets and visit.visible and visit.player is not player:
-        visitors.add(visit.player)
-    for visitor in sorted(visitors):
-      state.log(SawVisitor(visitor, to=player))
+    visits = state.game.log.visits_to(self.target)
+    send_visitors(visits, to=player, log=state.log)
 
 class Roleblock(Action):
   precedence = 100

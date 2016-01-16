@@ -19,6 +19,7 @@ ls *.py \
 echo
 
 echo "__all__ = ["
+echo '  "assert_equal",'
 cat *.py \
 | $REGEX_SED -n 's|^class ([A-z]*).*|  "\1",|p' \
 | sort \

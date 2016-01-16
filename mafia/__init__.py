@@ -12,6 +12,7 @@ from .roles import *
 from .util import *
 
 __all__ = [
+  "assert_equal",
   "Action",
   "Autopsy",
   "Blocked",

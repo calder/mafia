@@ -2,15 +2,6 @@ from mafia import *
 
 from termcolor import colored
 
-def assert_equal(x, y):
-  if x != y:
-    print("--------------------1--------------------")
-    print(x)
-    print("--------------------2--------------------")
-    print(y)
-    print("-----------------------------------------")
-  assert x == y
-
 g = Game()
 town  = g.add_faction(Town())
 mafia = g.add_faction(Mafia("VMX Mafia"))
