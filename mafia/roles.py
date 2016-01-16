@@ -20,9 +20,7 @@ class Goon(Role):
   pass
 
 class Godfather(Role):
-  @property
-  def alignment(self):
-      return "good"
+  alignment = "good"
 
 class Doctor(Role):
   pass

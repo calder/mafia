@@ -23,7 +23,6 @@ class Event(object):
   @property
   def color(self):
     if self.to is not None: return "cyan"
-    return None
 
   @property
   def style(self):
@@ -60,6 +59,8 @@ class Saved(Event):
     return "%s was saved." % self.player
 
 class Died(Event):
+  color = "red"
+
   def __init__(self, player):
     super().__init__()
     self.player = player
@@ -67,10 +68,6 @@ class Died(Event):
 
   def _str(self):
     return "%s, the %s, has died." % (self.player, self.player.role)
-
-  @property
-  def color(self):
-      return "red"
 
 
 class TurntUp(Event):
