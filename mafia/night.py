@@ -1,5 +1,8 @@
 from .log import *
 from .util import *
+from .virtual_actions import *
+
+import copy
 
 class NightState(object):
   def __init__(self, night, game):
@@ -15,21 +18,38 @@ class NightState(object):
 
 class Night(object):
   def __init__(self, number):
-    self.number = number
-    self.actions = []
+    self.number      = number
+    self.raw_actions = []
+
+    # Resolution state
+    self.state       = None
+    self.actions     = None
 
   def __str__(self):
     return "Night %d" % self.number
 
   def add_action(self, action):
-    self.actions.append(action)
-
-  def ordered_actions(self):
-    return sorted(self.actions, key=lambda action: action.precedence)
+    self.raw_actions.append(action)
 
   def resolve(self, game):
-    state = NightState(self, game)
-    for action in self.ordered_actions():
-      action.resolve(state)
-    for action in self.ordered_actions():
-      action.resolve_post(state)
+    self.state = NightState(self, game)
+
+    # Check actions
+    actions = {}
+    for player in game.players.values():
+      template = player.role.action.with_player(player)
+      raw_action, action = template.select_action(self.raw_actions)
+      actions[raw_action] = action
+    for faction in game.factions.values():
+      template = FactionAction(faction, faction.action)
+      raw_action, action = template.select_action(self.raw_actions)
+      actions[raw_action] = action
+    self.actions = [actions[a] for a in self.raw_actions if a in actions]
+    del actions
+
+    # Resolve actions
+    self.actions = sorted(self.actions, key=lambda action: action.precedence)
+    for action in self.actions:
+      action.resolve(self.state)
+    for action in self.actions:
+      action.resolve_post(self.state)

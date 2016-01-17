@@ -1,8 +1,9 @@
 from .actions import *
+from .virtual_actions import *
 from .placeholders import *
 
 class Role(object):
-  action = None
+  action     = NoAction()
   doctorable = True  # Whether the role respects doctors
   blockable  = True  # Whether the role respects roleblockers
   visible    = True  # Whether the role respects trackers, watchers, and forensic investigators

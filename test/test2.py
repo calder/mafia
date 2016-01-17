@@ -10,5 +10,6 @@ malory = g.add_player(Player("Malory", role=Goon(faction=mafia)))
 
 night0 = Night(0)
 night0.add_action(FactionAction(mafia, Kill(malory, alice)))
+g.resolve(night0)
 
 print(g.log)

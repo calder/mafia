@@ -1,5 +1,8 @@
 from .events import *
 from .log import *
+from .util import *
+
+import copy
 
 class Action(object):
   blockable  = True   # Action can be roleblocked
@@ -12,6 +15,10 @@ class Action(object):
     self.player      = player
     self.raw_targets = targets
     self.targets     = targets
+
+  def __str__(self):
+    targets = ", ".join([str(target) for target in self.targets])
+    return "%s(%s, %s)" %( self.__class__.__name__, self.player, targets)
 
   @property
   def target(self):
@@ -56,6 +63,20 @@ class Action(object):
 
   def _resolve_post(self, state):
     pass
+
+  def with_player(self, player):
+    with_player = copy.copy(self)
+    with_player.player = player
+    return with_player
+
+  def select_action(self, actions):
+    for action in reversed(actions):
+      if self.matches(action):
+        return action, action
+    return None, None
+
+  def matches(self, other):
+    return all_fields_match(self, other)
 
 class Kill(Action):
   precedence = 1000

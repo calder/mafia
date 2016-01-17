@@ -16,8 +16,12 @@ sahil   = g.add_player(Player("Sahil", role=Busdriver(faction=town)))
 spencer = g.add_player(Player("Spencer", role=Roleblocker(faction=town)))
 tony    = g.add_player(Player("Tony", role=Doctor(faction=town)))
 
+assert mafia.action.player.matches(asmar)
+# assert Kill(Placeholder.FactionMember(mafia), Placeholder.Player()), Kill(asmar, calder)
+assert FactionAction(mafia, mafia.action).matches(FactionAction(mafia, Kill(asmar, calder)))
+
 night0 = Night(0)
-night0.add_action(Kill(asmar, calder))
+night0.add_action(FactionAction(mafia, Kill(asmar, calder)))
 night0.add_action(Investigate(josh, tony))
 night0.add_action(Protect(tony, asmar))
 g.resolve(night0)
@@ -32,7 +36,7 @@ assert_equal(g.log.phase(night0), Log([
 assert calder.alive is False
 
 night1 = Night(1)
-night1.add_action(Kill(asmar, josh))
+night1.add_action(FactionAction(mafia, Kill(asmar, josh)))
 night1.add_action(Track(fejta, asmar))
 night1.add_action(Investigate(josh, asmar))
 night1.add_action(Protect(tony, josh))
@@ -50,7 +54,7 @@ assert_equal(g.log.phase(night1), Log([
 assert josh.alive is True
 
 night2 = Night(2)
-night2.add_action(Kill(asmar, kim))
+night2.add_action(FactionAction(mafia, Kill(asmar, kim)))
 night2.add_action(Watch(brian, kim))
 night2.add_action(Track(fejta, tony))
 night2.add_action(Investigate(josh, sami))
@@ -89,7 +93,7 @@ assert_equal(g.log.phase(night3), Log([
 
 night4 = Night(4)
 night4.add_action(Busdrive(sahil, sahil, sami))
-night4.add_action(Kill(asmar, sahil))
+night4.add_action(FactionAction(mafia, Kill(asmar, sahil)))
 night4.add_action(Roleblock(spencer, brian))
 night4.add_action(Watch(brian, spencer))
 g.resolve(night4)
