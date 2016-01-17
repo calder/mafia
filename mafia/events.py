@@ -32,15 +32,18 @@ class Event(object):
     return colored(str(self), self.color, attrs=self.style)
 
 class Visited(Event):
-  def __init__(self, player, target, *, visible=True):
+  def __init__(self, player, target, *, visible=True, original_target=None):
     super().__init__()
-    self.player  = player
-    self.target  = target
-    self.visible = visible
+    self.player          = player
+    self.target          = target
+    self.visible         = visible
+    self.original_target = original_target or self.target
 
   def _str(self):
     visited = "visited" if self.visible else "secretly visited"
-    return "%s %s %s." % (self.player, visited, self.target)
+    target = self.target if self.target == self.original_target else \
+             "%s (busdriven from %s)" % (self.target, self.original_target)
+    return "%s %s %s." % (self.player, visited, target)
 
 class Blocked(Event):
   def __init__(self, player):

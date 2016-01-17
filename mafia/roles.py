@@ -48,7 +48,7 @@ class Watcher(Role):
 
 class ForensicInvestigator(Role):
   rank = 40
-  action = Autopsy(Placeholder.Self(), Placeholder.Player())
+  action = Autopsy(Placeholder.Self(), Placeholder.Corpse())
 
 class Roleblocker(Role):
   rank = 51

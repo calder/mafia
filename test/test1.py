@@ -90,13 +90,17 @@ assert_equal(g.log.phase(night3), Log([
 night4 = Night(4)
 night4.add_action(Busdrive(sahil, sahil, sami))
 night4.add_action(Kill(asmar, sahil))
+night4.add_action(Roleblock(spencer, brian))
+night4.add_action(Watch(brian, spencer))
 g.resolve(night4)
 
 assert_equal(g.log.phase(night4), Log([
   Visited(sahil, sahil),
   Visited(sahil, sami),
-  Visited(asmar, sami),
-  Died(sami)
+  Visited(spencer, brian),
+  Visited(asmar, sami, original_target=sahil),
+  Died(sami),
+  Blocked(brian),
 ], phase=night4))
 assert sami.alive is False
 assert sahil.alive is True

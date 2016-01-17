@@ -9,6 +9,6 @@ eve    = g.add_player(Player("Eve", role=Godfather(faction=mafia)))
 malory = g.add_player(Player("Malory", role=Goon(faction=mafia)))
 
 night0 = Night(0)
-night0.add_action(Kill(eve, alice))
+night0.add_action(FactionAction(mafia, Kill(malory, alice)))
 
 print(g.log)

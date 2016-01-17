@@ -21,25 +21,40 @@ class Action(object):
   def set_target(self, target):
     self.targets[0] = target
 
+  def blocked(self, state):
+    return self.player in state.blocked and self.blockable and self.player.role.blockable
+
   def resolve(self, state):
-    if self.blockable and self.player.role.blockable:
-      if self.player in state.blocked:
-        state.log(Blocked(self.player))
-        return
+    # Apply roleblocking
+    if self.blocked(state):
+      state.log(Blocked(self.player))
+      return
+
+    # Apply busdriving
     self.targets = [state.target_map[t] for t in self.targets]
-    for target in self.targets:
-      state.log(Visited(self.player, target, visible=self.player.role.visible))
+
+    # Record visit
+    for target, raw_target in zip(self.targets, self.raw_targets):
+      state.log(Visited(self.player, target, visible=self.player.role.visible,
+                        original_target=raw_target))
+
+    # Apply protection
     if self.doctorable and self.player.role.doctorable:
-      for target in self.targets:
-        if target in state.protected:
-          state.log(Saved(target))
-          return
+      if self.target in state.protected:
+        state.log(Saved(target))
+        return
+
+    # Resolve action
     self._resolve(state)
+
+  def resolve_post(self, state):
+    if self.blocked(state): return
+    self._resolve_post(state)
 
   def _resolve(self, state):
     pass
 
-  def resolve_meta(self, state):
+  def _resolve_post(self, state):
     pass
 
 class Kill(Action):
@@ -72,7 +87,7 @@ def send_targets(visits, *, to, log):
 class Track(Action):
   precedence = 2000
 
-  def resolve_meta(self, state):
+  def _resolve_post(self, state):
     visits = state.game.log.phase(state.night).visits_by(self.target)
     send_targets(visits, to=self.player, log=state.log)
 
@@ -84,7 +99,7 @@ def send_visitors(visits, *, to, log):
 class Watch(Action):
   precedence = 2000
 
-  def resolve_meta(self, state):
+  def _resolve_post(self, state):
     visits = state.game.log.phase(state.night).visits_to(self.target)
     send_visitors(visits, to=self.player, log=state.log)
 

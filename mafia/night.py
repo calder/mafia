@@ -32,4 +32,4 @@ class Night(object):
     for action in self.ordered_actions():
       action.resolve(state)
     for action in self.ordered_actions():
-      action.resolve_meta(state)
+      action.resolve_post(state)

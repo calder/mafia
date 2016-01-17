@@ -15,3 +15,6 @@ class Placeholder(object):
   class PlayerExcept(Placeholder):
     def __init__(self, exclude):
       self.exclude = exclude
+
+  class Corpse(Placeholder):
+    pass

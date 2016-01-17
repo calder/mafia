@@ -10,6 +10,7 @@ from .placeholders import *
 from .player import *
 from .roles import *
 from .util import *
+from .virtual_actions import *
 
 __all__ = [
   "assert_equal",
@@ -23,6 +24,7 @@ __all__ = [
   "Doctor",
   "Event",
   "Faction",
+  "FactionAction",
   "ForensicInvestigator",
   "Game",
   "Godfather",
