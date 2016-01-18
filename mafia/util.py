@@ -17,16 +17,8 @@ class identitydefaultdict(dict):
     else:
       return key
 
-d = identitydefaultdict()
-assert d[123] == 123
-d[123] = 456
-assert d[123] == 456
-
 def has_method(object, method):
   return callable(getattr(object, method, None))
-
-assert has_method([1,2,3], "append")
-assert not has_method([1,2,3], "foozle")
 
 def all_fields_match(x, y):
   if type(x) != type(y):

@@ -1,4 +1,4 @@
-from mafia import *
+from mafia.log import *
 
 import unittest
 
