@@ -2,7 +2,7 @@ from mafia.log import *
 
 import unittest
 
-class TestLog(unittest.TestCase):
+class LogTest(unittest.TestCase):
   def setUp(self):
     self.test_log = Log([
       Visited("Alice", "Bob"),

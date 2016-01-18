@@ -2,7 +2,7 @@ from mafia.util import *
 
 import unittest
 
-class TestUtil(unittest.TestCase):
+class UtilTest(unittest.TestCase):
   def test_identitydefaultdict(self):
     d = identitydefaultdict()
     assert d[123] == 123

@@ -2,7 +2,7 @@ from mafia import *
 
 import unittest
 
-class TestGame2(unittest.TestCase):
+class GameTest(unittest.TestCase):
   def test_game2(self):
     g = Game()
     g.log.on_append(lambda event: print(event.colored_str()))
