@@ -1,8 +1,8 @@
 from mafia.util import *
 
-import unittest
+from unittest import TestCase
 
-class UtilTest(unittest.TestCase):
+class UtilTest(TestCase):
   def test_identitydefaultdict(self):
     d = identitydefaultdict()
     assert d[123] == 123

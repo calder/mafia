@@ -1,8 +1,8 @@
 from mafia.log import *
 
-import unittest
+from unittest import TestCase
 
-class LogTest(unittest.TestCase):
+class LogTest(TestCase):
   def setUp(self):
     self.test_log = Log([
       Visited("Alice", "Bob"),
