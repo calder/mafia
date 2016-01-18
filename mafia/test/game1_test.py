@@ -1,10 +1,10 @@
 from mafia import *
+from .test_game import TestGame
 
 from unittest import TestCase
 
 def test_game1():
-  g = Game()
-  g.log.on_append(lambda event: print(event.colored_str()))
+  g = TestGame()
   town  = g.add_faction(Town())
   mafia = g.add_faction(Mafia("VMX Mafia"))
   asmar   = g.add_player(Player("Asmar", role=Godfather(faction=mafia)))

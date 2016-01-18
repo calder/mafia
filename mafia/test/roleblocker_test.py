@@ -1,12 +1,12 @@
 from mafia import *
+from .test_game import TestGame
 
 from nose_parameterized import parameterized
 from unittest import TestCase
 
 class RoleblockingTest(TestCase):
   def setUp(self):
-    self.game = Game()
-    self.game.log.on_append(lambda event: print(event.colored_str()))
+    self.game = TestGame()
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("Mafia"))
     self.villager    = self.game.add_player(Player("Villager", role=Villager(faction=self.town)))
@@ -18,10 +18,10 @@ class RoleblockingTest(TestCase):
     """Test that a basic kill action can be roleblocked."""
     night0 = Night(0)
     night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
-    if roleblock:
-      night0.add_action(Roleblock(self.roleblocker, self.goon))
+    if roleblock: night0.add_action(Roleblock(self.roleblocker, self.goon))
     self.game.resolve(night0)
 
+    assert self.villager.alive is roleblock
     if roleblock:
       assert_equal(self.game.log, Log([
         Visited(self.roleblocker, self.goon),
@@ -32,7 +32,6 @@ class RoleblockingTest(TestCase):
         Visited(self.goon, self.villager),
         Died(self.villager),
       ], phase=night0))
-    assert self.villager.alive is roleblock
 
   @parameterized.expand([(True,), (False,)])
   def test_watcher_roleblocking(self, roleblock):
@@ -45,8 +44,7 @@ class RoleblockingTest(TestCase):
     watcher = self.game.add_player(Player("Watcher", role=Watcher(faction=self.town)))
     night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
     night0.add_action(Watch(watcher, self.villager))
-    if roleblock:
-      night0.add_action(Roleblock(self.roleblocker, watcher))
+    if roleblock: night0.add_action(Roleblock(self.roleblocker, watcher))
     self.game.resolve(night0)
 
     if roleblock:
