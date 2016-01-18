@@ -1,6 +1,11 @@
 from .log import *
-from .player import Player
+from .factions import *
+from .player import *
 from .roles import Role
+from .util import *
+
+EVERYONE_LOST = SingletonValue()
+NO_WINNER_YET = SingletonValue()
 
 class Game(object):
   def __init__(self):
@@ -33,3 +38,19 @@ class Game(object):
 
   def resolve(self, phase):
     phase.resolve(self)
+
+  @property
+  def live_players(self):
+    return [player for player in self.players.values() if player.alive]
+
+  def winners(self):
+    factions = self.factions.values()
+    outcomes  = {f: f.fate(self) for f in factions}
+    print(outcomes)
+    winners   = [f for f in outcomes if outcomes[f] is Fate.WON]
+    undecided = [f for f in outcomes if outcomes[f] is Fate.UNDECIDED]
+    losers    = [f for f in outcomes if outcomes[f] is Fate.LOST]
+
+    if not len(winners) == 0: return winners
+    if not len(undecided) == 0: return NO_WINNER_YET
+    return EVERYONE_LOST

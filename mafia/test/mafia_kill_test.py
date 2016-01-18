@@ -1,7 +1,6 @@
 from mafia import *
 from .test_game import TestGame
 
-from nose_parameterized import parameterized
 from unittest import TestCase
 
 class MafiaKillTest(TestCase):

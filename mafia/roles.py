@@ -1,5 +1,5 @@
 from .actions import *
-from .factions import Faction
+from .factions import *
 from .virtual_actions import *
 from .placeholders import *
 
@@ -28,7 +28,7 @@ class Goon(Role):
 
 class Godfather(Role):
   rank = 1
-  alignment = "good"
+  alignment = Alignment.GOOD
 
 class Usurper(Role):
   rank = 2
