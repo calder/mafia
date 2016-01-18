@@ -10,9 +10,14 @@ class Log(list):
     if phase is not None:
       for event in self:
         event.phase = phase
+    self.append_callbacks = []
 
   def __str__(self):
     return "\n".join([event.colored_str() for event in self])
+
+  def append(self, event):
+    for f in self.append_callbacks: f(event)
+    super().append(event)
 
   def filter(self, predicate):
     return Log(filter(predicate, self))
@@ -33,27 +38,5 @@ class Log(list):
       return visit.target == player and (visit.visible or include_invisible)
     return self.type(Visited).filter(include)
 
-_test_log = Log([
-  Visited("Alice", "Bob"),
-  Visited("Bob", "Alice"),
-  Visited("Eve", "Alice"),
-  Visited("Eve", "Bob", visible=False),
-])
-
-assert_equal(_test_log.visits_to("Bob"), Log([
-  Visited("Alice", "Bob"),
-]))
-
-assert_equal(_test_log.visits_to("Bob", include_invisible=True), Log([
-  Visited("Alice", "Bob"),
-  Visited("Eve", "Bob", visible=False),
-]))
-
-assert_equal(_test_log.visits_by("Eve"), Log([
-  Visited("Eve", "Alice"),
-]))
-
-assert_equal(_test_log.visits_by("Eve", include_invisible=True), Log([
-  Visited("Eve", "Alice"),
-  Visited("Eve", "Bob", visible=False),
-]))
+  def on_append(self, callback):
+    self.append_callbacks.append(callback)
