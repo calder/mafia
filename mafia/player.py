@@ -1,5 +1,5 @@
 class Player(object):
-  def __init__(self, name, *, role):
+  def __init__(self, name, role):
     self.name = name
     self.role = role
     self.alive = True

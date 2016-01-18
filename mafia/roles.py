@@ -1,4 +1,5 @@
 from .actions import *
+from .factions import Faction
 from .virtual_actions import *
 from .placeholders import *
 
@@ -8,7 +9,8 @@ class Role(object):
   blockable  = True  # Whether the role respects roleblockers
   visible    = True  # Whether the role respects trackers, watchers, and forensic investigators
 
-  def __init__(self, *, faction):
+  def __init__(self, faction):
+    assert isinstance(faction, Faction)
     self.faction = faction
 
   def __str__(self):

@@ -9,10 +9,10 @@ class MafiaKillTest(TestCase):
     self.game = TestGame()
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("Mafia"))
-    self.villager1 = self.game.add_player(Player("Villager 1", role=Villager(faction=self.town)))
-    self.villager2 = self.game.add_player(Player("Villager 2", role=Villager(faction=self.town)))
-    self.goon1     = self.game.add_player(Player("Goon 1", role=Goon(faction=self.mafia)))
-    self.goon2     = self.game.add_player(Player("Goon 2", role=Goon(faction=self.mafia)))
+    self.villager1 = self.game.add_player("Villager 1", Villager(self.town))
+    self.villager2 = self.game.add_player("Villager 2", Villager(self.town))
+    self.goon1     = self.game.add_player("Goon 1", Goon(self.mafia))
+    self.goon2     = self.game.add_player("Goon 2", Goon(self.mafia))
 
   def test_mafia_kill(self):
     night0 = Night(0)

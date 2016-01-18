@@ -9,9 +9,9 @@ class RoleblockingTest(TestCase):
     self.game = TestGame()
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("Mafia"))
-    self.villager    = self.game.add_player(Player("Villager", role=Villager(faction=self.town)))
-    self.goon        = self.game.add_player(Player("Goon", role=Goon(faction=self.mafia)))
-    self.roleblocker = self.game.add_player(Player("Roleblocker", role=Roleblocker(faction=self.town)))
+    self.villager    = self.game.add_player("Villager", Villager(self.town))
+    self.goon        = self.game.add_player("Goon", Goon(self.mafia))
+    self.roleblocker = self.game.add_player("Roleblocker", Roleblocker(self.town))
 
   @parameterized.expand([(True,), (False,)])
   def test_basic_roleblocking(self, roleblock):
@@ -41,7 +41,7 @@ class RoleblockingTest(TestCase):
     Watch actions are resolved in resolve_post, after other night actions.
     """
     night0 = Night(0)
-    watcher = self.game.add_player(Player("Watcher", role=Watcher(faction=self.town)))
+    watcher = self.game.add_player("Watcher", Watcher(self.town))
     night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
     night0.add_action(Watch(watcher, self.villager))
     if roleblock: night0.add_action(Roleblock(self.roleblocker, watcher))
