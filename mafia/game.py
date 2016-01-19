@@ -46,7 +46,6 @@ class Game(object):
   def winners(self):
     factions = self.factions.values()
     outcomes  = {f: f.fate(self) for f in factions}
-    print(outcomes)
     winners   = [f for f in outcomes if outcomes[f] is Fate.WON]
     undecided = [f for f in outcomes if outcomes[f] is Fate.UNDECIDED]
     losers    = [f for f in outcomes if outcomes[f] is Fate.LOST]

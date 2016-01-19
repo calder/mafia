@@ -17,12 +17,3 @@ ls *.py \
 | sed "/__/d" \
 | $REGEX_SED "s|(.*)\.py|from \.\1 import \*|"
 echo
-
-echo "__all__ = ["
-echo '  "assert_equal",'
-cat *.py \
-| $REGEX_SED -n 's/^(class ([A-z]*)|([A-z]*) = ).*/  "\2\3",/p' \
-| sort \
-| sed "/SingletonValue/d" \
-| sed "/NightState/d"
-echo "]"
