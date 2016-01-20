@@ -4,14 +4,17 @@ from .player import *
 from .roles import Role
 from .util import *
 
+import random
+
 EVERYONE_LOST = SingletonValue()
 NO_WINNER_YET = SingletonValue()
 
 class Game(object):
-  def __init__(self):
+  def __init__(self, seed):
     self.factions = {}
     self.players = {}
     self.log = Log()
+    self.random = random.Random(seed)
 
   def add_faction(self, faction):
     assert faction.name not in self.factions

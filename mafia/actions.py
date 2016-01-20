@@ -4,17 +4,22 @@ from .util import *
 
 import copy
 
+class TargetList(list):
+  def matches(self, other, **kwargs):
+    return len(self) == len(other) and \
+           all([s.matches(o, **kwargs) for s, o in zip(self, other)])
+
 class Action(object):
   blockable  = True   # Action can be roleblocked
   doctorable = False  # Action can be protected against by a doctor
 
   def __init__(self, player, targets):
     if not isinstance(targets, list):
-      targets = [targets]
+      targets = TargetList([targets])
 
     self.player      = player
-    self.raw_targets = targets
-    self.targets     = targets
+    self.raw_targets = TargetList(targets)
+    self.targets     = TargetList(targets)
 
   def __str__(self):
     targets = ", ".join([str(target) for target in self.targets])
@@ -38,7 +43,7 @@ class Action(object):
       return
 
     # Apply busdriving
-    self.targets = [state.target_map[t] for t in self.targets]
+    self.targets = TargetList([state.target_map[t] for t in self.targets])
 
     # Record visit
     for target, raw_target in zip(self.targets, self.raw_targets):
@@ -65,18 +70,27 @@ class Action(object):
     pass
 
   def with_player(self, player):
-    with_player = copy.copy(self)
-    with_player.player = player
-    return with_player
+    clone = copy.copy(self)
+    clone.player = player
+    return clone
 
-  def select_action(self, actions):
+  def select_action(self, game, player, actions):
     for action in reversed(actions):
-      if self.matches(action):
+      print(self.matches(action, game=game, player=player), self, action)
+      if self.matches(action, game=game, player=player):
         return action, action
     return None, None
 
-  def matches(self, other):
-    return all_fields_match(self, other)
+  def matches(self, other, **kwargs):
+    return all_fields_match(self, other, **kwargs)
+
+  def random_instance(self, **kwargs):
+    clone = copy.copy(self)
+    clone.fill_randomly(**kwargs)
+    return clone
+
+  def fill_randomly(self, **kwargs):
+    return fill_randomly(self, **kwargs)
 
 class Kill(Action):
   precedence = 1000

@@ -38,11 +38,11 @@ class Night(object):
     actions = {}
     for player in game.players.values():
       template = player.role.action.with_player(player)
-      raw_action, action = template.select_action(self.raw_actions)
+      raw_action, action = template.select_action(game, player, self.raw_actions)
       actions[raw_action] = action
     for faction in game.factions.values():
       template = FactionAction(faction, faction.action)
-      raw_action, action = template.select_action(self.raw_actions)
+      raw_action, action = template.select_action(game, player, self.raw_actions)
       actions[raw_action] = action
     self.actions = [actions[a] for a in self.raw_actions if a in actions]
     del actions
