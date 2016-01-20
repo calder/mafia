@@ -7,6 +7,15 @@ def assert_equal(x, y):
     print("-----------------------------------------")
   assert x == y
 
+def assert_matches(x, y):
+  if not x.matches(y):
+    print("--------------------1--------------------")
+    print(x)
+    print("--------------------2--------------------")
+    print(y)
+    print("-----------------------------------------")
+  assert x.matches(y)
+
 class SingletonValue(object):
   pass
 
@@ -26,7 +35,7 @@ def all_fields_match(x, y, **kwargs):
   keys = x.__dict__.keys()
   if y.__dict__.keys() != keys:
     return False
-  for xv, yv in [(x.__dict__[k], y.__dict__[k]) for k in keys]:
+  for k, xv, yv in [(k, x.__dict__[k], y.__dict__[k]) for k in keys]:
     if has_method(xv, "matches"):
       if not xv.matches(yv, **kwargs):
         return False
@@ -36,9 +45,6 @@ def all_fields_match(x, y, **kwargs):
   return True
 
 def fill_randomly(x, **kwargs):
-  keys = x.__dict__.keys()
-  if y.__dict__.keys() != keys:
-    return False
   for k, v in x.__dict__.items():
-    if has_method(v, "fill_randomly"):
-      x.__dict__[k] = v.fill_randomly(**kwargs)
+    if has_method(v, "random_instance"):
+      x.__dict__[k] = v.random_instance(**kwargs)

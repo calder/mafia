@@ -35,19 +35,19 @@ class Usurper(Role):
 
 class Doctor(Role):
   rank = 20
-  action = Protect(Placeholder.Self(), Placeholder.Player())
+  action = Protect(Placeholder.Self(), Placeholder.AnyPlayer())
 
 class Cop(Role):
   rank = 30
-  action = Investigate(Placeholder.Self(), Placeholder.Player())
+  action = Investigate(Placeholder.Self(), Placeholder.AnyPlayer())
 
 class Tracker(Role):
   rank = 41
-  action = Track(Placeholder.Self(), Placeholder.Player())
+  action = Track(Placeholder.Self(), Placeholder.AnyPlayer())
 
 class Watcher(Role):
   rank = 42
-  action = Watch(Placeholder.Self(), Placeholder.Player())
+  action = Watch(Placeholder.Self(), Placeholder.AnyPlayer())
 
 class ForensicInvestigator(Role):
   rank = 40
@@ -55,11 +55,11 @@ class ForensicInvestigator(Role):
 
 class Roleblocker(Role):
   rank = 51
-  action = Roleblock(Placeholder.Self(), Placeholder.Player())
+  action = Roleblock(Placeholder.Self(), Placeholder.AnyPlayer())
 
 class Busdriver(Role):
   rank = 50
-  action = Busdrive(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
+  action = Busdrive(Placeholder.Self(), Placeholder.AnyPlayer(), Placeholder.AnyPlayer())
 
 class Hitman(Role):
   rank = 3

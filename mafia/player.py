@@ -9,3 +9,6 @@ class Player(object):
 
   def __lt__(self, other):
     return self.name < other.name
+
+  def matches(self, other, **kwargs):
+    return self == other

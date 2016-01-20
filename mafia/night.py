@@ -35,17 +35,19 @@ class Night(object):
     self.state = NightState(self, game)
 
     # Check actions
-    actions = {}
+    action_map = defaultdict(list)
     for player in game.players.values():
       template = player.role.action.with_player(player)
-      raw_action, action = template.select_action(game, player, self.raw_actions)
-      actions[raw_action] = action
+      raw, action = template.select_action(self.raw_actions, game=game, player=player)
+      if action: action_map[raw].append(action)
     for faction in game.factions.values():
       template = FactionAction(faction, faction.action)
-      raw_action, action = template.select_action(game, player, self.raw_actions)
-      actions[raw_action] = action
-    self.actions = [actions[a] for a in self.raw_actions if a in actions]
-    del actions
+      raw, action = template.select_action(self.raw_actions, game=game, player=player)
+      if action: action_map[raw].append(action)
+    self.actions = []
+    for raw in self.raw_actions:
+      self.actions += action_map[raw]
+    self.actions += action_map[None]
 
     # Resolve actions
     self.actions = sorted(self.actions, key=lambda action: action.precedence)

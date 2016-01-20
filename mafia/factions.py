@@ -34,7 +34,7 @@ class Mafia(Faction):
 
   def __init__(self, name):
     super().__init__(name)
-    self.action = Kill(Placeholder.FactionMember(self), Placeholder.Player())
+    self.action = Kill(Placeholder.FactionMember(self), Placeholder.AnyPlayer())
 
   def fate(self, game):
     members = [p for p in game.live_players if p.role.faction is self]

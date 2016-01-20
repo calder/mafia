@@ -1,5 +1,6 @@
 from .events import *
 from .log import *
+from .placeholders import *
 from .util import *
 
 import copy
@@ -8,6 +9,9 @@ class TargetList(list):
   def matches(self, other, **kwargs):
     return len(self) == len(other) and \
            all([s.matches(o, **kwargs) for s, o in zip(self, other)])
+
+  def random_instance(self, **kwargs):
+    return TargetList([t.random_instance(**kwargs) for t in self])
 
 class Action(object):
   blockable  = True   # Action can be roleblocked
@@ -23,7 +27,7 @@ class Action(object):
 
   def __str__(self):
     targets = ", ".join([str(target) for target in self.targets])
-    return "%s(%s, %s)" %( self.__class__.__name__, self.player, targets)
+    return "%s(%s, %s)" %(self.__class__.__name__, self.player, targets)
 
   @property
   def target(self):
@@ -74,10 +78,12 @@ class Action(object):
     clone.player = player
     return clone
 
-  def select_action(self, game, player, actions):
+  def real_action(self):
+    return self
+
+  def select_action(self, actions, **kwargs):
     for action in reversed(actions):
-      print(self.matches(action, game=game, player=player), self, action)
-      if self.matches(action, game=game, player=player):
+      if self.matches(action, **kwargs):
         return action, action
     return None, None
 
@@ -86,11 +92,8 @@ class Action(object):
 
   def random_instance(self, **kwargs):
     clone = copy.copy(self)
-    clone.fill_randomly(**kwargs)
+    fill_randomly(clone, **kwargs)
     return clone
-
-  def fill_randomly(self, **kwargs):
-    return fill_randomly(self, **kwargs)
 
 class Kill(Action):
   precedence = 1000
