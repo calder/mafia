@@ -14,6 +14,17 @@ nosetests
 
 ## To Do
 
+- Mechanics
+  - [x] Night resolution
+    - [x] Valid action checking
+    - [ ] Natural action resolution
+    - [ ] Compelled actions
+    - [ ] Disjunctive actions
+    - [ ] One-shot actions
+  - [ ] Day resolution
+  - [x] Winner calculation
+  - [x] Group actions
+  - [ ] Roles as modifiers (i.e. Ninja Hitman)
 - Roles
   - [x] Busdriver
   - [x] Cop
@@ -31,14 +42,3 @@ nosetests
   - [x] Tracker
   - [ ] Ventriloquist
   - [x] Watcher
-- Mechanics
-  - [x] Night resolution
-    - [x] Valid action checking
-    - [ ] Natural action resolution
-    - [ ] Compelled actions
-    - [ ] Disjunctive actions
-    - [ ] One-shot actions
-  - [ ] Day resolution
-  - [x] Winner calculation
-  - [x] Group actions
-  - [ ] Roles as modifiers (i.e. Ninja Hitman)
