@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "`dirname "$0"`"
+cd "`dirname "$0"`"/../mafia
 
 if [[ `uname` == 'Darwin' ]]; then
   REGEX_SED="sed -E"
