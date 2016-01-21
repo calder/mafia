@@ -2,10 +2,8 @@ from .actions import *
 from .placeholders import *
 from .util import *
 
-class VirtualAction(object):
+class VirtualAction(ActionBase):
   """An action that wraps and modifies another action."""
-
-  compelled = False
 
   def __init__(self, action):
     super().__init__()
@@ -22,21 +20,8 @@ class VirtualAction(object):
   def player(self, player):
     self.action = self.action.with_player(player)
 
-  def with_player(self, player):
-    clone = copy.copy(self)
-    clone.player = player
-    return clone
-
   def concrete_action(self):
     return self.action.concrete_action()
-
-  def matches(self, other, **kwargs):
-    return matches(self, other, **kwargs)
-
-  def random_instance(self, **kwargs):
-    clone = copy.copy(self)
-    fill_randomly(clone, **kwargs)
-    return clone
 
 class FactionAction(VirtualAction):
   """An action taken by a player on behalf of their faction."""

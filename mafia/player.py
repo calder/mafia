@@ -10,5 +10,13 @@ class Player(object):
   def __lt__(self, other):
     return self.name < other.name
 
+  @property
+  def faction(self):
+      return self.role.faction
+
+  @property
+  def alignment(self):
+      return self.role.alignment
+
   def matches(self, other, **kwargs):
     return self == other

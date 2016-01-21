@@ -19,15 +19,18 @@ class Faction(object):
   def __str__(self):
     return self.__class__.__name__
 
+  def players(self, all_players):
+    return [p for p in all_players if p.faction == self]
+
 class Town(Faction):
   alignment = Alignment.good
 
   def __init__(self):
     super().__init__("Town")
 
-  def fate(self, game):
-    good_players = [p for p in game.live_players if p.role.faction.alignment is Alignment.good]
-    evil_players = [p for p in game.live_players if p.role.faction.alignment is Alignment.evil]
+  def fate(self, players):
+    good_players = [p for p in players if p.alignment is Alignment.good]
+    evil_players = [p for p in players if p.alignment is Alignment.evil]
     if len(good_players) == 0: return Fate.lost
     if len(evil_players) == 0: return Fate.won
     return Fate.undecided
@@ -37,10 +40,10 @@ class Mafia(Faction):
 
   def __init__(self, name):
     super().__init__(name)
-    self.action = Kill(Placeholder.FactionMember(self), Placeholder.AnyPlayer())
+    self.action = Kill(Placeholder.FactionMember(self), Placeholder.Player())
 
-  def fate(self, game):
-    members = [p for p in game.live_players if p.role.faction is self]
+  def fate(self, players):
+    members = self.players(players)
     if len(members) == 0: return Fate.lost
-    if 2 * len(members) >= len(game.live_players): return Fate.won
+    if 2 * len(members) >= len(players): return Fate.won
     return Fate.undecided

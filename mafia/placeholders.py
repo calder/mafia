@@ -5,14 +5,14 @@ class Placeholder(object):
     def __str__(self):
       return self.__class__.__name__
 
-  class AnyPlayer(Placeholder):
+  class Player(Placeholder):
     def matches(self, other, **kwargs):
       return isinstance(other, Player) and other.alive
 
     def random_instance(self, *, game, **kwargs):
-      return game.random.choice(game.live_players)
+      return game.random.choice(game.players)
 
-  class FactionMember(AnyPlayer):
+  class FactionMember(Player):
     def __init__(self, faction):
       self.faction = faction
 
@@ -20,13 +20,12 @@ class Placeholder(object):
       return "%s(%s)" % (self.__class__.__name__, self.faction.name)
 
     def matches(self, other, **kwargs):
-      return super().matches(other, **kwargs) and other.role.faction == self.faction
+      return super().matches(other, **kwargs) and other.faction == self.faction
 
     def random_instance(self, *, game, **kwargs):
-      players = filter(lambda p: p.faction == self.faction, game.live_players)
-      return game.random.choice(players)
+      return game.random.choice(self.faction.players(game.players))
 
-  class PlayerExcept(AnyPlayer):
+  class PlayerExcept(Player):
     def __init__(self, exclude):
       self.exclude = exclude
 
@@ -35,7 +34,7 @@ class Placeholder(object):
       if player in players: players.remove(player)
       return game.random.choice(players)
 
-  class Self(AnyPlayer):
+  class Self(Player):
     def matches(self, other, *, player, **kwargs):
       return super().matches(other, player=player, **kwargs) and other == player
 

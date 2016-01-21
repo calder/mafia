@@ -5,6 +5,8 @@ from .virtual_actions import *
 import copy
 
 class NightState(object):
+  """The state of a night as its being resolved. Used to resolve Actions."""
+
   def __init__(self, night, game):
     self.night = night
     self.game = game
@@ -17,6 +19,16 @@ class NightState(object):
     self.game.log.append(event)
 
 class Night(object):
+  """
+  A single night in a Mafia game.
+
+  Usage:
+    night0 = Night(0)
+    night0.add_action(Investigate(cop, goon))
+    night0.add_action(FactionAction(mafia, Kill(cop, goon)))
+    game.resolve(night0)
+  """
+
   def __init__(self, number):
     self.number      = number
     self.raw_actions = []
@@ -32,11 +44,11 @@ class Night(object):
 
     # Compile valid action set
     options = set()
-    for player in game.players.values():
+    for player in game.players:
       if player.role.action:
         options.add(player.role.action.with_player(player))
     del player  # Avoid confusion if used
-    for faction in game.factions.values():
+    for faction in game.factions:
       if faction.action:
         options.add(FactionAction(faction, faction.action))
 

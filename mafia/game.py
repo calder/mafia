@@ -11,15 +11,15 @@ NO_WINNER_YET = SingletonValue()
 
 class Game(object):
   def __init__(self, seed):
-    self.factions = {}
-    self.players = {}
-    self.log = Log()
-    self.random = random.Random(seed)
+    self.all_factions = {}
+    self.all_players  = {}
+    self.log          = Log()
+    self.random       = random.Random(seed)
 
   def add_faction(self, faction):
-    assert faction.name not in self.factions
+    assert faction.name not in self.all_factions
 
-    self.factions[faction.name] = faction
+    self.all_factions[faction.name] = faction
     return faction
 
   def add_player(self, player, role=None):
@@ -34,21 +34,24 @@ class Game(object):
       player = Player(player, role)
 
     assert isinstance(player, Player)
-    assert player.name not in self.players
+    assert player.name not in self.all_players
 
-    self.players[player.name] = player
+    self.all_players[player.name] = player
     return player
 
   def resolve(self, phase):
     phase.resolve(self)
 
   @property
-  def live_players(self):
-    return [player for player in self.players.values() if player.alive]
+  def players(self):
+    return [player for player in self.all_players.values() if player.alive]
+
+  @property
+  def factions(self):
+    return list(set([p.faction for p in self.players]))
 
   def winners(self):
-    factions = self.factions.values()
-    outcomes  = {f: f.fate(self) for f in factions}
+    outcomes  = {f: f.fate(self.players) for f in self.factions}
     winners   = [f for f in outcomes if outcomes[f] is Fate.won]
     undecided = [f for f in outcomes if outcomes[f] is Fate.undecided]
     losers    = [f for f in outcomes if outcomes[f] is Fate.lost]

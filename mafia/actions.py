@@ -13,9 +13,27 @@ class TargetList(list):
   def random_instance(self, **kwargs):
     return TargetList([t.random_instance(**kwargs) for t in self])
 
-class Action(object):
-  compelled  = False  # Action must be taken
-  doctorable = False  # Action can be protected against by a doctor
+class ActionBase(object):
+  compelled = False
+
+  def concrete_action(self):
+    raise NotImplementedError()
+
+  def matches(self, other, **kwargs):
+    return matches(self, other, **kwargs)
+
+  def with_player(self, player):
+    clone = copy.copy(self)
+    clone.player = player
+    return clone
+
+  def random_instance(self, **kwargs):
+    clone = copy.copy(self)
+    fill_randomly(clone, **kwargs)
+    return clone
+
+class Action(ActionBase):
+  doctorable = False
 
   def __init__(self, player, targets, **kwargs):
     if not isinstance(targets, list):
@@ -76,19 +94,6 @@ class Action(object):
   def concrete_action(self):
     return self
 
-  def with_player(self, player):
-    clone = copy.copy(self)
-    clone.player = player
-    return clone
-
-  def matches(self, other, **kwargs):
-    return matches(self, other, **kwargs)
-
-  def random_instance(self, **kwargs):
-    clone = copy.copy(self)
-    fill_randomly(clone, **kwargs)
-    return clone
-
 class Kill(Action):
   precedence = 1000
   doctorable = True
@@ -109,7 +114,7 @@ class Investigate(Action):
 
   def _resolve(self, state):
     for target in self.targets:
-      state.log(TurntUp(target.role.alignment, to=self.player))
+      state.log(TurntUp(target.alignment, to=self.player))
 
 def send_targets(visits, *, to, log):
   targets = set(v.target for v in visits)
