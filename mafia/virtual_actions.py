@@ -1,7 +1,12 @@
 from .actions import *
 from .placeholders import *
+from .util import *
 
 class VirtualAction(object):
+  """An action that wraps and modifies another action."""
+
+  compelled = False
+
   def __init__(self, action):
     super().__init__()
     self.action = action
@@ -13,42 +18,41 @@ class VirtualAction(object):
   def player(self):
     return self.action.player
 
-  def real_action(self):
-    return self.action
+  @player.setter
+  def player(self, player):
+    self.action = self.action.with_player(player)
 
-  def select_action(self, actions, **kwargs):
-    for action in reversed(actions):
-      if self.matches(action, **kwargs):
-        return action, action.real_action()
-    return self._default_action(**kwargs)
+  def with_player(self, player):
+    clone = copy.copy(self)
+    clone.player = player
+    return clone
 
-  def _default_action(self, **kwargs):
-    return None, None
+  def concrete_action(self):
+    return self.action.concrete_action()
 
   def matches(self, other, **kwargs):
-    return all_fields_match(self, other, **kwargs)
+    return matches(self, other, **kwargs)
+
+  def random_instance(self, **kwargs):
+    clone = copy.copy(self)
+    fill_randomly(clone, **kwargs)
+    return clone
 
 class FactionAction(VirtualAction):
+  """An action taken by a player on behalf of their faction."""
+
   def __init__(self, faction, action):
     super().__init__(action)
     self.faction = faction
 
 class Compelled(VirtualAction):
-  def _default_action(self, **kwargs):
-    return None, self.action.random_instance(**kwargs)
+  """An action that MUST be used each night."""
+
+  compelled = True
 
   def matches(self, other, **kwargs):
+    print("FactionAction.matches", self.action.matches(other, **kwargs), self, other)
     return self.action.matches(other, **kwargs)
 
-class NoAction(VirtualAction):
-  def __init__(self):
-    super().__init__(None)
-
-  def __str__(self):
-    return "NoAction"
-
-  def with_player(self, player):
-    return self
-
-  def matches(self, other, **kwargs):
-    return False
+  def random_instance(self, **kwargs):
+    return self.action.random_instance(**kwargs)

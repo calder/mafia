@@ -1,14 +1,17 @@
 from .actions import *
+from .alignment import *
 from .virtual_actions import *
 from .placeholders import *
 
 import enum
 
-Alignment = enum.Enum("Alignment", ["GOOD", "NEUTRAL", "EVIL"])
-Fate = enum.Enum("Fate", ["WON", "LOST", "UNDECIDED"])
+class Fate(enum.Enum):
+  won       = 1
+  lost      = 2
+  undecided = 3
 
 class Faction(object):
-  action = NoAction()
+  action = None
 
   def __init__(self, name):
     self.name = name
@@ -17,20 +20,20 @@ class Faction(object):
     return self.__class__.__name__
 
 class Town(Faction):
-  alignment = Alignment.GOOD
+  alignment = Alignment.good
 
   def __init__(self):
     super().__init__("Town")
 
   def fate(self, game):
-    good_players = [p for p in game.live_players if p.role.faction.alignment is Alignment.GOOD]
-    evil_players = [p for p in game.live_players if p.role.faction.alignment is Alignment.EVIL]
-    if len(good_players) == 0: return Fate.LOST
-    if len(evil_players) == 0: return Fate.WON
-    return Fate.UNDECIDED
+    good_players = [p for p in game.live_players if p.role.faction.alignment is Alignment.good]
+    evil_players = [p for p in game.live_players if p.role.faction.alignment is Alignment.evil]
+    if len(good_players) == 0: return Fate.lost
+    if len(evil_players) == 0: return Fate.won
+    return Fate.undecided
 
 class Mafia(Faction):
-  alignment = Alignment.EVIL
+  alignment = Alignment.evil
 
   def __init__(self, name):
     super().__init__(name)
@@ -38,6 +41,6 @@ class Mafia(Faction):
 
   def fate(self, game):
     members = [p for p in game.live_players if p.role.faction is self]
-    if len(members) == 0: return Fate.LOST
-    if 2 * len(members) >= len(game.live_players): return Fate.WON
-    return Fate.UNDECIDED
+    if len(members) == 0: return Fate.lost
+    if 2 * len(members) >= len(game.live_players): return Fate.won
+    return Fate.undecided

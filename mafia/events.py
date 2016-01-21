@@ -1,3 +1,4 @@
+from .alignment import *
 from .util import *
 
 from termcolor import colored
@@ -74,13 +75,12 @@ class Died(Event):
 
 
 class TurntUp(Event):
-  def __init__(self, player, alignment, *, to):
+  def __init__(self, alignment, *, to):
     super().__init__(to=to)
-    self.player    = player
-    self.alignment = alignment
+    self.alignment = "good" if alignment == Alignment.good else "evil"
 
   def _str(self):
-    return "%s is %s." % (self.player, self.alignment)
+    return "Your target is %s." % self.alignment
 
 class SawVisit(Event):
   def __init__(self, player, *, to):

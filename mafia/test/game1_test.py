@@ -28,7 +28,7 @@ def test_game1():
 
   assert_equal(g.log.phase(night0), Log([
     Visited(josh, tony),
-    TurntUp(tony, Alignment.GOOD, to=josh),
+    TurntUp(Alignment.good, to=josh),
     Visited(tony, asmar),
     Visited(asmar, calder),
     Died(calder),
@@ -44,7 +44,7 @@ def test_game1():
 
   assert_equal(g.log.phase(night1), Log([
     Visited(josh, asmar),
-    TurntUp(asmar, Alignment.GOOD, to=josh),
+    TurntUp(Alignment.good, to=josh),
     Visited(tony, josh),
     Visited(asmar, josh),
     Saved(josh),
@@ -66,7 +66,7 @@ def test_game1():
   assert_equal(g.log.phase(night2), Log([
     Visited(spencer, tony),
     Visited(josh, sami),
-    TurntUp(sami, Alignment.EVIL, to=josh),
+    TurntUp(Alignment.evil, to=josh),
     Blocked(tony),
     Visited(asmar, kim),
     Died(kim),

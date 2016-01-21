@@ -14,10 +14,10 @@ class TargetList(list):
     return TargetList([t.random_instance(**kwargs) for t in self])
 
 class Action(object):
-  blockable  = True   # Action can be roleblocked
+  compelled  = False  # Action must be taken
   doctorable = False  # Action can be protected against by a doctor
 
-  def __init__(self, player, targets):
+  def __init__(self, player, targets, **kwargs):
     if not isinstance(targets, list):
       targets = TargetList([targets])
 
@@ -38,7 +38,7 @@ class Action(object):
     self.targets[0] = target
 
   def blocked(self, state):
-    return self.player in state.blocked and self.blockable and self.player.role.blockable
+    return self.player in state.blocked and self.player.role.blockable
 
   def resolve(self, state):
     # Apply roleblocking
@@ -73,22 +73,16 @@ class Action(object):
   def _resolve_post(self, state):
     pass
 
+  def concrete_action(self):
+    return self
+
   def with_player(self, player):
     clone = copy.copy(self)
     clone.player = player
     return clone
 
-  def real_action(self):
-    return self
-
-  def select_action(self, actions, **kwargs):
-    for action in reversed(actions):
-      if self.matches(action, **kwargs):
-        return action, action
-    return None, None
-
   def matches(self, other, **kwargs):
-    return all_fields_match(self, other, **kwargs)
+    return matches(self, other, **kwargs)
 
   def random_instance(self, **kwargs):
     clone = copy.copy(self)
@@ -115,7 +109,7 @@ class Investigate(Action):
 
   def _resolve(self, state):
     for target in self.targets:
-      state.log(TurntUp(target, target.role.alignment, to=self.player))
+      state.log(TurntUp(target.role.alignment, to=self.player))
 
 def send_targets(visits, *, to, log):
   targets = set(v.target for v in visits)

@@ -3,8 +3,10 @@ from .factions import *
 from .virtual_actions import *
 from .placeholders import *
 
+import copy
+
 class Role(object):
-  action     = NoAction()
+  action     = None
   doctorable = True  # Whether the role respects doctors
   blockable  = True  # Whether the role respects roleblockers
   visible    = True  # Whether the role respects trackers, watchers, and forensic investigators
@@ -12,6 +14,9 @@ class Role(object):
   def __init__(self, faction):
     assert isinstance(faction, Faction)
     self.faction = faction
+
+    # Prevent accidental modification of the prototypical action
+    self.action = copy.deepcopy(self.action)
 
   def __str__(self):
     return "%s %s" % (str(self.faction), self.__class__.__name__)
@@ -28,7 +33,7 @@ class Goon(Role):
 
 class Godfather(Role):
   rank = 1
-  alignment = Alignment.GOOD
+  alignment = Alignment.good
 
 class Usurper(Role):
   rank = 2

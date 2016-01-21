@@ -21,10 +21,6 @@ class Night(object):
     self.number      = number
     self.raw_actions = []
 
-    # Resolution state
-    self.state       = None
-    self.actions     = None
-
   def __str__(self):
     return "Night %d" % self.number
 
@@ -32,26 +28,37 @@ class Night(object):
     self.raw_actions.append(action)
 
   def resolve(self, game):
-    self.state = NightState(self, game)
+    state = NightState(self, game)
+
+    # Compile valid action set
+    options = set()
+    for player in game.players.values():
+      if player.role.action:
+        options.add(player.role.action.with_player(player))
+    del player  # Avoid confusion if used
+    for faction in game.factions.values():
+      if faction.action:
+        options.add(FactionAction(faction, faction.action))
 
     # Check actions
-    action_map = defaultdict(list)
-    for player in game.players.values():
-      template = player.role.action.with_player(player)
-      raw, action = template.select_action(self.raw_actions, game=game, player=player)
-      if action: action_map[raw].append(action)
-    for faction in game.factions.values():
-      template = FactionAction(faction, faction.action)
-      raw, action = template.select_action(self.raw_actions, game=game, player=player)
-      if action: action_map[raw].append(action)
-    self.actions = []
-    for raw in self.raw_actions:
-      self.actions += action_map[raw]
-    self.actions += action_map[None]
+    actions = []
+    for action in reversed(self.raw_actions):
+      for option in options:
+        if option.matches(action, game=game, player=action.player):
+          actions.append(action.concrete_action())
+          options.remove(option)
+          break
+    actions.reverse()
+
+    # Add compelled actions
+    for option in options:
+      if option.compelled:
+        instance = option.random_instance(game=game, player=option.player)
+        actions.append(instance)
 
     # Resolve actions
-    self.actions = sorted(self.actions, key=lambda action: action.precedence)
-    for action in self.actions:
-      action.resolve(self.state)
-    for action in self.actions:
-      action.resolve_post(self.state)
+    actions = sorted(actions, key=lambda action: action.precedence)
+    for action in actions:
+      action.resolve(state)
+    for action in actions:
+      action.resolve_post(state)
