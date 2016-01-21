@@ -18,7 +18,7 @@ nosetests
   - [x] Night resolution
     - [x] Valid action checking
     - [ ] Natural action resolution
-    - [ ] Compelled actions
+    - [x] Compelled actions
     - [ ] Disjunctive actions
     - [ ] One-shot actions
   - [ ] Day resolution
