@@ -30,47 +30,37 @@ class Villager(Role):
   pass
 
 class Goon(Role):
-  rank = 100
+  pass
 
 class Godfather(Role):
-  rank = 1
   alignment = Alignment.good
 
-class Usurper(Role):
-  rank = 2
-
 class Doctor(Role):
-  rank = 20
   action = Protect(Placeholder.Self(), Placeholder.Player())
 
+class DoubleVoter(Role):
+  votes = 2
+
 class Cop(Role):
-  rank = 30
   action = Investigate(Placeholder.Self(), Placeholder.Player())
 
 class Tracker(Role):
-  rank = 41
   action = Track(Placeholder.Self(), Placeholder.Player())
 
 class Watcher(Role):
-  rank = 42
   action = Watch(Placeholder.Self(), Placeholder.Player())
 
 class ForensicInvestigator(Role):
-  rank = 40
   action = Autopsy(Placeholder.Self(), Placeholder.Corpse())
 
 class Roleblocker(Role):
-  rank = 51
   action = Roleblock(Placeholder.Self(), Placeholder.Player())
 
 class Busdriver(Role):
-  rank = 50
   action = Busdrive(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
 
 class Hitman(Role):
-  rank = 3
   doctorable = False
 
 class Ninja(Role):
-  rank = 4
   visible = False

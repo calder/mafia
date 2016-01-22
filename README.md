@@ -30,7 +30,7 @@ nosetests
   - [x] Cop
   - [ ] Delayer
   - [x] Doctor
-  - [ ] Double Voter
+  - [x] Double Voter
   - [x] Forensic Investigator
   - [x] Goon
   - [x] Godfather

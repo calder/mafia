@@ -7,7 +7,7 @@ def test_game1():
   mafia = g.add_faction(Mafia("VMX Mafia"))
   asmar   = g.add_player("Asmar", Godfather(mafia))
   brian   = g.add_player("Brian", Watcher(town))
-  calder  = g.add_player("Calder", Villager(town))
+  calder  = g.add_player("Calder", DoubleVoter(town))
   doug    = g.add_player("Doug", Villager(town))
   fejta   = g.add_player("Fejta", Tracker(town))
   josh    = g.add_player("Josh", Cop(town))
@@ -36,7 +36,8 @@ def test_game1():
 
   day1 = Day(1)
   day1.set_vote(asmar, doug)
-  day1.set_vote(brian, doug)
+  day1.set_vote(brian, asmar)
+  day1.set_vote(calder, doug)
   day1.set_vote(doug, asmar)
   g.resolve(day1)
 
