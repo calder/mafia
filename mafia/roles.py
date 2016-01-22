@@ -6,17 +6,17 @@ from .placeholders import *
 import copy
 
 class Role(object):
-  action     = None
-  doctorable = True  # Whether the role respects doctors
-  blockable  = True  # Whether the role respects roleblockers
-  visible    = True  # Whether the role respects trackers, watchers, and forensic investigators
-  votes      = 1     # The number of votes the player gets during the day
+  action      = None
+  protectable = True  # Whether the role respects doctors
+  blockable   = True  # Whether the role respects roleblockers
+  visible     = True  # Whether the role respects trackers, watchers, and forensic investigators
+  votes       = 1     # The number of votes the player gets during the day
 
   def __init__(self, faction):
     assert isinstance(faction, Faction)
     self.faction = faction
 
-    # Prevent accidental modification of the prototypical action
+    # Prevent accidental modification of a class's prototypical action
     self.action = copy.deepcopy(self.action)
 
   def __str__(self):

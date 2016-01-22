@@ -6,9 +6,9 @@ from termcolor import colored
 PUBLIC = SingletonValue()
 
 class Event(object):
-  def __init__(self, *, to=None):
-    self.phase  = None  # Filled in by State.log
-    self.to     = to    # None, a player, a faction, or PUBLIC
+  def __init__(self, *, phase=None, to=None):
+    self.phase = phase  # Filled in by Log.append
+    self.to    = to     # None, a player, a faction, or PUBLIC
 
   def __eq__(self, other):
     return type(self) == type(other) and self.__dict__ == other.__dict__
@@ -46,7 +46,7 @@ class Visited(Event):
              "%s (busdriven from %s)" % (self.target, self.original_target)
     return "%s %s %s." % (self.player, visited, target)
 
-class Blocked(Event):
+class WasBlocked(Event):
   def __init__(self, player):
     super().__init__()
     self.player = player

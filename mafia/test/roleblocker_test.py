@@ -25,13 +25,29 @@ class RoleblockingTest(TestCase):
     if roleblock:
       assert_equal(self.game.log, Log([
         Visited(self.roleblocker, self.goon),
-        Blocked(self.goon),
+        WasBlocked(self.goon),
       ], phase=night0))
     else:
       assert_equal(self.game.log, Log([
         Visited(self.goon, self.villager),
         Died(self.villager),
       ], phase=night0))
+
+  def test_roleblocking_expires(self):
+    """Test that target is only roleblocked for one night."""
+    night0 = Night(0)
+    night0.add_action(Roleblock(self.roleblocker, self.goon))
+    self.game.resolve(night0)
+
+    night1 = Night(1)
+    night1.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
+    self.game.resolve(night1)
+
+    assert self.villager.alive is False
+    assert_equal(self.game.log.phase(night1), Log([
+      Visited(self.goon, self.villager),
+      Died(self.villager),
+    ], phase=night1))
 
   @parameterized.expand([(True,), (False,)])
   def test_watcher_roleblocking(self, roleblock):
@@ -52,7 +68,7 @@ class RoleblockingTest(TestCase):
         Visited(self.roleblocker, watcher),
         Visited(self.goon, self.villager),
         Died(self.villager),
-        Blocked(watcher),
+        WasBlocked(watcher),
       ], phase=night0))
     else:
       assert_equal(self.game.log, Log([

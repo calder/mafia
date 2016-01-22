@@ -77,7 +77,7 @@ def test_game1():
     Visited(spencer, tony),
     Visited(josh, sami),
     TurntUp(Alignment.evil, to=josh),
-    Blocked(tony),
+    WasBlocked(tony),
     Visited(asmar, kim),
     Died(kim),
     Visited(brian, kim),
@@ -114,7 +114,7 @@ def test_game1():
     Visited(spencer, brian),
     Visited(asmar, sami, original_target=sahil),
     Died(sami),
-    Blocked(brian),
+    WasBlocked(brian),
   ], phase=night4))
   assert sami.alive is False
   assert sahil.alive is True

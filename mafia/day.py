@@ -2,12 +2,7 @@ from .log import *
 from .phase import *
 from .util import *
 
-class DayState(PhaseState):
-  @property
-  def day(self):
-    return self.phase
-
-class Day(object):
+class Day(Phase):
   """
   A single day in a Mafia game.
 
@@ -29,12 +24,8 @@ class Day(object):
   def set_vote(self, player, candidate):
     self.votes[player] = candidate
 
-  def resolve(self, game):
-    state = DayState(self, game)
-
+  def _resolve(self, game):
     candidates = defaultdict(lambda: 0)
-
-    # TODO: Handle politicians here
 
     for player, vote in self.votes.items():
       candidates[vote] += player.votes
@@ -42,6 +33,6 @@ class Day(object):
     candidate_list = game.shuffled([(c,p) for p,c in candidates.items()])
     ranked_candidates = [p for c,p in sorted(candidate_list, reverse=True)]
     for candidate in ranked_candidates:
-      state.log(Lynched(candidate))
+      game.log.append(Lynched(candidate))
       candidate.alive = False
       return

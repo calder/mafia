@@ -3,18 +3,7 @@ from .phase import *
 from .util import *
 from .virtual_actions import *
 
-class NightState(PhaseState):
-  def __init__(self, night, game):
-    super().__init__(night, game)
-    self.target_map = identitydefaultdict()
-    self.protected = set()
-    self.blocked = set()
-
-  @property
-  def night(self):
-    return self.phase
-
-class Night(object):
+class Night(Phase):
   """
   A single night in a Mafia game.
 
@@ -35,9 +24,7 @@ class Night(object):
   def add_action(self, action):
     self.raw_actions.append(action)
 
-  def resolve(self, game):
-    state = NightState(self, game)
-
+  def _resolve(self, game):
     # Compile valid action set
     options = set()
     for player in game.players:
@@ -47,6 +34,7 @@ class Night(object):
     for faction in game.factions:
       if faction.action:
         options.add(FactionAction(faction, faction.action))
+    del faction  # Avoid confusion if used
 
     # Check actions
     actions = []
@@ -67,6 +55,6 @@ class Night(object):
     # Resolve actions
     actions = sorted(actions, key=lambda action: action.precedence)
     for action in actions:
-      action.resolve(state)
+      action.resolve(game)
     for action in actions:
-      action.resolve_post(state)
+      action.resolve_post(game)

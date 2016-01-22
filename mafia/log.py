@@ -11,19 +11,27 @@ class Log(list):
       for event in self:
         event.phase = phase
     self.append_callbacks = []
+    self.current_phase = None
 
   def __str__(self):
     return "\n".join([event.colored_str() for event in self])
 
   def append(self, event):
+    event.phase = self.current_phase
     for f in self.append_callbacks: f(event)
     super().append(event)
+
+  def on_append(self, callback):
+    self.append_callbacks.append(callback)
 
   def filter(self, predicate):
     return Log(filter(predicate, self))
 
   def phase(self, phase):
     return self.filter(lambda event: event.phase == phase)
+
+  def this_phase(self):
+    return self.phase(self.current_phase)
 
   def type(self, type):
     return self.filter(lambda event: isinstance(event, type))
@@ -37,6 +45,3 @@ class Log(list):
     def include(visit):
       return visit.target == player and (visit.visible or include_invisible)
     return self.type(Visited).filter(include)
-
-  def on_append(self, callback):
-    self.append_callbacks.append(callback)

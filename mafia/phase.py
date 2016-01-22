@@ -1,10 +1,15 @@
-class PhaseState(object):
-  """The transient state of a phase as it's being resolved."""
+class Phase(object):
+  def resolve(self, game):
+    assert game.log.current_phase == self, \
+           "Use Game.resolve rather than calling resolve directly."
 
-  def __init__(self, phase, game):
-    self.phase = phase
-    self.game  = game
+    self._resolve(game)
 
-  def log(self, event):
-    event.phase = self.phase
-    self.game.log.append(event)
+    # Remove expired effects
+    for player in game.all_players.values():
+      for effect in player.effects:
+        effect.expiration.advance(self)
+      player.effects = [e for e in player.effects if not e.expired]
+
+  def _resolve(self, game):
+    pass

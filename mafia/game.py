@@ -65,6 +65,7 @@ class Game(object):
     return player
 
   def resolve(self, phase):
+    self.log.current_phase = phase
     phase.resolve(self)
 
   @property
