@@ -26,14 +26,11 @@ class Role(object):
   def alignment(self):
     return self.faction.alignment
 
-class Villager(Role):
-  pass
+class Busdriver(Role):
+  action = Busdrive(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
 
-class Goon(Role):
-  pass
-
-class Godfather(Role):
-  alignment = Alignment.good
+class Cop(Role):
+  action = Investigate(Placeholder.Self(), Placeholder.Player())
 
 class Doctor(Role):
   action = Protect(Placeholder.Self(), Placeholder.Player())
@@ -41,8 +38,23 @@ class Doctor(Role):
 class DoubleVoter(Role):
   votes = 2
 
-class Cop(Role):
-  action = Investigate(Placeholder.Self(), Placeholder.Player())
+class ForensicInvestigator(Role):
+  action = Autopsy(Placeholder.Self(), Placeholder.Corpse())
+
+class Godfather(Role):
+  alignment = Alignment.good
+
+class Goon(Role):
+  pass
+
+class Hitman(Role):
+  doctorable = False
+
+class Ninja(Role):
+  visible = False
+
+class Roleblocker(Role):
+  action = Roleblock(Placeholder.Self(), Placeholder.Player())
 
 class Tracker(Role):
   action = Track(Placeholder.Self(), Placeholder.Player())
@@ -50,17 +62,5 @@ class Tracker(Role):
 class Watcher(Role):
   action = Watch(Placeholder.Self(), Placeholder.Player())
 
-class ForensicInvestigator(Role):
-  action = Autopsy(Placeholder.Self(), Placeholder.Corpse())
-
-class Roleblocker(Role):
-  action = Roleblock(Placeholder.Self(), Placeholder.Player())
-
-class Busdriver(Role):
-  action = Busdrive(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
-
-class Hitman(Role):
-  doctorable = False
-
-class Ninja(Role):
-  visible = False
+class Villager(Role):
+  pass
