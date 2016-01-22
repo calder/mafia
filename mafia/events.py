@@ -73,6 +73,9 @@ class Died(Event):
   def _str(self):
     return "%s, the %s, has died." % (self.player, self.player.role)
 
+class Lynched(Died):
+  def _str(self):
+    return "%s, the %s, was lynched." % (self.player, self.player.role)
 
 class TurntUp(Event):
   def __init__(self, alignment, *, to):

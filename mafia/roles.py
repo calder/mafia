@@ -10,6 +10,7 @@ class Role(object):
   doctorable = True  # Whether the role respects doctors
   blockable  = True  # Whether the role respects roleblockers
   visible    = True  # Whether the role respects trackers, watchers, and forensic investigators
+  votes      = 1     # The number of votes the player gets during the day
 
   def __init__(self, faction):
     assert isinstance(faction, Faction)

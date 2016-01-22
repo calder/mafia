@@ -1,3 +1,4 @@
+
 class Player(object):
   def __init__(self, name, role):
     self.name = name
@@ -17,6 +18,11 @@ class Player(object):
   @property
   def alignment(self):
       return self.role.alignment
+
+  @property
+  def votes(self):
+      return self.role.votes
+
 
   def matches(self, other, **kwargs):
     return self == other

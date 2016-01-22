@@ -21,7 +21,7 @@ nosetests
     - [x] Compelled actions
     - [ ] Disjunctive actions
     - [ ] One-shot actions
-  - [ ] Day resolution
+  - [x] Day resolution
   - [x] Winner calculation
   - [x] Group actions
   - [ ] Roles as modifiers (i.e. Ninja Hitman)
@@ -30,15 +30,21 @@ nosetests
   - [x] Cop
   - [ ] Delayer
   - [x] Doctor
+  - [ ] Double Voter
   - [x] Forensic Investigator
   - [x] Goon
   - [x] Godfather
   - [x] Hitman
+  - [ ] Jack of All Trades
   - [ ] Joker
   - [ ] Lyncher
   - [ ] Masons
   - [x] Ninja
+  - [ ] Politician
   - [x] Roleblocker
   - [x] Tracker
   - [ ] Ventriloquist
   - [x] Watcher
+- Role modifiers
+  - [ ] One Shot
+  - [ ] Overeager

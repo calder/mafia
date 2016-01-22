@@ -10,7 +10,31 @@ EVERYONE_LOST = SingletonValue()
 NO_WINNER_YET = SingletonValue()
 
 class Game(object):
-  def __init__(self, seed):
+  """
+  A single game of Mafia.
+
+  Usage:
+    game  = Game()
+    town  = game.add_faction(Town())
+    mafia = game.add_faction(Mafia("The Sopranos"))
+    alice = game.add_player("Alice", Cop(town))
+    bob   = game.add_player("Bob", Doctor(town))
+    eve   = game.add_player("Eve", Goon(mafia))
+
+    night0 = Night(0)
+    night0.add_action(Investigate(alice, eve))
+    night0.add_action(Protect(bob, alice))
+    night0.add_action(FactionAction(mafia, Kill(eve, alice)))
+    game.resolve(night0)
+
+    day1 = Day(1)
+    day1.set_vote(alice, eve)
+    day1.set_vote(eve, alice)
+    day1.set_vote(bob, eve)
+    game.resolve(day1)
+  """
+
+  def __init__(self, seed=42):
     self.all_factions = {}
     self.all_players  = {}
     self.log          = Log()
@@ -24,11 +48,12 @@ class Game(object):
 
   def add_player(self, player, role=None):
     """
-    Add a player to the game.
+    Add a player to the game and return it.
 
     Takes either a single Player object, or a name and role from which to
     construct a Player object.
     """
+
     if role:
       assert isinstance(role, Role)
       player = Player(player, role)
@@ -51,11 +76,18 @@ class Game(object):
     return list(set([p.faction for p in self.players]))
 
   def winners(self):
-    outcomes  = {f: f.fate(self.players) for f in self.factions}
-    winners   = [f for f in outcomes if outcomes[f] is Fate.won]
-    undecided = [f for f in outcomes if outcomes[f] is Fate.undecided]
-    losers    = [f for f in outcomes if outcomes[f] is Fate.lost]
+    fates = {f: f.fate(self.players) for f in self.factions}
+    winners   = [f for f in fates if fates[f] is Fate.won]
+    undecided = [f for f in fates if fates[f] is Fate.undecided]
+    losers    = [f for f in fates if fates[f] is Fate.lost]
 
-    if not len(winners) == 0: return winners
-    if not len(undecided) == 0: return NO_WINNER_YET
-    return EVERYONE_LOST
+    if   len(winners)   > 0: return winners
+    elif len(undecided) > 0: return NO_WINNER_YET
+    else:                    return EVERYONE_LOST
+
+  def shuffled(self, list):
+    """Return a deterministically shuffled version of the given list."""
+
+    shuffled = sorted(list)
+    self.random.shuffle(shuffled)
+    return shuffled

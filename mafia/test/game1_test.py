@@ -1,8 +1,6 @@
 from mafia import *
 from .test_game import TestGame
 
-from unittest import TestCase
-
 def test_game1():
   g = TestGame()
   town  = g.add_faction(Town())
@@ -10,6 +8,7 @@ def test_game1():
   asmar   = g.add_player("Asmar", Godfather(mafia))
   brian   = g.add_player("Brian", Watcher(town))
   calder  = g.add_player("Calder", Villager(town))
+  doug    = g.add_player("Doug", Villager(town))
   fejta   = g.add_player("Fejta", Tracker(town))
   josh    = g.add_player("Josh", Cop(town))
   justin  = g.add_player("Justin", Watcher(town))
@@ -34,6 +33,17 @@ def test_game1():
     Died(calder),
   ], phase=night0))
   assert calder.alive is False
+
+  day1 = Day(1)
+  day1.set_vote(asmar, doug)
+  day1.set_vote(brian, doug)
+  day1.set_vote(doug, asmar)
+  g.resolve(day1)
+
+  assert_equal(g.log.phase(day1), Log([
+    Lynched(doug),
+  ], phase=day1))
+  assert doug.alive is False
 
   night1 = Night(1)
   night1.add_action(FactionAction(mafia, Kill(asmar, josh)))

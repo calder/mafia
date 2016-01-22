@@ -1,22 +1,18 @@
 from .log import *
+from .phase import *
 from .util import *
 from .virtual_actions import *
 
-import copy
-
-class NightState(object):
-  """The state of a night as its being resolved. Used to resolve Actions."""
-
+class NightState(PhaseState):
   def __init__(self, night, game):
-    self.night = night
-    self.game = game
+    super().__init__(night, game)
     self.target_map = identitydefaultdict()
     self.protected = set()
     self.blocked = set()
 
-  def log(self, event):
-    event.phase = self.night
-    self.game.log.append(event)
+  @property
+  def night(self):
+    return self.phase
 
 class Night(object):
   """
