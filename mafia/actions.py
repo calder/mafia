@@ -68,6 +68,33 @@ class Action(ActionBase):
   def concrete_action(self):
     return self
 
+class Autopsy(Action):
+  precedence = 200
+
+  def _resolve(self, game):
+    visits = game.log.visits_to(self.target)
+    visitors = set(v.player for v in visits if v.player is not self.player)
+    for visitor in sorted(visitors):
+      game.log.append(SawVisitor(visitor, to=self.player))
+
+class Busdrive(Action):
+  precedence = 0
+
+  def __init__(self, player, target1, target2):
+    super().__init__(player, [target1, target2])
+
+  def _resolve(self, game):
+    a = self.targets[0]
+    b = self.targets[1]
+    a.add_effect(SwitchedWith(b))
+    b.add_effect(SwitchedWith(a))
+
+class Investigate(Action):
+  precedence = 200
+
+  def _resolve(self, game):
+    game.log.append(TurntUp(self.target.alignment, to=self.player))
+
 class Kill(Action):
   precedence = 1000
   protectable = True
@@ -82,60 +109,11 @@ class Protect(Action):
   def _resolve(self, game):
     self.target.add_effect(Protected())
 
-class Investigate(Action):
-  precedence = 200
-
-  def _resolve(self, game):
-    game.log.append(TurntUp(self.target.alignment, to=self.player))
-
-def send_targets(visits, *, to, log):
-  targets = set(v.target for v in visits)
-  for target in sorted(targets):
-    log.append(SawVisit(target, to=to))
-
-class Track(Action):
-  precedence = 2000
-
-  def _resolve_post(self, game):
-    visits = game.log.this_phase().visits_by(self.target)
-    send_targets(visits, to=self.player, log=game.log)
-
-def send_visitors(visits, *, to, log):
-  visitors = set(v.player for v in visits if v.player is not to)
-  for visitor in sorted(visitors):
-    log.append(SawVisitor(visitor, to=to))
-
-class Watch(Action):
-  precedence = 2000
-
-  def _resolve_post(self, game):
-    visits = game.log.this_phase().visits_to(self.target)
-    send_visitors(visits, to=self.player, log=game.log)
-
-class Autopsy(Action):
-  precedence = 200
-
-  def _resolve(self, game):
-    visits = game.log.visits_to(self.target)
-    send_visitors(visits, to=self.player, log=game.log)
-
 class Roleblock(Action):
   precedence = 100
 
   def _resolve(self, game):
     self.target.add_effect(Blocked())
-
-class Busdrive(Action):
-  precedence = 0
-
-  def __init__(self, player, target1, target2):
-    super().__init__(player, [target1, target2])
-
-  def _resolve(self, game):
-    a = self.targets[0]
-    b = self.targets[1]
-    a.add_effect(SwitchedWith(b))
-    b.add_effect(SwitchedWith(a))
 
 class StealVote(Action):
   precedence = 1100
@@ -143,3 +121,21 @@ class StealVote(Action):
   def _resolve(self, game):
     self.player.add_effect(ReplaceVotes(self.player.votes + self.target.votes))
     self.target.add_effect(ReplaceVotes(0))
+
+class Track(Action):
+  precedence = 2000
+
+  def _resolve_post(self, game):
+    visits = game.log.this_phase().visits_by(self.target)
+    targets = set(v.target for v in visits)
+    for target in sorted(targets):
+      game.log.append(SawVisit(target, to=self.player))
+
+class Watch(Action):
+  precedence = 2000
+
+  def _resolve_post(self, game):
+    visits = game.log.this_phase().visits_to(self.target)
+    visitors = set(v.player for v in visits if v.player is not self.player)
+    for visitor in sorted(visitors):
+      game.log.append(SawVisitor(visitor, to=self.player))
