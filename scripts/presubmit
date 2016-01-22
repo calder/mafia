@@ -3,3 +3,5 @@
 cd "`dirname "$0"`"/..
 
 nosetests
+! grep -r --exclude=mafia/util.py "print" mafia/*.py ||
+  (echo "\nFAIL: Remove leftover print statements before committing."; exit 1)

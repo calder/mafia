@@ -25,8 +25,8 @@ class Nights(Expiration):
 class Effect(object):
   """Effects are temporary alterations which can be applied to players."""
 
-  def __init__(self, *, expiration=Days(0)):
-    self.expiration = expiration
+  def __init__(self, *, expiration=None):
+    self.expiration = expiration or Days(1)
 
   @property
   def expired(self):
@@ -43,5 +43,12 @@ class SwitchedWith(Effect):
 class Protected(Effect):
   protected = True
 
-class VoteStolen(Effect):
-  votes = 0
+class ReplaceVotes(Effect):
+  def __init__(self, votes, **kwargs):
+    super().__init__(**kwargs)
+    self.votes = votes
+
+  @property
+  def vote(self):
+      assert False
+

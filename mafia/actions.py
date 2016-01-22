@@ -136,3 +136,10 @@ class Busdrive(Action):
     b = self.targets[1]
     a.add_effect(SwitchedWith(b))
     b.add_effect(SwitchedWith(a))
+
+class StealVote(Action):
+  precedence = 1100
+
+  def _resolve(self, game):
+    self.player.add_effect(ReplaceVotes(self.player.votes + self.target.votes))
+    self.target.add_effect(ReplaceVotes(0))

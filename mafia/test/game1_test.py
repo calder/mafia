@@ -8,6 +8,7 @@ def test_game1():
   asmar   = g.add_player("Asmar", Godfather(mafia))
   brian   = g.add_player("Brian", Watcher(town))
   calder  = g.add_player("Calder", DoubleVoter(town))
+  devin   = g.add_player("Devin", Politician(town))
   doug    = g.add_player("Doug", Villager(town))
   fejta   = g.add_player("Fejta", Tracker(town))
   josh    = g.add_player("Josh", Cop(town))
@@ -17,10 +18,12 @@ def test_game1():
   sami    = g.add_player("Sami", Goon(mafia))
   sahil   = g.add_player("Sahil", Busdriver(town))
   spencer = g.add_player("Spencer", Roleblocker(town))
+  tarl    = g.add_player("Tarl", Hitman(mafia))
   tony    = g.add_player("Tony", Doctor(town))
+  max     = g.add_player("Max", Villager(town))
 
   night0 = Night(0)
-  night0.add_action(FactionAction(mafia, Kill(asmar, calder)))
+  night0.add_action(FactionAction(mafia, Kill(asmar, max)))
   night0.add_action(Investigate(josh, tony))
   night0.add_action(Protect(tony, asmar))
   g.resolve(night0)
@@ -29,10 +32,10 @@ def test_game1():
     Visited(josh, tony),
     TurntUp(Alignment.good, to=josh),
     Visited(tony, asmar),
-    Visited(asmar, calder),
-    Died(calder),
+    Visited(asmar, max),
+    Died(max),
   ], phase=night0))
-  assert calder.alive is False
+  assert max.alive is False
 
   day1 = Day(1)
   day1.set_vote(asmar, doug)
@@ -48,6 +51,7 @@ def test_game1():
 
   night1 = Night(1)
   night1.add_action(FactionAction(mafia, Kill(asmar, josh)))
+  night1.add_action(StealVote(devin, calder))
   night1.add_action(Track(fejta, asmar))
   night1.add_action(Investigate(josh, asmar))
   night1.add_action(Protect(tony, josh))
@@ -59,10 +63,21 @@ def test_game1():
     Visited(tony, josh),
     Visited(asmar, josh),
     Saved(josh),
+    Visited(devin, calder),
     Visited(fejta, asmar),
     SawVisit(josh, to=fejta),
   ], phase=night1))
   assert josh.alive is True
+
+  day2 = Day(2)
+  day2.set_vote(devin, calder)
+  day2.set_vote(calder, devin)
+  day2.set_vote(josh, devin)
+  g.resolve(day2)
+  assert_equal(g.log.phase(day2), Log([
+    Lynched(calder),
+  ], phase=day2))
+  assert calder.alive is False
 
   night2 = Night(2)
   night2.add_action(FactionAction(mafia, Kill(asmar, kim)))

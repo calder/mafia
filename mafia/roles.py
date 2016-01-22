@@ -53,6 +53,9 @@ class Hitman(Role):
 class Ninja(Role):
   visible = False
 
+class Politician(Role):
+  action = StealVote(Placeholder.Self(), Placeholder.Player())
+
 class Roleblocker(Role):
   action = Roleblock(Placeholder.Self(), Placeholder.Player())
 

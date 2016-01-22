@@ -4,7 +4,7 @@ from .test_game import TestGame
 from nose_parameterized import parameterized
 from unittest import TestCase
 
-class RoleblockingTest(TestCase):
+class RoleblockerTest(TestCase):
   def setUp(self):
     self.game = TestGame()
     self.town  = self.game.add_faction(Town())
@@ -38,6 +38,9 @@ class RoleblockingTest(TestCase):
     night0 = Night(0)
     night0.add_action(Roleblock(self.roleblocker, self.goon))
     self.game.resolve(night0)
+
+    day1 = Day(1)
+    self.game.resolve(day1)
 
     night1 = Night(1)
     night1.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))

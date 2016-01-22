@@ -48,3 +48,5 @@ nosetests
 - Role modifiers
   - [ ] One Shot
   - [ ] Overeager
+- Other
+  - [ ] The dead can vote
