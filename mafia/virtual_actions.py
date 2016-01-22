@@ -36,7 +36,6 @@ class Compelled(VirtualAction):
   compelled = True
 
   def matches(self, other, **kwargs):
-    print("FactionAction.matches", self.action.matches(other, **kwargs), self, other)
     return self.action.matches(other, **kwargs)
 
   def random_instance(self, **kwargs):
