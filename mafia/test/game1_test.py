@@ -73,6 +73,8 @@ def test_game1():
   day2.set_vote(devin, calder)
   day2.set_vote(calder, devin)
   day2.set_vote(josh, devin)
+  day2.set_vote(doug, devin)
+  day2.set_vote(max, devin)
   g.resolve(day2)
   assert_equal(g.log.phase(day2), Log([
     Lynched(calder),

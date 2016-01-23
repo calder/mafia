@@ -28,7 +28,8 @@ class Day(Phase):
     candidates = defaultdict(lambda: 0)
 
     for player, vote in self.votes.items():
-      candidates[vote] += player.votes
+      if player.alive:
+        candidates[vote] += player.votes
 
     candidate_list = game.shuffled([(c,p) for p,c in candidates.items()])
     ranked_candidates = [p for c,p in sorted(candidate_list, reverse=True)]

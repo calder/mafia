@@ -49,4 +49,4 @@ nosetests
   - [ ] One Shot
   - [ ] Overeager
 - Other
-  - [ ] The dead can vote
+  - [x] The dead can vote
