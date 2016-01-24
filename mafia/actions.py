@@ -7,11 +7,18 @@ from .util import *
 
 import copy
 
+def busdrive_shares_target(self, other):
+  return isinstance(other, Busdrive) and \
+         len(set(self.targets).intersection(other.targets)) > 0
+
+def roleblock_targetted_player(self, other):
+  return isinstance(other, Roleblock) and self.player == other.target
+
 class Action(ActionBase):
   protectable = False
   dependencies = [
-    lambda s, o: isinstance(o, Roleblock) and s.player == o.target,
-    lambda s, o: isinstance(o, Busdrive) and len(set(s.targets).intersection(o.targets)) > 0,
+    roleblock_targetted_player,
+    busdrive_shares_target,
   ]
 
   def __init__(self, player, targets, **kwargs):
