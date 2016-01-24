@@ -43,3 +43,32 @@ class NaturalActionResolutionTest(TestCase):
       Died(self.villager),
     ], phase=night0))
     assert self.villager.alive is False
+
+  def test_real_targets_used(self):
+    """
+    Test that real targets, not raw targets, are used to calculate dependencies.
+
+    This test works by setting up a kill that should be dependent on a busdriven
+    rollblock. If dependencies are calcualted incorrectly, however, the kill
+    won't depend on the roleblock and will resolve first.
+    """
+
+    # Give the roleblock lower precedence so only an explicit
+    # dependency will cause it to be resolved first.
+    self.roleblocker.role.action.precedence = Kill.precedence + 1
+    roleblock = Roleblock(self.roleblocker, self.roleblocker)
+    roleblock.precedence = Kill.precedence + 1
+
+    night0 = Night(0)
+    night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
+    night0.add_action(Busdrive(self.busdriver, self.roleblocker, self.goon))
+    night0.add_action(roleblock)
+    self.game.resolve(night0)
+
+    assert_equal(self.game.log, Log([
+      Visited(self.busdriver, self.roleblocker),
+      Visited(self.busdriver, self.goon),
+      Visited(self.roleblocker, self.goon, original_target=self.roleblocker),
+      WasBlocked(self.goon),
+    ], phase=night0))
+    assert self.villager.alive is True

@@ -27,7 +27,6 @@ class Action(ActionBase):
 
     self.player      = player
     self.raw_targets = TargetList(targets)
-    self.targets     = TargetList(targets)
 
     # Prevent accidental modification of a class's prototypical dependencies
     self.dependencies = copy.deepcopy(self.dependencies)
@@ -37,12 +36,12 @@ class Action(ActionBase):
     return "%s(%s, %s)" %(self.__class__.__name__, self.player, targets)
 
   @property
+  def targets(self):
+      return [t.switched_with for t in self.raw_targets]
+
+  @property
   def target(self):
     return self.targets[0]
-
-  @target.setter
-  def set_target(self, target):
-    self.targets[0] = target
 
   @property
   def blocked(self):
@@ -53,9 +52,6 @@ class Action(ActionBase):
     if self.blocked:
       game.log.append(WasBlocked(self.player))
       return
-
-    # Apply busdriving
-    self.targets = TargetList([t.switched_with for t in self.targets])
 
     # Record visit
     for target, raw_target in zip(self.targets, self.raw_targets):
