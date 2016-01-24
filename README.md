@@ -17,7 +17,7 @@ nosetests
 - Mechanics
   - [x] Night resolution
     - [x] Valid action checking
-    - [ ] Natural action resolution
+    - [x] Natural action resolution
     - [x] Compelled actions
     - [ ] Disjunctive actions
     - [ ] One-shot actions
@@ -40,7 +40,7 @@ nosetests
   - [ ] Lyncher
   - [ ] Masons
   - [x] Ninja
-  - [ ] Politician
+  - [x] Politician
   - [x] Roleblocker
   - [x] Tracker
   - [ ] Ventriloquist
@@ -49,4 +49,5 @@ nosetests
   - [ ] One Shot
   - [ ] Overeager
 - Other
-  - [x] The dead can vote
+  - [x] Dead people shouldn't be able to vote
+  - [ ] Test hitman ability

@@ -5,8 +5,14 @@ from .log import *
 from .placeholders import *
 from .util import *
 
+import copy
+
 class Action(ActionBase):
   protectable = False
+  dependencies = [
+    lambda s, o: isinstance(o, Roleblock) and s.player == o.target,
+    lambda s, o: isinstance(o, Busdrive) and len(set(s.targets).intersection(o.targets)) > 0,
+  ]
 
   def __init__(self, player, targets, **kwargs):
     if not isinstance(targets, list):
@@ -15,6 +21,9 @@ class Action(ActionBase):
     self.player      = player
     self.raw_targets = TargetList(targets)
     self.targets     = TargetList(targets)
+
+    # Prevent accidental modification of a class's prototypical dependencies
+    self.dependencies = copy.deepcopy(self.dependencies)
 
   def __str__(self):
     targets = ", ".join([str(target) for target in self.targets])
@@ -67,6 +76,9 @@ class Action(ActionBase):
 
   def concrete_action(self):
     return self
+
+  def depends_on(self, other):
+    return any([d(self, other) and other != self for d in self.dependencies])
 
 class Autopsy(Action):
   precedence = 200

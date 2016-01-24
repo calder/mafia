@@ -48,7 +48,7 @@ class Goon(Role):
   pass
 
 class Hitman(Role):
-  doctorable = False
+  protectable = False
 
 class Ninja(Role):
   visible = False
