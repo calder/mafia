@@ -35,10 +35,10 @@ class Effect(object):
 class Blocked(Effect):
   blocked = True
 
-class SwitchedWith(Effect):
-  def __init__(self, target, **kwargs):
+class MustTarget(Effect):
+  def __init__(self, player, **kwargs):
     super().__init__(**kwargs)
-    self.switched_with = target
+    self.must_target = player
 
 class Protected(Effect):
   protected = True
@@ -48,7 +48,7 @@ class ReplaceVotes(Effect):
     super().__init__(**kwargs)
     self.votes = votes
 
-  @property
-  def vote(self):
-      assert False
-
+class SwitchedWith(Effect):
+  def __init__(self, target, **kwargs):
+    super().__init__(**kwargs)
+    self.switched_with = target

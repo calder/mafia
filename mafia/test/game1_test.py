@@ -8,6 +8,7 @@ def test_game1():
   asmar   = g.add_player("Asmar", Godfather(mafia))
   brian   = g.add_player("Brian", Watcher(town))
   calder  = g.add_player("Calder", DoubleVoter(town))
+  dave    = g.add_player("Dave", Ventriloquist(mafia))
   devin   = g.add_player("Devin", Politician(town))
   doug    = g.add_player("Doug", Villager(town))
   fejta   = g.add_player("Fejta", Tracker(town))
@@ -120,8 +121,9 @@ def test_game1():
   ], phase=night3))
 
   night4 = Night(4)
+  night4.add_action(Possess(dave, asmar, sahil))
   night4.add_action(Busdrive(sahil, sahil, sami))
-  night4.add_action(FactionAction(mafia, Kill(asmar, sahil)))
+  night4.add_action(FactionAction(mafia, Kill(asmar, dave)))
   night4.add_action(Roleblock(spencer, brian))
   night4.add_action(Watch(brian, spencer))
   g.resolve(night4)
@@ -129,6 +131,7 @@ def test_game1():
   assert_equal(g.log.phase(night4), Log([
     Visited(sahil, sahil),
     Visited(sahil, sami),
+    Visited(dave, asmar),
     Visited(spencer, brian),
     Visited(asmar, sami, original_target=sahil),
     Died(sami),

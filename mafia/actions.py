@@ -37,7 +37,7 @@ class Action(ActionBase):
 
   @property
   def targets(self):
-      return [t.switched_with for t in self.raw_targets]
+    return [t.switched_with for t in self.raw_targets]
 
   @property
   def target(self):
@@ -52,6 +52,10 @@ class Action(ActionBase):
     if self.blocked:
       game.log.append(WasBlocked(self.player))
       return
+
+    # Apply ventriloquisting
+    if self.player.must_target:
+      self.raw_targets[0] = self.player.must_target
 
     # Record visit
     for target, raw_target in zip(self.targets, self.raw_targets):
@@ -105,40 +109,50 @@ class Busdrive(Action):
     b.add_effect(SwitchedWith(a))
 
 class Investigate(Action):
-  precedence = 200
+  precedence = 1000
 
   def _resolve(self, game):
     game.log.append(TurntUp(self.target.alignment, to=self.player))
 
 class Kill(Action):
-  precedence = 1000
+  precedence = 2000
   protectable = True
 
   def _resolve(self, game):
     self.target.alive = False
     game.log.append(Died(self.target))
 
+class Possess(Action):
+  precedence = 1
+
+  def __init__(self, player, puppet, new_target):
+    super().__init__(player, puppet)
+    self.new_target = new_target
+
+  def _resolve(self, game):
+    self.target.add_effect(MustTarget(self.new_target))
+
 class Protect(Action):
-  precedence = 200
+  precedence = 1000
 
   def _resolve(self, game):
     self.target.add_effect(Protected())
 
 class Roleblock(Action):
-  precedence = 100
+  precedence = 2
 
   def _resolve(self, game):
     self.target.add_effect(Blocked())
 
 class StealVote(Action):
-  precedence = 1100
+  precedence = 2000
 
   def _resolve(self, game):
     self.player.add_effect(ReplaceVotes(self.player.votes + self.target.votes))
     self.target.add_effect(ReplaceVotes(0))
 
 class Track(Action):
-  precedence = 2000
+  precedence = 3000
 
   def _resolve_post(self, game):
     visits = game.log.this_phase().visits_by(self.target)
@@ -147,7 +161,7 @@ class Track(Action):
       game.log.append(SawVisit(target, to=self.player))
 
 class Watch(Action):
-  precedence = 2000
+  precedence = 3000
 
   def _resolve_post(self, game):
     visits = game.log.this_phase().visits_to(self.target)

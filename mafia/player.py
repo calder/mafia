@@ -1,4 +1,3 @@
-
 class Player(object):
   def __init__(self, name, role):
     self.name    = name
@@ -9,6 +8,7 @@ class Player(object):
     # These properties should never be modified,
     # only temporarily overridden by Effects.
     self.blocked       = False
+    self.must_target   = None
     self.protected     = False
     self.switched_with = self
 

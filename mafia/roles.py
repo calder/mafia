@@ -65,5 +65,8 @@ class Tracker(Role):
 class Watcher(Role):
   action = Watch(Placeholder.Self(), Placeholder.Player())
 
+class Ventriloquist(Role):
+  action = Possess(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
+
 class Villager(Role):
   pass
