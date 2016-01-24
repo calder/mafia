@@ -38,12 +38,13 @@ nosetests
   - [ ] Jack of All Trades
   - [ ] Joker
   - [ ] Lyncher
-  - [ ] Masons
+  - [ ] Mason
   - [x] Ninja
   - [x] Politician
   - [x] Roleblocker
   - [x] Tracker
-  - [ ] Ventriloquist
+  - [ ] Usurper
+  - [x] Ventriloquist
   - [x] Watcher
 - Role modifiers
   - [ ] One Shot
