@@ -32,6 +32,53 @@ class Event(object):
   def colored_str(self):
     return colored(str(self), self.color, attrs=self.style)
 
+class Died(Event):
+  color = "red"
+
+  def __init__(self, player):
+    super().__init__()
+    self.player = player
+    self.to     = PUBLIC
+
+  def _str(self):
+    return "%s, the %s, has died." % (self.player, self.player.role)
+
+class Lynched(Died):
+  def _str(self):
+    return "%s, the %s, was lynched." % (self.player, self.player.role)
+
+class Saved(Event):
+  def __init__(self, player):
+    super().__init__()
+    self.player = player
+
+  def _str(self):
+    return "%s was saved." % self.player
+
+class SawVisit(Event):
+  def __init__(self, player, *, to):
+    super().__init__(to=to)
+    self.player = player
+
+  def _str(self):
+    return "Your target visited %s." % self.player
+
+class SawVisitor(Event):
+  def __init__(self, player, *, to):
+    super().__init__(to=to)
+    self.player = player
+
+  def _str(self):
+    return "%s visited your target." % self.player
+
+class TurntUp(Event):
+  def __init__(self, alignment, *, to):
+    super().__init__(to=to)
+    self.alignment = "good" if alignment == Alignment.good else "evil"
+
+  def _str(self):
+    return "Your target is %s." % self.alignment
+
 class Visited(Event):
   def __init__(self, player, target, *, visible=True, original_target=None):
     super().__init__()
@@ -67,50 +114,3 @@ class WasBlocked(Event):
 
   def _str(self):
     return "%s was blocked." % self.player
-
-class Saved(Event):
-  def __init__(self, player):
-    super().__init__()
-    self.player = player
-
-  def _str(self):
-    return "%s was saved." % self.player
-
-class Died(Event):
-  color = "red"
-
-  def __init__(self, player):
-    super().__init__()
-    self.player = player
-    self.to     = PUBLIC
-
-  def _str(self):
-    return "%s, the %s, has died." % (self.player, self.player.role)
-
-class Lynched(Died):
-  def _str(self):
-    return "%s, the %s, was lynched." % (self.player, self.player.role)
-
-class TurntUp(Event):
-  def __init__(self, alignment, *, to):
-    super().__init__(to=to)
-    self.alignment = "good" if alignment == Alignment.good else "evil"
-
-  def _str(self):
-    return "Your target is %s." % self.alignment
-
-class SawVisit(Event):
-  def __init__(self, player, *, to):
-    super().__init__(to=to)
-    self.player = player
-
-  def _str(self):
-    return "Your target visited %s." % self.player
-
-class SawVisitor(Event):
-  def __init__(self, player, *, to):
-    super().__init__(to=to)
-    self.player = player
-
-  def _str(self):
-    return "%s visited your target." % self.player

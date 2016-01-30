@@ -24,7 +24,7 @@ class Player(object):
       for effect in self.effects:
         if hasattr(effect, name):
           return getattr(effect, name)
-    return object.__getattribute__(self, name)
+    return super().__getattribute__(name)
 
   def add_effect(self, effect):
     self.effects.append(effect)
