@@ -34,6 +34,10 @@ class Player(object):
     return self.role.faction
 
   @property
+  def apparent_factions(self):
+    return self.role.apparent_factions
+
+  @property
   def alignment(self):
     return self.role.alignment
 

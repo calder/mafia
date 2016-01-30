@@ -14,13 +14,18 @@ class Role(object):
 
   def __init__(self, faction):
     assert isinstance(faction, Faction)
-    self.faction = faction
+    self.faction       = faction
+    self.fake_factions = []
 
     # Prevent accidental modification of a class's prototypical action
     self.action = copy.deepcopy(self.action)
 
   def __str__(self):
     return "%s %s" % (str(self.faction), self.__class__.__name__)
+
+  @property
+  def apparent_factions(self):
+    return [self.faction]
 
   @property
   def alignment(self):
@@ -49,6 +54,9 @@ class Goon(Role):
 
 class Hitman(Role):
   protectable = False
+
+class Mason(Role):
+  pass
 
 class Ninja(Role):
   visible = False

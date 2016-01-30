@@ -26,6 +26,7 @@ nosetests
   - [x] Group actions
   - [ ] Roles as modifiers (i.e. Ninja Hitman)
 - Roles
+  - [ ] Action Doubler
   - [x] Busdriver
   - [x] Cop
   - [ ] Delayer
@@ -38,7 +39,7 @@ nosetests
   - [ ] Jack of All Trades
   - [ ] Joker
   - [ ] Lyncher
-  - [ ] Mason
+  - [x] Mason
   - [x] Ninja
   - [x] Politician
   - [x] Roleblocker

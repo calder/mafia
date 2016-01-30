@@ -16,13 +16,17 @@ class Faction(object):
   def __init__(self, name):
     self.name = name
 
-  def __str__(self):
-    return self.__class__.__name__
+  def __lt__(self, other):
+    return self.name < other.name
 
-  def players(self, all_players):
-    return [p for p in all_players if p.faction == self]
+  def members(self, players):
+    return [p for p in players if p.faction == self]
+
+  def apparent_members(self, players):
+    return [p for p in players if self in p.apparent_factions]
 
 class Town(Faction):
+  adjective = "Town"
   alignment = Alignment.good
 
   def __init__(self):
@@ -35,7 +39,11 @@ class Town(Faction):
     if len(evil_players) == 0: return Fate.won
     return Fate.undecided
 
+  def apparent_members(self, players):
+    return None
+
 class Mafia(Faction):
+  adjective = "Mafia"
   alignment = Alignment.evil
 
   def __init__(self, name):
@@ -43,7 +51,22 @@ class Mafia(Faction):
     self.action = Kill(Placeholder.FactionMember(self), Placeholder.Player())
 
   def fate(self, players):
-    members = self.players(players)
+    members = self.members(players)
     if len(members) == 0: return Fate.lost
     if 2 * len(members) >= len(players): return Fate.won
     return Fate.undecided
+
+class Masonry(Faction):
+  adjective = "Mason"
+  alignment = Alignment.good
+
+  def __init__(self, name, town):
+    super().__init__(name)
+    self.town = town
+
+  @property
+  def alignment(self):
+      return self.town.alignment
+
+  def fate(self, players):
+    return self.town.fate

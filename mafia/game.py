@@ -64,17 +64,24 @@ class Game(object):
     self.all_players[player.name] = player
     return player
 
+  def begin(self):
+    """Send out teammates."""
+    for faction in self.factions:
+      members = faction.apparent_members(self.players)
+      if members:
+        self.log.append(GotTeammates(members))
+
   def resolve(self, phase):
     self.log.current_phase = phase
     phase.resolve(self)
 
   @property
   def players(self):
-    return [player for player in self.all_players.values() if player.alive]
+    return sorted([player for player in self.all_players.values() if player.alive])
 
   @property
   def factions(self):
-    return list(set([p.faction for p in self.players]))
+    return sorted(list(set([p.faction for p in self.players])))
 
   def winners(self):
     fates = {f: f.fate(self.players) for f in self.factions}

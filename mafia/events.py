@@ -19,7 +19,9 @@ class Event(object):
     elif self.to is PUBLIC:
       return "%s: %s" % (self.phase, self._str())
     else:
-      return "%s: %s: %s" % (self.phase, self.to, self._str())
+      to = self.to if not isinstance(self.to, list) else \
+           ", ".join([str(p) for p in self.to])
+      return "%s: %s: %s" % (self.phase, to, self._str())
 
   @property
   def color(self):
@@ -42,6 +44,14 @@ class Died(Event):
 
   def _str(self):
     return "%s, the %s, has died." % (self.player, self.player.role)
+
+class GotTeammates(Event):
+  def __init__(self, members):
+    super().__init__(to=members)
+    self.members = members
+
+  def _str(self):
+    return "Your teammates are %s." % ", ".join([str(m) for m in self.members])
 
 class Lynched(Died):
   def _str(self):
