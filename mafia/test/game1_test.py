@@ -46,6 +46,10 @@ def test_game1():
   g.resolve(day1)
 
   assert_equal(g.log.phase(day1), Log([
+    VotedFor(asmar, doug),
+    VotedFor(brian, asmar),
+    VotedFor(calder, doug, votes=2),
+    VotedFor(doug, asmar),
     Lynched(doug),
   ], phase=day1))
   assert doug.alive is False
@@ -72,12 +76,15 @@ def test_game1():
 
   day2 = Day(2)
   day2.set_vote(devin, calder)
+  day2.set_vote(doug, devin)
   day2.set_vote(calder, devin)
   day2.set_vote(josh, devin)
-  day2.set_vote(doug, devin)
   day2.set_vote(max, devin)
   g.resolve(day2)
   assert_equal(g.log.phase(day2), Log([
+    VotedFor(calder, calder, votes=2, original_vote=devin),
+    VotedFor(devin, calder),
+    VotedFor(josh, devin),
     Lynched(calder),
   ], phase=day2))
   assert calder.alive is False

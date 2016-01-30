@@ -51,5 +51,5 @@ nosetests
   - [ ] Overeager
 - Other
   - [x] Dead people shouldn't be able to vote
-  - [ ] Politicians shouldn't be able to steal dead people's votes
+  - [x] Politicians shouldn't be able to steal dead people's votes
   - [ ] Test hitman ability

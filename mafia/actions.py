@@ -148,8 +148,7 @@ class StealVote(Action):
   precedence = 2000
 
   def _resolve(self, game):
-    self.player.add_effect(ReplaceVotes(self.player.votes + self.target.votes))
-    self.target.add_effect(ReplaceVotes(0))
+    self.target.add_effect(VotesWith(self.player))
 
 class Track(Action):
   precedence = 3000

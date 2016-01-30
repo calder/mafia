@@ -11,6 +11,7 @@ class Player(object):
     self.must_target   = None
     self.protected     = False
     self.switched_with = self
+    self.votes_with    = self
 
   def __str__(self):
     return self.name

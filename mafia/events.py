@@ -46,6 +46,20 @@ class Visited(Event):
              "%s (busdriven from %s)" % (self.target, self.original_target)
     return "%s %s %s." % (self.player, visited, target)
 
+class VotedFor(Event):
+  def __init__(self, player, vote, *, votes=1, original_vote=None):
+    super().__init__()
+    self.player        = player
+    self.vote          = vote
+    self.votes         = votes
+    self.original_vote = original_vote or self.vote
+
+  def _str(self):
+    votes = "" if self.votes == 1 else " with %d votes" % self.votes
+    vote = self.vote if self.vote == self.original_vote else \
+           "%s (politicianed from %s)" % (self.vote, self.original_vote)
+    return "%s voted for %s%s." % (self.player, vote, votes)
+
 class WasBlocked(Event):
   def __init__(self, player):
     super().__init__()

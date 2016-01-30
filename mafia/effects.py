@@ -43,10 +43,10 @@ class MustTarget(Effect):
 class Protected(Effect):
   protected = True
 
-class ReplaceVotes(Effect):
-  def __init__(self, votes, **kwargs):
+class VotesWith(Effect):
+  def __init__(self, votes_with, **kwargs):
     super().__init__(**kwargs)
-    self.votes = votes
+    self.votes_with = votes_with
 
 class SwitchedWith(Effect):
   def __init__(self, target, **kwargs):
