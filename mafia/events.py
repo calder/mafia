@@ -45,13 +45,23 @@ class Died(Event):
   def _str(self):
     return "%s, the %s, has died." % (self.player, self.player.role)
 
-class GotTeammates(Event):
-  def __init__(self, members):
+class GotRole(Event):
+  def __init__(self, player, role):
+    super().__init__(to=player)
+    self.player = player
+    self.role   = role
+
+  def _str(self):
+    return "You are the %s." % self.player.role
+
+class GotFaction(Event):
+  def __init__(self, faction, members):
     super().__init__(to=members)
+    self.faction = faction
     self.members = members
 
   def _str(self):
-    return "Your teammates are %s." % ", ".join([str(m) for m in self.members])
+    return "You are the %s." % self.faction.name
 
 class Lynched(Died):
   def _str(self):

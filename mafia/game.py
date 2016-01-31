@@ -65,11 +65,14 @@ class Game(object):
     return player
 
   def begin(self):
-    """Send out teammates."""
+    """Send out roles and teammates."""
+    for player in self.players:
+      self.log.append(GotRole(player, player.role))
+
     for faction in self.factions:
       members = faction.apparent_members(self.players)
       if members:
-        self.log.append(GotTeammates(members))
+        self.log.append(GotFaction(faction, members))
 
   def resolve(self, phase):
     self.log.current_phase = phase

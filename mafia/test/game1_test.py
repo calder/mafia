@@ -4,7 +4,7 @@ from .test_game import TestGame
 def test_game1():
   g = TestGame()
   town    = g.add_faction(Town())
-  masonry = g.add_faction(Masonry("Test Team", town))
+  masons  = g.add_faction(Masonry("Test Team", town))
   mafia   = g.add_faction(Mafia("VMX Mafia"))
   asmar    = g.add_player("Asmar", Godfather(mafia))
   brian    = g.add_player("Brian", Watcher(town))
@@ -13,34 +13,34 @@ def test_game1():
   devin    = g.add_player("Devin", Politician(town))
   doug     = g.add_player("Doug", Villager(town))
   fejta    = g.add_player("Fejta", Tracker(town))
-  goodwin  = g.add_player("Goodwin", Mason(masonry))
-  josh     = g.add_player("Josh", Cop(town))
+  gijosh   = g.add_player("GI Josh", Cop(town))
+  josh     = g.add_player("Josh", Mason(masons))
   justin   = g.add_player("Justin", Watcher(town))
   kim      = g.add_player("Kim", Villager(town))
   leese    = g.add_player("Leese", ForensicInvestigator(town))
-  michelle = g.add_player("Michelle", Mason(masonry))
-  sami     = g.add_player("Sami", Goon(mafia))
+  max      = g.add_player("Max", Villager(town))
+  michelle = g.add_player("Michelle", Mason(masons))
   sahil    = g.add_player("Sahil", Busdriver(town))
+  sami     = g.add_player("Sami", Goon(mafia))
   spencer  = g.add_player("Spencer", Roleblocker(town))
   tarl     = g.add_player("Tarl", Hitman(mafia))
   tony     = g.add_player("Tony", Doctor(town))
-  max      = g.add_player("Max", Villager(town))
   g.begin()
 
-  assert_equal(g.log, Log([
-    GotTeammates([goodwin, michelle]),
-    GotTeammates([asmar, dave, sami, tarl]),
+  assert_equal(g.log.filter(lambda e: not isinstance(e, GotRole)), Log([
+    GotFaction(masons, [josh, michelle]),
+    GotFaction(mafia, [asmar, dave, sami, tarl]),
   ]))
 
   night0 = Night(0)
   night0.add_action(FactionAction(mafia, Kill(asmar, max)))
-  night0.add_action(Investigate(josh, tony))
+  night0.add_action(Investigate(gijosh, tony))
   night0.add_action(Protect(tony, asmar))
   g.resolve(night0)
 
   assert_equal(g.log.phase(night0), Log([
-    Visited(josh, tony),
-    TurntUp(Alignment.good, to=josh),
+    Visited(gijosh, tony),
+    TurntUp(Alignment.good, to=gijosh),
     Visited(tony, asmar),
     Visited(asmar, max),
     Died(max),
@@ -64,36 +64,36 @@ def test_game1():
   assert doug.alive is False
 
   night1 = Night(1)
-  night1.add_action(FactionAction(mafia, Kill(asmar, josh)))
+  night1.add_action(FactionAction(mafia, Kill(asmar, gijosh)))
   night1.add_action(StealVote(devin, calder))
   night1.add_action(Track(fejta, asmar))
-  night1.add_action(Investigate(josh, asmar))
-  night1.add_action(Protect(tony, josh))
+  night1.add_action(Investigate(gijosh, asmar))
+  night1.add_action(Protect(tony, gijosh))
   g.resolve(night1)
 
   assert_equal(g.log.phase(night1), Log([
-    Visited(josh, asmar),
-    TurntUp(Alignment.good, to=josh),
-    Visited(tony, josh),
-    Visited(asmar, josh),
-    Saved(josh),
+    Visited(gijosh, asmar),
+    TurntUp(Alignment.good, to=gijosh),
+    Visited(tony, gijosh),
+    Visited(asmar, gijosh),
+    Saved(gijosh),
     Visited(devin, calder),
     Visited(fejta, asmar),
-    SawVisit(josh, to=fejta),
+    SawVisit(gijosh, to=fejta),
   ], phase=night1))
-  assert josh.alive is True
+  assert gijosh.alive is True
 
   day2 = Day(2)
   day2.set_vote(devin, calder)
   day2.set_vote(doug, devin)
   day2.set_vote(calder, devin)
-  day2.set_vote(josh, devin)
+  day2.set_vote(gijosh, devin)
   day2.set_vote(max, devin)
   g.resolve(day2)
   assert_equal(g.log.phase(day2), Log([
     VotedFor(calder, calder, votes=2, original_vote=devin),
     VotedFor(devin, calder),
-    VotedFor(josh, devin),
+    VotedFor(gijosh, devin),
     Lynched(calder),
   ], phase=day2))
   assert calder.alive is False
@@ -102,7 +102,7 @@ def test_game1():
   night2.add_action(FactionAction(mafia, Kill(asmar, kim)))
   night2.add_action(Watch(brian, kim))
   night2.add_action(Track(fejta, tony))
-  night2.add_action(Investigate(josh, sami))
+  night2.add_action(Investigate(gijosh, sami))
   night2.add_action(Watch(justin, kim))
   night2.add_action(Protect(tony, kim))
   night2.add_action(Roleblock(spencer, tony))
@@ -110,8 +110,8 @@ def test_game1():
 
   assert_equal(g.log.phase(night2), Log([
     Visited(spencer, tony),
-    Visited(josh, sami),
-    TurntUp(Alignment.evil, to=josh),
+    Visited(gijosh, sami),
+    TurntUp(Alignment.evil, to=gijosh),
     WasBlocked(tony),
     Visited(asmar, kim),
     Died(kim),

@@ -21,7 +21,7 @@ class Role(object):
     self.action = copy.deepcopy(self.action)
 
   def __str__(self):
-    return "%s %s" % (str(self.faction), self.__class__.__name__)
+    return "%s %s" % (str(self.faction.adjective), self.__class__.__name__)
 
   @property
   def apparent_factions(self):
