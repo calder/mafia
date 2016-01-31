@@ -4,6 +4,7 @@ from .virtual_actions import *
 from .placeholders import *
 
 import copy
+import re
 
 class Role(object):
   action      = None
@@ -21,7 +22,11 @@ class Role(object):
     self.action = copy.deepcopy(self.action)
 
   def __str__(self):
-    return "%s %s" % (str(self.faction.adjective), self.__class__.__name__)
+    return "%s %s" % (str(self.faction.adjective), self.name)
+
+  @property
+  def name(self):
+    return " ".join(re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__))
 
   @property
   def apparent_factions(self):
