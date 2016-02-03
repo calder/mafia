@@ -26,7 +26,7 @@ nosetests
   - [x] Group actions
   - [ ] Roles as modifiers (i.e. Ninja Hitman)
 - Roles
-  - [ ] Action Doubler
+  - [x] Action Doubler
   - [x] Busdriver
   - [x] Cop
   - [ ] Delayer
@@ -54,3 +54,4 @@ nosetests
   - [x] Dead people shouldn't be able to vote
   - [x] Politicians shouldn't be able to steal dead people's votes
   - [ ] Test hitman ability
+  - [ ] Tell investigative roles which investigation their results correspond to

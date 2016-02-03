@@ -14,13 +14,8 @@ class Expiration(object):
   def passed(self):
     return self.days <= 0 and self.nights <= 0
 
-class Days(Expiration):
-  def __init__(self, days):
-    super().__init__(days=days)
-
-class Nights(Expiration):
-  def __init__(self, nights):
-    super().__init__(nights=nights)
+def Days(days): return Expiration(days=days)
+def Nights(nights): return Expiration(nights=nights)
 
 class Effect(object):
   """Effects are temporary alterations which can be applied to players."""
@@ -35,10 +30,15 @@ class Effect(object):
 class Blocked(Effect):
   blocked = True
 
-class MustTarget(Effect):
-  def __init__(self, player, **kwargs):
+class ExtraAction(Effect):
+  def __init__(self, extra_actions=1, **kwargs):
     super().__init__(**kwargs)
-    self.must_target = player
+    self.extra_actions = extra_actions
+
+class MustTarget(Effect):
+  def __init__(self, must_target, **kwargs):
+    super().__init__(**kwargs)
+    self.must_target = must_target
 
 class Protected(Effect):
   protected = True

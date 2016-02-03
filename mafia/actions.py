@@ -96,6 +96,12 @@ class Autopsy(Action):
     for visitor in sorted(visitors):
       game.log.append(SawVisitor(visitor, to=self.player))
 
+class Double(Action):
+  precedence = 1000
+
+  def _resolve(self, game):
+    self.target.add_effect(ExtraAction(expiration=Nights(2)))
+
 class Busdrive(Action):
   precedence = 0
 

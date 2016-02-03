@@ -36,6 +36,9 @@ class Role(object):
   def alignment(self):
     return self.faction.alignment
 
+class ActionDoubler(Role):
+  action = Double(Placeholder.Self(), Placeholder.Player())
+
 class Busdriver(Role):
   action = Busdrive(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
 

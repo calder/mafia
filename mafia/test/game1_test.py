@@ -18,7 +18,7 @@ def test_game1():
   justin   = g.add_player("Justin", Watcher(town))
   kim      = g.add_player("Kim", Villager(town))
   leese    = g.add_player("Leese", ForensicInvestigator(town))
-  max      = g.add_player("Max", Villager(town))
+  max      = g.add_player("Max", ActionDoubler(town))
   michelle = g.add_player("Michelle", Mason(masons))
   sahil    = g.add_player("Sahil", Busdriver(town))
   sami     = g.add_player("Sami", Goon(mafia))
@@ -33,12 +33,14 @@ def test_game1():
   ]))
 
   night0 = Night(0)
+  night0.add_action(Double(max, justin))
   night0.add_action(FactionAction(mafia, Kill(asmar, max)))
   night0.add_action(Investigate(gijosh, tony))
   night0.add_action(Protect(tony, asmar))
   g.resolve(night0)
 
   assert_equal(g.log.phase(night0), Log([
+    Visited(max, justin),
     Visited(gijosh, tony),
     TurntUp(Alignment.good, to=gijosh),
     Visited(tony, asmar),
@@ -69,6 +71,8 @@ def test_game1():
   night1.add_action(Track(fejta, asmar))
   night1.add_action(Investigate(gijosh, asmar))
   night1.add_action(Protect(tony, gijosh))
+  night1.add_action(Watch(justin, gijosh))
+  night1.add_action(Watch(justin, tony))
   g.resolve(night1)
 
   assert_equal(g.log.phase(night1), Log([
@@ -79,7 +83,11 @@ def test_game1():
     Saved(gijosh),
     Visited(devin, calder),
     Visited(fejta, asmar),
+    Visited(justin, gijosh),
+    Visited(justin, tony),
     SawVisit(gijosh, to=fejta),
+    SawVisitor(asmar, to=justin),
+    SawVisitor(tony, to=justin),
   ], phase=night1))
   assert gijosh.alive is True
 

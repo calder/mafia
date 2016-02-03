@@ -29,7 +29,8 @@ class Night(Phase):
     options = set()
     for player in game.players:
       if player.role.action:
-        options.add(player.role.action.with_player(player))
+        for i in range(player.actions):
+          options.add(player.role.action.with_player(player))
     del player  # Avoid confusion if used
     for faction in game.factions:
       if faction.action:
