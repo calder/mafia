@@ -30,11 +30,14 @@ class Role(object):
 
   @property
   def apparent_factions(self):
-    return [self.faction]
+    return [self.faction] + self.fake_factions
 
   @property
   def alignment(self):
     return self.faction.alignment
+
+  def fate(self, all_players):
+    return self.faction.fate(all_players)
 
 class ActionDoubler(Role):
   action = Double(Placeholder.Self(), Placeholder.Player())
@@ -77,6 +80,17 @@ class Roleblocker(Role):
 
 class Tracker(Role):
   action = Track(Placeholder.Self(), Placeholder.Player())
+
+class Usurper(Role):
+  def __init__(self, faction, usurpee):
+    super().__init__(faction)
+    self.usurpee = usurpee
+
+  def fate(self, all_players):
+    faction_fate = self.faction.fate(all_players)
+    if faction_fate is Fate.won:
+      return Fate.lost if self.usurpee.alive else Fate.won
+    return faction_fate
 
 class Watcher(Role):
   action = Watch(Placeholder.Self(), Placeholder.Player())

@@ -44,7 +44,7 @@ nosetests
   - [x] Politician
   - [x] Roleblocker
   - [x] Tracker
-  - [ ] Usurper
+  - [x] Usurper
   - [x] Ventriloquist
   - [x] Watcher
 - Role modifiers

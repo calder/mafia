@@ -87,10 +87,10 @@ class Game(object):
     return sorted(list(set([p.faction for p in self.players])))
 
   def winners(self):
-    fates = {f: f.fate(self.players) for f in self.factions}
-    winners   = [f for f in fates if fates[f] is Fate.won]
-    undecided = [f for f in fates if fates[f] is Fate.undecided]
-    losers    = [f for f in fates if fates[f] is Fate.lost]
+    fates = {p: p.fate(self.players) for p in self.all_players.values()}
+    winners   = sorted([f for f in fates if fates[f] is Fate.won])
+    undecided = sorted([f for f in fates if fates[f] is Fate.undecided])
+    losers    = sorted([f for f in fates if fates[f] is Fate.lost])
 
     if   len(winners)   > 0: return winners
     elif len(undecided) > 0: return NO_WINNER_YET

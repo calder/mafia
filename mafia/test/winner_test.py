@@ -17,11 +17,21 @@ class WinnerTest(TestCase):
   def test_mafia_win(self):
     assert_equal(self.game.winners(), NO_WINNER_YET)
     self.villager3.alive = False
-    assert_equal(self.game.winners(), [self.mafia])
+    assert_equal(self.game.winners(), [self.goon1, self.goon2])
 
   def test_town_win(self):
     assert_equal(self.game.winners(), NO_WINNER_YET)
     self.goon1.alive = False
     assert_equal(self.game.winners(), NO_WINNER_YET)
     self.goon2.alive = False
-    assert_equal(self.game.winners(), [self.town])
+    assert_equal(self.game.winners(), [self.villager1, self.villager2, self.villager3])
+
+  def test_usurper_win(self):
+    usurper = self.game.add_player("Usurper", Usurper(self.mafia, self.goon2))
+    self.villager1.alive = False
+    self.goon2.alive = False
+    assert_equal(self.game.winners(), [self.goon1, self.goon2, usurper])
+
+  def test_usurper_loss(self):
+    usurper = self.game.add_player("Usurper", Usurper(self.mafia, self.goon1))
+    assert_equal(self.game.winners(), [self.goon1, self.goon2])

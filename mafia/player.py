@@ -5,8 +5,8 @@ class Player(object):
     super().__init__()
     self.name    = name
     self.role    = role
-    self.alive   = True
     self.effects = []
+    self.alive   = True
 
   def __str__(self):
     return self.name
@@ -28,6 +28,9 @@ class Player(object):
   @property
   def alignment(self):
     return self.role.alignment
+
+  def fate(self, all_players):
+    return self.role.fate(all_players)
 
   @property
   def votes(self):
