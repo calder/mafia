@@ -75,29 +75,34 @@ class Saved(Event):
   def _str(self):
     return "%s was saved." % self.player
 
-class SawVisit(Event):
-  def __init__(self, player, *, to):
+class Result(Event):
+  def __init__(self, *, target, to):
     super().__init__(to=to)
+    self.target = target
+
+class SawVisit(Result):
+  def __init__(self, player, *, target, to):
+    super().__init__(target=target, to=to)
     self.player = player
 
   def _str(self):
-    return "Your target visited %s." % self.player
+    return "%s visited %s." % (self.target, self.player)
 
-class SawVisitor(Event):
-  def __init__(self, player, *, to):
-    super().__init__(to=to)
+class SawVisitor(Result):
+  def __init__(self, player, *, target, to):
+    super().__init__(target=target, to=to)
     self.player = player
 
   def _str(self):
-    return "%s visited your target." % self.player
+    return "%s visited %s." % (self.player, self.target)
 
-class TurntUp(Event):
-  def __init__(self, alignment, *, to):
-    super().__init__(to=to)
+class TurntUp(Result):
+  def __init__(self, alignment, *, target, to):
+    super().__init__(target=target, to=to)
     self.alignment = "good" if alignment == Alignment.good else "evil"
 
   def _str(self):
-    return "Your target is %s." % self.alignment
+    return "%s is %s." % (self.target, self.alignment)
 
 class Visited(Event):
   def __init__(self, player, target, *, visible=True, original_target=None):

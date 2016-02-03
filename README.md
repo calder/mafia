@@ -54,4 +54,4 @@ nosetests
   - [x] Dead people shouldn't be able to vote
   - [x] Politicians shouldn't be able to steal dead people's votes
   - [ ] Test hitman ability
-  - [ ] Tell investigative roles which investigation their results correspond to
+  - [x] Tell investigative roles which investigation their results correspond to

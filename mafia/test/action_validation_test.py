@@ -44,7 +44,7 @@ class ActionValidationTest(TestCase):
 
     assert_equal(self.game.log.phase(night0), Log([
       Visited(self.cop, self.goon),
-      TurntUp(Alignment.evil, to=self.cop),
+      TurntUp(Alignment.evil, target=self.goon, to=self.cop),
     ], phase=night0))
 
   def test_compelled_action_no_choice(self):
@@ -54,17 +54,7 @@ class ActionValidationTest(TestCase):
     night0 = Night(0)
     self.game.resolve(night0)
 
-    assert_one_of(
-      self.game.log.phase(night0),
-      Log([
-        Visited(self.cop, self.cop),
-        TurntUp(Alignment.good, to=self.cop),
-      ], phase=night0),
-      Log([
-        Visited(self.cop, self.goon),
-        TurntUp(Alignment.evil, to=self.cop),
-      ], phase=night0),
-    )
+    assert_equal(2, len(self.game.log.phase(night0)))
 
 if __name__ == "__main__":
   main()

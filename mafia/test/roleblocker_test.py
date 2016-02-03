@@ -78,5 +78,5 @@ class RoleblockerTest(TestCase):
         Visited(self.goon, self.villager),
         Died(self.villager),
         Visited(watcher, self.villager),
-        SawVisitor(self.goon, to=watcher),
+        SawVisitor(self.goon, target=self.villager, to=watcher),
       ], phase=night0))

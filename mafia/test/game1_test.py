@@ -42,7 +42,7 @@ def test_game1():
   assert_equal(g.log.phase(night0), Log([
     Visited(max, justin),
     Visited(gijosh, tony),
-    TurntUp(Alignment.good, to=gijosh),
+    TurntUp(Alignment.good, target=tony, to=gijosh),
     Visited(tony, asmar),
     Visited(asmar, max),
     Died(max),
@@ -72,22 +72,24 @@ def test_game1():
   night1.add_action(Investigate(gijosh, asmar))
   night1.add_action(Protect(tony, gijosh))
   night1.add_action(Watch(justin, gijosh))
-  night1.add_action(Watch(justin, tony))
+  night1.add_action(Watch(justin, asmar))
   g.resolve(night1)
 
   assert_equal(g.log.phase(night1), Log([
     Visited(gijosh, asmar),
-    TurntUp(Alignment.good, to=gijosh),
+    TurntUp(Alignment.good, target=asmar, to=gijosh),
     Visited(tony, gijosh),
     Visited(asmar, gijosh),
     Saved(gijosh),
     Visited(devin, calder),
     Visited(fejta, asmar),
     Visited(justin, gijosh),
-    Visited(justin, tony),
-    SawVisit(gijosh, to=fejta),
-    SawVisitor(asmar, to=justin),
-    SawVisitor(tony, to=justin),
+    Visited(justin, asmar),
+    SawVisit(gijosh, target=asmar, to=fejta),
+    SawVisitor(asmar, target=gijosh, to=justin),
+    SawVisitor(tony, target=gijosh, to=justin),
+    SawVisitor(fejta, target=asmar, to=justin),
+    SawVisitor(gijosh, target=asmar, to=justin),
   ], phase=night1))
   assert gijosh.alive is True
 
@@ -119,17 +121,17 @@ def test_game1():
   assert_equal(g.log.phase(night2), Log([
     Visited(spencer, tony),
     Visited(gijosh, sami),
-    TurntUp(Alignment.evil, to=gijosh),
+    TurntUp(Alignment.evil, target=sami, to=gijosh),
     WasBlocked(tony),
     Visited(asmar, kim),
     Died(kim),
     Visited(brian, kim),
     Visited(fejta, tony),
     Visited(justin, kim),
-    SawVisitor(asmar, to=brian),
-    SawVisitor(justin, to=brian),
-    SawVisitor(asmar, to=justin),
-    SawVisitor(brian, to=justin),
+    SawVisitor(asmar, target=kim, to=brian),
+    SawVisitor(justin, target=kim, to=brian),
+    SawVisitor(asmar, target=kim, to=justin),
+    SawVisitor(brian, target=kim, to=justin),
   ], phase=night2))
   assert kim.alive is False
 
@@ -139,9 +141,9 @@ def test_game1():
 
   assert_equal(g.log.phase(night3), Log([
     Visited(leese, kim),
-    SawVisitor(asmar, to=leese),
-    SawVisitor(brian, to=leese),
-    SawVisitor(justin, to=leese),
+    SawVisitor(asmar, target=kim, to=leese),
+    SawVisitor(brian, target=kim, to=leese),
+    SawVisitor(justin, target=kim, to=leese),
   ], phase=night3))
 
   night4 = Night(4)

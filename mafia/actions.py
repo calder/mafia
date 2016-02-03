@@ -44,6 +44,10 @@ class Action(ActionBase):
     return self.targets[0]
 
   @property
+  def raw_target(self):
+    return self.raw_targets[0]
+
+  @property
   def blocked(self):
     return self.player.blocked and self.player.role.blockable
 
@@ -94,7 +98,7 @@ class Autopsy(Action):
     visits = game.log.visits_to(self.target)
     visitors = set(v.player for v in visits if v.player is not self.player)
     for visitor in sorted(visitors):
-      game.log.append(SawVisitor(visitor, to=self.player))
+      game.log.append(SawVisitor(visitor, target=self.raw_target, to=self.player))
 
 class Double(Action):
   precedence = 1000
@@ -118,7 +122,7 @@ class Investigate(Action):
   precedence = 1000
 
   def _resolve(self, game):
-    game.log.append(TurntUp(self.target.alignment, to=self.player))
+    game.log.append(TurntUp(self.target.alignment, target=self.raw_target, to=self.player))
 
 class Kill(Action):
   precedence = 2000
@@ -163,7 +167,7 @@ class Track(Action):
     visits = game.log.this_phase().visits_by(self.target)
     targets = set(v.target for v in visits)
     for target in sorted(targets):
-      game.log.append(SawVisit(target, to=self.player))
+      game.log.append(SawVisit(target, target=self.raw_target, to=self.player))
 
 class Watch(Action):
   precedence = 3000
@@ -172,4 +176,4 @@ class Watch(Action):
     visits = game.log.this_phase().visits_to(self.target)
     visitors = set(v.player for v in visits if v.player is not self.player)
     for visitor in sorted(visitors):
-      game.log.append(SawVisitor(visitor, to=self.player))
+      game.log.append(SawVisitor(visitor, target=self.raw_target, to=self.player))
