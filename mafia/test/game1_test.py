@@ -20,6 +20,7 @@ def test_game1():
   leese    = g.add_player("Leese", ForensicInvestigator(town))
   max      = g.add_player("Max", ActionDoubler(town))
   michelle = g.add_player("Michelle", Mason(masons))
+  paul     = g.add_player("Paul", Ninja(Hitman(mafia)))
   sahil    = g.add_player("Sahil", Busdriver(town))
   sami     = g.add_player("Sami", Goon(mafia))
   spencer  = g.add_player("Spencer", Roleblocker(town))
@@ -29,7 +30,7 @@ def test_game1():
 
   assert_equal(g.log.filter(lambda e: not isinstance(e, GotRole)), Log([
     GotFaction(masons, [josh, michelle]),
-    GotFaction(mafia, [asmar, dave, sami, tarl]),
+    GotFaction(mafia, [asmar, dave, paul, sami, tarl]),
   ]))
 
   night0 = Night(0)
@@ -146,20 +147,25 @@ def test_game1():
     SawVisitor(justin, target=kim, to=leese),
   ], phase=night3))
 
+  day3 = Day(3)
+  g.resolve(day3)
+
   night4 = Night(4)
-  night4.add_action(Possess(dave, asmar, sahil))
+  night4.add_action(Possess(dave, paul, sahil))
   night4.add_action(Busdrive(sahil, sahil, sami))
-  night4.add_action(FactionAction(mafia, Kill(asmar, dave)))
+  night4.add_action(FactionAction(mafia, Kill(paul, dave)))
   night4.add_action(Roleblock(spencer, brian))
+  night4.add_action(Protect(tony, sahil))
   night4.add_action(Watch(brian, spencer))
   g.resolve(night4)
 
   assert_equal(g.log.phase(night4), Log([
     Visited(sahil, sahil),
     Visited(sahil, sami),
-    Visited(dave, asmar),
+    Visited(dave, paul),
     Visited(spencer, brian),
-    Visited(asmar, sami, original_target=sahil),
+    Visited(tony, sami, original_target=sahil),
+    Visited(paul, sami, visible=False, original_target=sahil),
     Died(sami),
     WasBlocked(brian),
   ], phase=night4))

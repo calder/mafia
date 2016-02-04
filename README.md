@@ -24,7 +24,7 @@ nosetests
   - [x] Day resolution
   - [x] Winner calculation
   - [x] Group actions
-  - [ ] Roles as modifiers (i.e. Ninja Hitman)
+  - [x] Roles as modifiers (i.e. Ninja Hitman)
 - Roles
   - [x] Action Doubler
   - [x] Busdriver
@@ -53,5 +53,5 @@ nosetests
 - Other
   - [x] Dead people shouldn't be able to vote
   - [x] Politicians shouldn't be able to steal dead people's votes
-  - [ ] Test hitman ability
+  - [x] Test hitman ability
   - [x] Tell investigative roles which investigation their results correspond to

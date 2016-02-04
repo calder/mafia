@@ -43,7 +43,7 @@ class Player(object):
   ###   Overridable by Effects   ###
 
   @mixin("effects")
-  def actions(self):
+  def action_count(self):
     return 1 + sum_present(self.effects, "extra_actions")
 
   @mixin("effects")

@@ -49,7 +49,7 @@ class NaturalActionResolutionTest(TestCase):
     Test that real targets, not raw targets, are used to calculate dependencies.
 
     This test works by setting up a kill that should be dependent on a busdriven
-    rollblock. If dependencies are calcualted incorrectly, however, the kill
+    rollblock. If dependencies are calculated incorrectly, however, the kill
     won't depend on the roleblock and will resolve first.
     """
 

@@ -5,6 +5,11 @@ class Placeholder(object):
     def __str__(self):
       return self.__class__.__name__
 
+    @property
+    def switched_with(self):
+      """For printing of Actions."""
+      return self
+
   class Player(Placeholder):
     def matches(self, other, **kwargs):
       return isinstance(other, Player) and other.alive
