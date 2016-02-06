@@ -68,7 +68,7 @@ class Action(ActionBase):
                               original_target=raw_target))
 
     # Apply protection
-    if self.protectable and self.target.protected and self.player.role.protectable:
+    if self.protectable and self.target.bulletproof and self.player.role.protectable:
       game.log.append(Saved(target))
       return
 

@@ -35,6 +35,7 @@ nosetests
   - [x] Forensic Investigator
   - [x] Goon
   - [x] Godfather
+  - [ ] Governor
   - [x] Hitman
   - [ ] Jack of All Trades
   - [ ] Joker

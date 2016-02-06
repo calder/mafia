@@ -29,12 +29,12 @@ class Player(object):
   def alignment(self):
     return self.role.alignment
 
-  def fate(self, all_players):
-    return self.role.fate(all_players)
-
   @property
   def votes(self):
     return self.role.votes
+
+  def fate(self, all_players):
+    return self.role.fate(all_players)
 
   def matches(self, other, **kwargs):
     return self == other
@@ -44,7 +44,7 @@ class Player(object):
 
   @mixin("effects")
   def action_count(self):
-    return 1 + sum_present(self.effects, "extra_actions")
+    return 1 + mixin_sum(self.effects, "extra_actions")
 
   @mixin("effects")
   def blocked(self): return False
@@ -53,7 +53,7 @@ class Player(object):
   def must_target(self): return None
 
   @mixin("effects")
-  def protected(self): return False
+  def bulletproof(self): return False
 
   @mixin("effects")
   def switched_with(self): return self

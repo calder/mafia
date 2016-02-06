@@ -41,14 +41,14 @@ class MustTarget(Effect):
     self.must_target = must_target
 
 class Protected(Effect):
-  protected = True
-
-class VotesWith(Effect):
-  def __init__(self, votes_with, **kwargs):
-    super().__init__(**kwargs)
-    self.votes_with = votes_with
+  bulletproof = True
 
 class SwitchedWith(Effect):
   def __init__(self, target, **kwargs):
     super().__init__(**kwargs)
     self.switched_with = target
+
+class VotesWith(Effect):
+  def __init__(self, votes_with, **kwargs):
+    super().__init__(**kwargs)
+    self.votes_with = votes_with
