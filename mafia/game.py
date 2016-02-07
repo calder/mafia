@@ -104,6 +104,12 @@ class Game(object):
     elif len(undecided) > 0: return NO_WINNER_YET
     else:                    return EVERYONE_LOST
 
+  def is_game_over(self):
+    winners = self.winners()
+    if winners == NO_WINNER_YET: return False
+    if winners == EVERYONE_LOST: return True
+    return any([p.wins_exclusively for p in winners])
+
   def shuffled(self, list):
     """Return a deterministically shuffled version of the given list."""
 

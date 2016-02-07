@@ -69,6 +69,7 @@ def test_game1():
   ], phase=day1))
   assert doug.alive is False
   assert_equal(g.winners(), [hung])
+  assert g.is_game_over() is False
 
   night1 = Night(1)
   night1.add_action(FactionAction(mafia, Kill(asmar, gijosh)))
@@ -180,3 +181,4 @@ def test_game1():
     events.Lynched(becky),
   ], phase=day4))
   assert_equal(g.winners(), [becky, hung])
+  assert g.is_game_over() is False

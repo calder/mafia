@@ -12,6 +12,7 @@ class Fate(enum.Enum):
 
 class Faction(object):
   action = None
+  wins_exclusively = True
 
   def __init__(self, name):
     self.name = name
@@ -48,6 +49,7 @@ class Town(Faction):
 class JokerFaction(Faction):
   adjective = "Third-Party"
   alignment = Alignment.evil
+  wins_exclusively = False
 
   def __init__(self, name, *, must_lynch=1):
     super().__init__(name)
@@ -64,6 +66,7 @@ class JokerFaction(Faction):
 class LyncherFaction(Faction):
   adjective = "Third-Party"
   alignment = Alignment.evil
+  wins_exclusively = False
 
   def __init__(self, name, lynchee):
     super().__init__(name)

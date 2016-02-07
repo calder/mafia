@@ -37,6 +37,10 @@ class Player(object):
   def votes(self):
     return self.role.votes
 
+  @property
+  def wins_exclusively(self):
+    return self.role.wins_exclusively
+
   def fate(self, game):
     return self.role.fate(game)
 

@@ -32,6 +32,10 @@ class RoleBase(object):
   def apparent_alignment(self):
     return self.alignment
 
+  @property
+  def wins_exclusively(self):
+    return self.faction.wins_exclusively
+
   def fate(self, game):
     return self.faction.fate(game)
 

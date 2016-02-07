@@ -43,3 +43,19 @@ class WinnerTest(TestCase):
 
     godfather = self.game.add_player("Godfather", Godfather(self.mafia))
     assert_equal(self.game.winners(), NO_WINNER_YET)
+
+  def test_town_win_exclusive(self):
+    assert self.game.is_game_over() is False
+    self.goon1.alive = False
+    self.goon2.alive = False
+    assert self.game.is_game_over() is True
+
+  def test_mafia_win_exclusive(self):
+    assert self.game.is_game_over() is False
+    self.villager3.alive = False
+    assert self.game.is_game_over() is True
+
+  def test_joker_win_non_exclusive(self):
+    assert self.game.is_game_over() is False
+    self.villager3.alive = False
+    assert self.game.is_game_over() is True

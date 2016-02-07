@@ -25,7 +25,7 @@ nosetests
   - [x] Winner calculation
   - [x] Group actions
   - [x] Roles as modifiers (i.e. Ninja Hitman)
-  - [ ] Non-exclusive win conditions
+  - [x] Non-exclusive win conditions
 - Roles
   - [x] Action Doubler
   - [x] Busdriver
@@ -53,9 +53,3 @@ nosetests
 - Role modifiers
   - [ ] One Shot
   - [ ] Overeager
-- Other
-  - [x] Dead people shouldn't be able to vote
-  - [x] Politicians shouldn't be able to steal dead people's votes
-  - [x] Test hitman ability
-  - [x] Tell investigative roles which investigation their results correspond to
-  - [x] Godfather shouldn't count towards a town win
