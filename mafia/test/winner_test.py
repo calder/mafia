@@ -35,3 +35,11 @@ class WinnerTest(TestCase):
   def test_usurper_loss(self):
     usurper = self.game.add_player("Usurper", Usurper(self.mafia, self.goon1))
     assert_equal(self.game.winners(), [self.goon1, self.goon2])
+
+  def test_godfather_alignment(self):
+    self.goon1.alive = False
+    self.goon2.alive = False
+    assert_equal(self.game.winners(), [self.villager1, self.villager2, self.villager3])
+
+    godfather = self.game.add_player("Godfather", Godfather(self.mafia))
+    assert_equal(self.game.winners(), NO_WINNER_YET)

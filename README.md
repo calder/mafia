@@ -25,6 +25,7 @@ nosetests
   - [x] Winner calculation
   - [x] Group actions
   - [x] Roles as modifiers (i.e. Ninja Hitman)
+  - [ ] Non-exclusive win conditions
 - Roles
   - [x] Action Doubler
   - [x] Busdriver
@@ -57,5 +58,4 @@ nosetests
   - [x] Politicians shouldn't be able to steal dead people's votes
   - [x] Test hitman ability
   - [x] Tell investigative roles which investigation their results correspond to
-  - [ ] Non-exclusive win conditions
-  - [ ] Godfather shouldn't count towards a town win
+  - [x] Godfather shouldn't count towards a town win

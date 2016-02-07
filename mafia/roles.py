@@ -28,6 +28,10 @@ class RoleBase(object):
   def alignment(self):
     return self.faction.alignment
 
+  @property
+  def apparent_alignment(self):
+    return self.alignment
+
   def fate(self, game):
     return self.faction.fate(game)
 
@@ -79,7 +83,7 @@ class ForensicInvestigator(Role):
   action = Autopsy(Placeholder.Self(), Placeholder.Corpse())
 
 class Godfather(Role):
-  alignment = Alignment.good
+  apparent_alignment = Alignment.good
 
 class Goon(Role):
   pass

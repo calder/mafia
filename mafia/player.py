@@ -30,6 +30,10 @@ class Player(object):
     return self.role.alignment
 
   @property
+  def apparent_alignment(self):
+    return self.role.apparent_alignment
+
+  @property
   def votes(self):
     return self.role.votes
 

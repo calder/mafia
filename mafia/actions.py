@@ -121,7 +121,7 @@ class Investigate(Action):
   precedence = 1000
 
   def _resolve(self, game):
-    game.log.append(events.InvestigationResult(self.target.alignment, target=self.raw_target, to=self.player))
+    game.log.append(events.InvestigationResult(self.target.apparent_alignment, target=self.raw_target, to=self.player))
 
 class Kill(Action):
   precedence = 2000
