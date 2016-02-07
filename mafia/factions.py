@@ -19,11 +19,11 @@ class Faction(object):
   def __lt__(self, other):
     return self.name < other.name
 
-  def members(self, players):
-    return [p for p in players if p.faction == self]
+  def members(self, game):
+    return [p for p in game.players if p.faction == self]
 
-  def apparent_members(self, players):
-    return [p for p in players if self in p.apparent_factions]
+  def apparent_members(self, game):
+    return [p for p in game.players if self in p.apparent_factions]
 
 class Town(Faction):
   adjective = "Town"
@@ -32,15 +32,27 @@ class Town(Faction):
   def __init__(self):
     super().__init__("Town")
 
-  def fate(self, players):
-    good_players = [p for p in players if p.alignment is Alignment.good]
-    evil_players = [p for p in players if p.alignment is Alignment.evil]
+  def fate(self, game):
+    good_players = [p for p in game.players if p.alignment is Alignment.good]
+    evil_players = [p for p in game.players if p.alignment is Alignment.evil]
     if len(good_players) == 0: return Fate.lost
     if len(evil_players) == 0: return Fate.won
     return Fate.undecided
 
-  def apparent_members(self, players):
+  def apparent_members(self, game):
     return None
+
+class LyncherFaction(Faction):
+  adjective = "Third-Party"
+  alignment = Alignment.evil
+
+  def __init__(self, name, lynchee):
+    super().__init__(name)
+    self.lynchee = lynchee
+
+  def fate(self, game):
+    if self.lynchee.alive: return Fate.undecided
+    return Fate.won if game.log.has_been_lynched(self.lynchee) else Fate.lost
 
 class Mafia(Faction):
   adjective = "Mafia"
@@ -50,10 +62,10 @@ class Mafia(Faction):
     super().__init__(name)
     self.action = Kill(Placeholder.FactionMember(self), Placeholder.Player())
 
-  def fate(self, players):
-    members = self.members(players)
+  def fate(self, game):
+    members = self.members(game)
     if len(members) == 0: return Fate.lost
-    if 2 * len(members) >= len(players): return Fate.won
+    if 2 * len(members) >= len(game.players): return Fate.won
     return Fate.undecided
 
 class Masonry(Faction):
@@ -68,5 +80,5 @@ class Masonry(Faction):
   def alignment(self):
       return self.town.alignment
 
-  def fate(self, players):
-    return self.town.fate
+  def fate(self, game):
+    return self.town.fate(game)

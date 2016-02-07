@@ -36,6 +36,9 @@ class Log(list):
   def type(self, type):
     return self.filter(lambda event: isinstance(event, type))
 
+  def has_been_lynched(self, player):
+    return len(self.type(events.Lynched).filter(lambda lynch: lynch.player == player)) > 0
+
   def visits_by(self, player, *, include_invisible=False):
     def include(visit):
       return visit.player == player and (visit.visible or include_invisible)

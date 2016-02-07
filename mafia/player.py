@@ -33,8 +33,8 @@ class Player(object):
   def votes(self):
     return self.role.votes
 
-  def fate(self, all_players):
-    return self.role.fate(all_players)
+  def fate(self, game):
+    return self.role.fate(game)
 
   def matches(self, other, **kwargs):
     return self == other

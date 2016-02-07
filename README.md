@@ -39,7 +39,7 @@ nosetests
   - [x] Hitman
   - [ ] Jack of All Trades
   - [ ] Joker
-  - [ ] Lyncher
+  - [x] Lyncher
   - [x] Mason
   - [x] Ninja
   - [x] Politician
@@ -56,3 +56,4 @@ nosetests
   - [x] Politicians shouldn't be able to steal dead people's votes
   - [x] Test hitman ability
   - [x] Tell investigative roles which investigation their results correspond to
+  - [ ] Non-exclusive win conditions

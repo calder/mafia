@@ -28,8 +28,8 @@ class RoleBase(object):
   def alignment(self):
     return self.faction.alignment
 
-  def fate(self, all_players):
-    return self.faction.fate(all_players)
+  def fate(self, game):
+    return self.faction.fate(game)
 
 class Role(object):
   def __init__(self, faction_or_role):
@@ -87,6 +87,15 @@ class Goon(Role):
 class Hitman(Role):
   protectable = False
 
+class Lyncher(Role):
+  def __init__(self, lynchee_or_lyncher_faction):
+    if isinstance(lynchee_or_lyncher_faction, Player):
+      faction_name = "%s Lyncher" % lynchee_or_lyncher_faction
+      faction = LyncherFaction(faction_name, lynchee_or_lyncher_faction)
+    else:
+      faction = lynchee_or_lyncher_faction
+    super().__init__(faction)
+
 class Mason(Role):
   pass
 
@@ -107,8 +116,8 @@ class Usurper(Role):
     super().__init__(faction)
     self.usurpee = usurpee
 
-  def fate(self, all_players):
-    faction_fate = self.faction.fate(all_players)
+  def fate(self, game):
+    faction_fate = self.faction.fate(game)
     if faction_fate is Fate.won:
       return Fate.lost if self.usurpee.alive else Fate.won
     return faction_fate

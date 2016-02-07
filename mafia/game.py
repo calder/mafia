@@ -70,8 +70,8 @@ class Game(object):
       self.log.append(events.RoleAnnouncement(player, player.role))
 
     for faction in self.factions:
-      members = faction.apparent_members(self.players)
-      if members:
+      members = faction.apparent_members(self)
+      if members and len(members) > 1:
         self.log.append(events.FactionAnnouncement(faction, members))
 
   def resolve(self, phase):
@@ -87,7 +87,7 @@ class Game(object):
     return sorted(list(set([p.faction for p in self.players])))
 
   def winners(self):
-    fates = {p: p.fate(self.players) for p in self.all_players.values()}
+    fates = {p: p.fate(self) for p in self.all_players.values()}
     winners   = sorted([f for f in fates if fates[f] is Fate.won])
     undecided = sorted([f for f in fates if fates[f] is Fate.undecided])
     losers    = sorted([f for f in fates if fates[f] is Fate.lost])

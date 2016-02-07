@@ -14,6 +14,7 @@ def test_game1():
   doug     = g.add_player("Doug", Villager(town))
   fejta    = g.add_player("Fejta", Tracker(town))
   gijosh   = g.add_player("GI Josh", Cop(town))
+  hung     = g.add_player("Hung", Lyncher(doug))
   josh     = g.add_player("Josh", Mason(masons))
   justin   = g.add_player("Justin", Watcher(town))
   kim      = g.add_player("Kim", Villager(town))
@@ -49,6 +50,7 @@ def test_game1():
     events.Died(max),
   ], phase=night0))
   assert max.alive is False
+  assert_equal(g.winners(), NO_WINNER_YET)
 
   day1 = Day(1)
   day1.set_vote(asmar, doug)
@@ -65,6 +67,7 @@ def test_game1():
     events.Lynched(doug),
   ], phase=day1))
   assert doug.alive is False
+  assert_equal(g.winners(), [hung])
 
   night1 = Night(1)
   night1.add_action(FactionAction(mafia, Kill(asmar, gijosh)))
