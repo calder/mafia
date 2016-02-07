@@ -35,15 +35,15 @@ class Game(object):
   """
 
   def __init__(self, seed=42):
-    self.all_factions = {}
-    self.all_players  = {}
+    self.faction_dict = {}
+    self.player_dict  = {}
     self.log          = Log()
     self.random       = random.Random(seed)
 
   def add_faction(self, faction):
-    assert faction.name not in self.all_factions
+    assert faction.name not in self.faction_dict
 
-    self.all_factions[faction.name] = faction
+    self.faction_dict[faction.name] = faction
     return faction
 
   def add_player(self, player, role=None):
@@ -59,9 +59,9 @@ class Game(object):
       player = Player(player, role)
 
     assert isinstance(player, Player)
-    assert player.name not in self.all_players
+    assert player.name not in self.player_dict
 
-    self.all_players[player.name] = player
+    self.player_dict[player.name] = player
     return player
 
   def begin(self):
@@ -80,14 +80,22 @@ class Game(object):
 
   @property
   def players(self):
-    return sorted([player for player in self.all_players.values() if player.alive])
+    return [p for p in self.all_players if p.alive]
+
+  @property
+  def all_players(self):
+    return sorted([player for player in self.player_dict.values()])
 
   @property
   def factions(self):
-    return sorted(list(set([p.faction for p in self.players])))
+    return sorted(set([p.faction for p in self.players]))
+
+  @property
+  def all_factions(self):
+    return sorted(set([p.faction for p in self.all_players]))
 
   def winners(self):
-    fates = {p: p.fate(self) for p in self.all_players.values()}
+    fates = {p: p.fate(self) for p in self.player_dict.values()}
     winners   = sorted([f for f in fates if fates[f] is Fate.won])
     undecided = sorted([f for f in fates if fates[f] is Fate.undecided])
     losers    = sorted([f for f in fates if fates[f] is Fate.lost])

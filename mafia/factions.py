@@ -22,6 +22,9 @@ class Faction(object):
   def members(self, game):
     return [p for p in game.players if p.faction == self]
 
+  def all_members(self, game):
+    return [p for p in game.all_players if p.faction == self]
+
   def apparent_members(self, game):
     return [p for p in game.players if self in p.apparent_factions]
 
@@ -41,6 +44,22 @@ class Town(Faction):
 
   def apparent_members(self, game):
     return None
+
+class JokerFaction(Faction):
+  adjective = "Third-Party"
+  alignment = Alignment.evil
+
+  def __init__(self, name, *, must_lynch=1):
+    super().__init__(name)
+    self.must_lynch = 1
+
+  def fate(self, game):
+    living         = len(self.members(game))
+    lynched        = len([p for p in self.all_members(game) if game.log.has_been_lynched(p)])
+
+    if lynched >= self.must_lynch:          return Fate.won
+    if living + lynched <= self.must_lynch: return Fate.lost
+    return Fate.undecided
 
 class LyncherFaction(Faction):
   adjective = "Third-Party"

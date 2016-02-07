@@ -87,6 +87,11 @@ class Goon(Role):
 class Hitman(Role):
   protectable = False
 
+class Joker(Role):
+  def __init__(self, faction=None):
+    faction = faction or JokerFaction("Solo Joker")
+    super().__init__(faction)
+
 class Lyncher(Role):
   def __init__(self, lynchee_or_lyncher_faction):
     if isinstance(lynchee_or_lyncher_faction, Player):

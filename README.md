@@ -38,9 +38,10 @@ nosetests
   - [ ] Governor
   - [x] Hitman
   - [ ] Jack of All Trades
-  - [ ] Joker
+  - [x] Joker
   - [x] Lyncher
   - [x] Mason
+  - [ ] Miller
   - [x] Ninja
   - [x] Politician
   - [x] Roleblocker
@@ -57,3 +58,4 @@ nosetests
   - [x] Test hitman ability
   - [x] Tell investigative roles which investigation their results correspond to
   - [ ] Non-exclusive win conditions
+  - [ ] Godfather shouldn't count towards a town win

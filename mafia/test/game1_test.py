@@ -7,6 +7,7 @@ def test_game1():
   masons  = g.add_faction(Masonry("Test Team", town))
   mafia   = g.add_faction(Mafia("VMX Mafia"))
   asmar    = g.add_player("Asmar", Godfather(mafia))
+  becky    = g.add_player("Becky", Joker())
   brian    = g.add_player("Brian", Watcher(town))
   calder   = g.add_player("Calder", DoubleVoter(town))
   dave     = g.add_player("Dave", Ventriloquist(mafia))
@@ -169,3 +170,13 @@ def test_game1():
   ], phase=night4))
   assert sami.alive is False
   assert sahil.alive is True
+
+  day4 = Day(4)
+  day4.set_vote(becky, becky)
+  g.resolve(day4)
+
+  assert_equal(g.log.phase(day4), Log([
+    events.VotedFor(becky, becky),
+    events.Lynched(becky),
+  ], phase=day4))
+  assert_equal(g.winners(), [becky, hung])
