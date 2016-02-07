@@ -22,8 +22,12 @@ nosetests
     - [ ] Disjunctive actions
     - [ ] One-shot actions
   - [x] Day resolution
+    - [x] Voting / lynching
+    - [ ] Day actions
+  - [ ] Immediate actions
+  - [ ] Reflex actions
   - [x] Winner calculation
-  - [x] Group actions
+  - [x] Faction actions
   - [x] Roles as modifiers (i.e. Ninja Hitman)
   - [x] Non-exclusive win conditions
 - Roles
@@ -37,13 +41,13 @@ nosetests
   - [x] Goon
   - [x] Godfather
   - [ ] Governor
-  - [x] Hitman
   - [ ] Jack of All Trades
   - [x] Joker
+  - [ ] Lovers
   - [x] Lyncher
   - [x] Mason
   - [x] Miller
-  - [x] Ninja
+  - [ ] Paranoid Gun Owner
   - [x] Politician
   - [x] Roleblocker
   - [x] Tracker
@@ -51,5 +55,9 @@ nosetests
   - [x] Ventriloquist
   - [x] Watcher
 - Role modifiers
+  - [x] Hitman
+  - [x] Ninja
   - [ ] One Shot
   - [ ] Overeager
+- Questions
+  - [ ] How should a one-shot hitman work?
