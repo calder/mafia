@@ -28,9 +28,9 @@ def test_game1():
   tony     = g.add_player("Tony", Doctor(town))
   g.begin()
 
-  assert_equal(g.log.filter(lambda e: not isinstance(e, GotRole)), Log([
-    GotFaction(masons, [josh, michelle]),
-    GotFaction(mafia, [asmar, dave, paul, sami, tarl]),
+  assert_equal(g.log.filter(lambda e: not isinstance(e, events.RoleAnnouncement)), Log([
+    events.FactionAnnouncement(masons, [josh, michelle]),
+    events.FactionAnnouncement(mafia, [asmar, dave, paul, sami, tarl]),
   ]))
 
   night0 = Night(0)
@@ -41,12 +41,12 @@ def test_game1():
   g.resolve(night0)
 
   assert_equal(g.log.phase(night0), Log([
-    Visited(max, justin),
-    Visited(gijosh, tony),
-    TurntUp(Alignment.good, target=tony, to=gijosh),
-    Visited(tony, asmar),
-    Visited(asmar, max),
-    Died(max),
+    events.Visited(max, justin),
+    events.Visited(gijosh, tony),
+    events.InvestigationResult(Alignment.good, target=tony, to=gijosh),
+    events.Visited(tony, asmar),
+    events.Visited(asmar, max),
+    events.Died(max),
   ], phase=night0))
   assert max.alive is False
 
@@ -58,11 +58,11 @@ def test_game1():
   g.resolve(day1)
 
   assert_equal(g.log.phase(day1), Log([
-    VotedFor(asmar, doug),
-    VotedFor(brian, asmar),
-    VotedFor(calder, doug, votes=2),
-    VotedFor(doug, asmar),
-    Lynched(doug),
+    events.VotedFor(asmar, doug),
+    events.VotedFor(brian, asmar),
+    events.VotedFor(calder, doug, votes=2),
+    events.VotedFor(doug, asmar),
+    events.Lynched(doug),
   ], phase=day1))
   assert doug.alive is False
 
@@ -77,20 +77,18 @@ def test_game1():
   g.resolve(night1)
 
   assert_equal(g.log.phase(night1), Log([
-    Visited(gijosh, asmar),
-    TurntUp(Alignment.good, target=asmar, to=gijosh),
-    Visited(tony, gijosh),
-    Visited(asmar, gijosh),
-    Saved(gijosh),
-    Visited(devin, calder),
-    Visited(fejta, asmar),
-    Visited(justin, gijosh),
-    Visited(justin, asmar),
-    SawVisit(gijosh, target=asmar, to=fejta),
-    SawVisitor(asmar, target=gijosh, to=justin),
-    SawVisitor(tony, target=gijosh, to=justin),
-    SawVisitor(fejta, target=asmar, to=justin),
-    SawVisitor(gijosh, target=asmar, to=justin),
+    events.Visited(gijosh, asmar),
+    events.InvestigationResult(Alignment.good, target=asmar, to=gijosh),
+    events.Visited(tony, gijosh),
+    events.Visited(asmar, gijosh),
+    events.Protected(gijosh),
+    events.Visited(devin, calder),
+    events.Visited(fejta, asmar),
+    events.Visited(justin, gijosh),
+    events.Visited(justin, asmar),
+    events.VisiteesResult([gijosh], target=asmar, to=fejta),
+    events.VisitorsResult([asmar, tony], target=gijosh, to=justin),
+    events.VisitorsResult([fejta, gijosh], target=asmar, to=justin),
   ], phase=night1))
   assert gijosh.alive is True
 
@@ -102,10 +100,10 @@ def test_game1():
   day2.set_vote(max, devin)
   g.resolve(day2)
   assert_equal(g.log.phase(day2), Log([
-    VotedFor(calder, calder, votes=2, original_vote=devin),
-    VotedFor(devin, calder),
-    VotedFor(gijosh, devin),
-    Lynched(calder),
+    events.VotedFor(calder, calder, votes=2, original_vote=devin),
+    events.VotedFor(devin, calder),
+    events.VotedFor(gijosh, devin),
+    events.Lynched(calder),
   ], phase=day2))
   assert calder.alive is False
 
@@ -120,19 +118,18 @@ def test_game1():
   g.resolve(night2)
 
   assert_equal(g.log.phase(night2), Log([
-    Visited(spencer, tony),
-    Visited(gijosh, sami),
-    TurntUp(Alignment.evil, target=sami, to=gijosh),
-    WasBlocked(tony),
-    Visited(asmar, kim),
-    Died(kim),
-    Visited(brian, kim),
-    Visited(fejta, tony),
-    Visited(justin, kim),
-    SawVisitor(asmar, target=kim, to=brian),
-    SawVisitor(justin, target=kim, to=brian),
-    SawVisitor(asmar, target=kim, to=justin),
-    SawVisitor(brian, target=kim, to=justin),
+    events.Visited(spencer, tony),
+    events.Visited(gijosh, sami),
+    events.InvestigationResult(Alignment.evil, target=sami, to=gijosh),
+    events.Blocked(tony),
+    events.Visited(asmar, kim),
+    events.Died(kim),
+    events.Visited(brian, kim),
+    events.Visited(fejta, tony),
+    events.Visited(justin, kim),
+    events.VisitorsResult([asmar, justin], target=kim, to=brian),
+    events.VisiteesResult([], target=tony, to=fejta),
+    events.VisitorsResult([asmar, brian], target=kim, to=justin),
   ], phase=night2))
   assert kim.alive is False
 
@@ -141,10 +138,8 @@ def test_game1():
   g.resolve(night3)
 
   assert_equal(g.log.phase(night3), Log([
-    Visited(leese, kim),
-    SawVisitor(asmar, target=kim, to=leese),
-    SawVisitor(brian, target=kim, to=leese),
-    SawVisitor(justin, target=kim, to=leese),
+    events.Visited(leese, kim),
+    events.VisitorsResult([asmar, brian, justin], target=kim, to=leese),
   ], phase=night3))
 
   day3 = Day(3)
@@ -160,14 +155,14 @@ def test_game1():
   g.resolve(night4)
 
   assert_equal(g.log.phase(night4), Log([
-    Visited(sahil, sahil),
-    Visited(sahil, sami),
-    Visited(dave, paul),
-    Visited(spencer, brian),
-    Visited(tony, sami, original_target=sahil),
-    Visited(paul, sami, visible=False, original_target=sahil),
-    Died(sami),
-    WasBlocked(brian),
+    events.Visited(sahil, sahil),
+    events.Visited(sahil, sami),
+    events.Visited(dave, paul),
+    events.Visited(spencer, brian),
+    events.Visited(tony, sami, original_target=sahil),
+    events.Visited(paul, sami, visible=False, original_target=sahil),
+    events.Died(sami),
+    events.Blocked(brian),
   ], phase=night4))
   assert sami.alive is False
   assert sahil.alive is True

@@ -5,30 +5,30 @@ from unittest import TestCase
 class LogTest(TestCase):
   def setUp(self):
     self.test_log = Log([
-      Visited("Alice", "Bob"),
-      Visited("Bob", "Alice"),
-      Visited("Eve", "Alice"),
-      Visited("Eve", "Bob", visible=False),
+      events.Visited("Alice", "Bob"),
+      events.Visited("Bob", "Alice"),
+      events.Visited("Eve", "Alice"),
+      events.Visited("Eve", "Bob", visible=False),
     ])
 
   def test_visits_to(self):
     assert_equal(self.test_log.visits_to("Bob"), Log([
-      Visited("Alice", "Bob"),
+      events.Visited("Alice", "Bob"),
     ]))
 
   def test_invisible_visits_to(self):
     assert_equal(self.test_log.visits_to("Bob", include_invisible=True), Log([
-      Visited("Alice", "Bob"),
-      Visited("Eve", "Bob", visible=False),
+      events.Visited("Alice", "Bob"),
+      events.Visited("Eve", "Bob", visible=False),
     ]))
 
   def test_visits_by(self):
     assert_equal(self.test_log.visits_by("Eve"), Log([
-      Visited("Eve", "Alice"),
+      events.Visited("Eve", "Alice"),
     ]))
 
   def test_invisible_visits_by(self):
     assert_equal(self.test_log.visits_by("Eve", include_invisible=True), Log([
-      Visited("Eve", "Alice"),
-      Visited("Eve", "Bob", visible=False),
+      events.Visited("Eve", "Alice"),
+      events.Visited("Eve", "Bob", visible=False),
     ]))

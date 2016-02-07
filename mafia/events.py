@@ -34,6 +34,48 @@ class Event(object):
   def colored_str(self):
     return colored(str(self), self.color, attrs=self.style)
 
+class Announcement(Event):
+  pass
+
+class Result(Event):
+  def __init__(self, *, target, to):
+    super().__init__(to=to)
+    self.target = target
+
+#########################
+###   Announcements   ###
+#########################
+
+class FactionAnnouncement(Event):
+  def __init__(self, faction, members):
+    super().__init__(to=members)
+    self.faction = faction
+    self.members = members
+
+  def _str(self):
+    return "You are the %s." % self.faction.name
+
+class RoleAnnouncement(Event):
+  def __init__(self, player, role):
+    super().__init__(to=player)
+    self.player = player
+    self.role   = role
+
+  def _str(self):
+    return "You are the %s." % self.player.role
+
+##################
+###   Events   ###
+##################
+
+class Blocked(Event):
+  def __init__(self, player):
+    super().__init__()
+    self.player = player
+
+  def _str(self):
+    return "%s was blocked." % self.player
+
 class Died(Event):
   color = "red"
 
@@ -45,64 +87,17 @@ class Died(Event):
   def _str(self):
     return "%s, the %s, has died." % (self.player, self.player.role)
 
-class GotRole(Event):
-  def __init__(self, player, role):
-    super().__init__(to=player)
-    self.player = player
-    self.role   = role
-
-  def _str(self):
-    return "You are the %s." % self.player.role
-
-class GotFaction(Event):
-  def __init__(self, faction, members):
-    super().__init__(to=members)
-    self.faction = faction
-    self.members = members
-
-  def _str(self):
-    return "You are the %s." % self.faction.name
-
 class Lynched(Died):
   def _str(self):
     return "%s, the %s, was lynched." % (self.player, self.player.role)
 
-class Saved(Event):
+class Protected(Event):
   def __init__(self, player):
     super().__init__()
     self.player = player
 
   def _str(self):
-    return "%s was saved." % self.player
-
-class Result(Event):
-  def __init__(self, *, target, to):
-    super().__init__(to=to)
-    self.target = target
-
-class SawVisit(Result):
-  def __init__(self, player, *, target, to):
-    super().__init__(target=target, to=to)
-    self.player = player
-
-  def _str(self):
-    return "%s visited %s." % (self.target, self.player)
-
-class SawVisitor(Result):
-  def __init__(self, player, *, target, to):
-    super().__init__(target=target, to=to)
-    self.player = player
-
-  def _str(self):
-    return "%s visited %s." % (self.player, self.target)
-
-class TurntUp(Result):
-  def __init__(self, alignment, *, target, to):
-    super().__init__(target=target, to=to)
-    self.alignment = "good" if alignment == Alignment.good else "evil"
-
-  def _str(self):
-    return "%s is %s." % (self.target, self.alignment)
+    return "%s was protected." % self.player
 
 class Visited(Event):
   def __init__(self, player, target, *, visible=True, original_target=None):
@@ -132,10 +127,30 @@ class VotedFor(Event):
            "%s (politicianed from %s)" % (self.vote, self.original_vote)
     return "%s voted for %s%s." % (self.player, vote, votes)
 
-class WasBlocked(Event):
-  def __init__(self, player):
-    super().__init__()
-    self.player = player
+###################
+###   Results   ###
+###################
+
+class VisiteesResult(Result):
+  def __init__(self, visitees, *, target, to):
+    super().__init__(target=target, to=to)
+    self.visitees = visitees
 
   def _str(self):
-    return "%s was blocked." % self.player
+    return "%s visited %s." % (self.target, str_player_list(self.visitees))
+
+class VisitorsResult(Result):
+  def __init__(self, visitors, *, target, to):
+    super().__init__(target=target, to=to)
+    self.visitors = visitors
+
+  def _str(self):
+    return "%s visited %s." % (str_player_list(self.visitors).capitalize(), self.target)
+
+class InvestigationResult(Result):
+  def __init__(self, alignment, *, target, to):
+    super().__init__(target=target, to=to)
+    self.alignment = "good" if alignment == Alignment.good else "evil"
+
+  def _str(self):
+    return "%s is %s." % (self.target, self.alignment)

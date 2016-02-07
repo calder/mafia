@@ -1,6 +1,6 @@
 from .action_base import *
 from .effects import *
-from .events import *
+from . import events
 from .log import *
 from .placeholders import *
 from .util import *
@@ -54,7 +54,7 @@ class Action(ActionBase):
   def resolve(self, game):
     # Apply roleblocking
     if self.blocked:
-      game.log.append(WasBlocked(self.player))
+      game.log.append(events.Blocked(self.player))
       return
 
     # Apply ventriloquisting
@@ -63,13 +63,13 @@ class Action(ActionBase):
 
     # Record visit
     for target, raw_target in zip(self.targets, self.raw_targets):
-      game.log.append(Visited(self.player, target,
-                              visible=self.player.role.visible,
-                              original_target=raw_target))
+      game.log.append(events.Visited(self.player, target,
+                                     visible=self.player.role.visible,
+                                     original_target=raw_target))
 
     # Apply protection
     if self.protectable and self.target.bulletproof and self.player.role.protectable:
-      game.log.append(Saved(target))
+      game.log.append(events.Protected(target))
       return
 
     # Resolve action
@@ -97,8 +97,7 @@ class Autopsy(Action):
   def _resolve(self, game):
     visits = game.log.visits_to(self.target)
     visitors = set(v.player for v in visits if v.player is not self.player)
-    for visitor in sorted(visitors):
-      game.log.append(SawVisitor(visitor, target=self.raw_target, to=self.player))
+    game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
 
 class Double(Action):
   precedence = 1000
@@ -122,7 +121,7 @@ class Investigate(Action):
   precedence = 1000
 
   def _resolve(self, game):
-    game.log.append(TurntUp(self.target.alignment, target=self.raw_target, to=self.player))
+    game.log.append(events.InvestigationResult(self.target.alignment, target=self.raw_target, to=self.player))
 
 class Kill(Action):
   precedence = 2000
@@ -130,7 +129,7 @@ class Kill(Action):
 
   def _resolve(self, game):
     self.target.alive = False
-    game.log.append(Died(self.target))
+    game.log.append(events.Died(self.target))
 
 class Possess(Action):
   precedence = 1
@@ -166,8 +165,7 @@ class Track(Action):
   def _resolve_post(self, game):
     visits = game.log.this_phase().visits_by(self.target)
     targets = set(v.target for v in visits)
-    for target in sorted(targets):
-      game.log.append(SawVisit(target, target=self.raw_target, to=self.player))
+    game.log.append(events.VisiteesResult(sorted(targets), target=self.raw_target, to=self.player))
 
 class Watch(Action):
   precedence = 3000
@@ -175,5 +173,4 @@ class Watch(Action):
   def _resolve_post(self, game):
     visits = game.log.this_phase().visits_to(self.target)
     visitors = set(v.player for v in visits if v.player is not self.player)
-    for visitor in sorted(visitors):
-      game.log.append(SawVisitor(visitor, target=self.raw_target, to=self.player))
+    game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))

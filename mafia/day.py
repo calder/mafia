@@ -1,3 +1,4 @@
+from . import events
 from .log import *
 from .phase import *
 from .util import *
@@ -41,7 +42,7 @@ class Day(Phase):
     # Count votes
     for player in sorted(game.players):
       if votes[player.votes_with]:
-        game.log.append(VotedFor(player, votes[player], votes=player.votes, original_vote=self.votes[player]))
+        game.log.append(events.VotedFor(player, votes[player], votes=player.votes, original_vote=self.votes[player]))
         candidates[votes[player]] += player.votes
 
     # Lynch the first viable candidate by number of votes, then coin flip
@@ -49,6 +50,6 @@ class Day(Phase):
     ranked_candidates = [p for c,p in sorted(candidate_list, reverse=True)]
     for candidate in ranked_candidates:
       if candidate and candidate.alive:
-        game.log.append(Lynched(candidate))
+        game.log.append(events.Lynched(candidate))
         candidate.alive = False
         return

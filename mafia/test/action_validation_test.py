@@ -43,8 +43,8 @@ class ActionValidationTest(TestCase):
     self.game.resolve(night0)
 
     assert_equal(self.game.log.phase(night0), Log([
-      Visited(self.cop, self.goon),
-      TurntUp(Alignment.evil, target=self.goon, to=self.cop),
+      events.Visited(self.cop, self.goon),
+      events.InvestigationResult(Alignment.evil, target=self.goon, to=self.cop),
     ], phase=night0))
 
   def test_compelled_action_no_choice(self):

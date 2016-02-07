@@ -20,8 +20,8 @@ class MafiaKillTest(TestCase):
 
     assert self.villager1.alive is False
     assert_equal(self.game.log, Log([
-      Visited(self.goon1, self.villager1),
-      Died(self.villager1),
+      events.Visited(self.goon1, self.villager1),
+      events.Died(self.villager1),
     ], phase=night0))
 
   def test_reject_multiple_mafia_kills(self):
@@ -34,6 +34,6 @@ class MafiaKillTest(TestCase):
     assert self.villager1.alive is True
     assert self.villager2.alive is False
     assert_equal(self.game.log, Log([
-      Visited(self.goon2, self.villager2),
-      Died(self.villager2),
+      events.Visited(self.goon2, self.villager2),
+      events.Died(self.villager2),
     ], phase=night0))

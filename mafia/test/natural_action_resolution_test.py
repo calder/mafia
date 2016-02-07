@@ -22,10 +22,10 @@ class NaturalActionResolutionTest(TestCase):
     self.game.resolve(night0)
 
     assert_equal(self.game.log, Log([
-      Visited(self.busdriver, self.villager),
-      Visited(self.busdriver, self.goon),
-      Visited(self.roleblocker, self.goon, original_target=self.villager),
-      WasBlocked(self.goon),
+      events.Visited(self.busdriver, self.villager),
+      events.Visited(self.busdriver, self.goon),
+      events.Visited(self.roleblocker, self.goon, original_target=self.villager),
+      events.Blocked(self.goon),
     ], phase=night0))
     assert self.villager.alive is True
 
@@ -37,10 +37,10 @@ class NaturalActionResolutionTest(TestCase):
     self.game.resolve(night0)
 
     assert_equal(self.game.log, Log([
-      Visited(self.roleblocker, self.busdriver),
-      WasBlocked(self.busdriver),
-      Visited(self.goon, self.villager),
-      Died(self.villager),
+      events.Visited(self.roleblocker, self.busdriver),
+      events.Blocked(self.busdriver),
+      events.Visited(self.goon, self.villager),
+      events.Died(self.villager),
     ], phase=night0))
     assert self.villager.alive is False
 
@@ -66,9 +66,9 @@ class NaturalActionResolutionTest(TestCase):
     self.game.resolve(night0)
 
     assert_equal(self.game.log, Log([
-      Visited(self.busdriver, self.roleblocker),
-      Visited(self.busdriver, self.goon),
-      Visited(self.roleblocker, self.goon, original_target=self.roleblocker),
-      WasBlocked(self.goon),
+      events.Visited(self.busdriver, self.roleblocker),
+      events.Visited(self.busdriver, self.goon),
+      events.Visited(self.roleblocker, self.goon, original_target=self.roleblocker),
+      events.Blocked(self.goon),
     ], phase=night0))
     assert self.villager.alive is True

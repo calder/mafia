@@ -1,4 +1,4 @@
-from .events import *
+from . import events
 from .util import *
 
 from collections import *
@@ -39,9 +39,9 @@ class Log(list):
   def visits_by(self, player, *, include_invisible=False):
     def include(visit):
       return visit.player == player and (visit.visible or include_invisible)
-    return self.type(Visited).filter(include)
+    return self.type(events.Visited).filter(include)
 
   def visits_to(self, player, *, include_invisible=False):
     def include(visit):
       return visit.target == player and (visit.visible or include_invisible)
-    return self.type(Visited).filter(include)
+    return self.type(events.Visited).filter(include)

@@ -24,13 +24,13 @@ class RoleblockerTest(TestCase):
     assert self.villager.alive is roleblock
     if roleblock:
       assert_equal(self.game.log, Log([
-        Visited(self.roleblocker, self.goon),
-        WasBlocked(self.goon),
+        events.Visited(self.roleblocker, self.goon),
+        events.Blocked(self.goon),
       ], phase=night0))
     else:
       assert_equal(self.game.log, Log([
-        Visited(self.goon, self.villager),
-        Died(self.villager),
+        events.Visited(self.goon, self.villager),
+        events.Died(self.villager),
       ], phase=night0))
 
   def test_roleblocking_expires(self):
@@ -48,8 +48,8 @@ class RoleblockerTest(TestCase):
 
     assert self.villager.alive is False
     assert_equal(self.game.log.phase(night1), Log([
-      Visited(self.goon, self.villager),
-      Died(self.villager),
+      events.Visited(self.goon, self.villager),
+      events.Died(self.villager),
     ], phase=night1))
 
   @parameterized.expand([(True,), (False,)])
@@ -68,15 +68,15 @@ class RoleblockerTest(TestCase):
 
     if roleblock:
       assert_equal(self.game.log, Log([
-        Visited(self.roleblocker, watcher),
-        Visited(self.goon, self.villager),
-        Died(self.villager),
-        WasBlocked(watcher),
+        events.Visited(self.roleblocker, watcher),
+        events.Visited(self.goon, self.villager),
+        events.Died(self.villager),
+        events.Blocked(watcher),
       ], phase=night0))
     else:
       assert_equal(self.game.log, Log([
-        Visited(self.goon, self.villager),
-        Died(self.villager),
-        Visited(watcher, self.villager),
-        SawVisitor(self.goon, target=self.villager, to=watcher),
+        events.Visited(self.goon, self.villager),
+        events.Died(self.villager),
+        events.Visited(watcher, self.villager),
+        events.VisitorsResult([self.goon], target=self.villager, to=watcher),
       ], phase=night0))

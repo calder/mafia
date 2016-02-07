@@ -27,10 +27,10 @@ class PoliticianTest(TestCase):
     self.game.resolve(day1)
 
     assert_equal(self.game.log.phase(day1), Log([
-      VotedFor(self.goon, self.roleblocker),
-      VotedFor(self.politician, self.goon),
-      VotedFor(self.villager, self.goon, original_vote=self.roleblocker),
-      Lynched(self.goon),
+      events.VotedFor(self.goon, self.roleblocker),
+      events.VotedFor(self.politician, self.goon),
+      events.VotedFor(self.villager, self.goon, original_vote=self.roleblocker),
+      events.Lynched(self.goon),
     ], phase=day1))
     assert self.roleblocker.alive is True
     assert self.goon.alive is False
@@ -69,9 +69,9 @@ class PoliticianTest(TestCase):
     self.game.resolve(day1)
 
     assert_equal(self.game.log.phase(day1), Log([
-      VotedFor(self.goon, self.roleblocker),
-      VotedFor(self.politician, self.goon),
-      VotedFor(self.villager, self.roleblocker),
-      Lynched(self.roleblocker),
+      events.VotedFor(self.goon, self.roleblocker),
+      events.VotedFor(self.politician, self.goon),
+      events.VotedFor(self.villager, self.roleblocker),
+      events.Lynched(self.roleblocker),
     ], phase=day1))
     assert self.roleblocker.alive is False

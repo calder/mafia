@@ -33,6 +33,13 @@ class identitydefaultdict(dict):
     else:
       return key
 
+def str_list(list, empty):
+  if len(list) == 0: return empty
+  if len(list) == 1: return str(list[0])
+  return ", ".join([str(e) for e in list[:-1]]) + " and " + str(list[-1])
+
+def str_player_list(list): return str_list(list, "no-one")
+
 def has_method(object, method):
   return callable(getattr(object, method, None))
 
