@@ -18,7 +18,7 @@ def test_game1():
   hung     = g.add_player("Hung", Lyncher(doug))
   josh     = g.add_player("Josh", Mason(masons))
   justin   = g.add_player("Justin", Watcher(town))
-  kim      = g.add_player("Kim", Villager(town))
+  kim      = g.add_player("Kim", Miller(town))
   leese    = g.add_player("Leese", ForensicInvestigator(town))
   max      = g.add_player("Max", ActionDoubler(town))
   michelle = g.add_player("Michelle", Mason(masons))

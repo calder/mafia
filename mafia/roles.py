@@ -108,6 +108,9 @@ class Lyncher(Role):
 class Mason(Role):
   pass
 
+class Miller(Role):
+  apparent_alignment = Alignment.evil
+
 class Ninja(Role):
   visible = False
 

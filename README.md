@@ -42,7 +42,7 @@ nosetests
   - [x] Joker
   - [x] Lyncher
   - [x] Mason
-  - [ ] Miller
+  - [x] Miller
   - [x] Ninja
   - [x] Politician
   - [x] Roleblocker
