@@ -1,5 +1,5 @@
 from .action_base import *
-from .placeholders import *
+from . import placeholders
 from .util import *
 
 class VirtualAction(ActionBase):

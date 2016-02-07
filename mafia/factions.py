@@ -1,7 +1,7 @@
 from .actions import *
 from .alignment import *
 from .virtual_actions import *
-from .placeholders import *
+from . import placeholders
 
 import enum
 
@@ -16,6 +16,11 @@ class Faction(object):
 
   def __init__(self, name):
     self.name = name
+
+    # Prevent accidental modification of a class's prototypical action
+    if self.action:
+      self.action = FactionAction(self, copy.deepcopy(self.action))
+      self.action.action.player = placeholders.FactionMember(self)
 
   def __lt__(self, other):
     return self.name < other.name
@@ -79,10 +84,7 @@ class LyncherFaction(Faction):
 class Mafia(Faction):
   adjective = "Mafia"
   alignment = Alignment.evil
-
-  def __init__(self, name):
-    super().__init__(name)
-    self.action = Kill(Placeholder.FactionMember(self), Placeholder.Player())
+  action = Kill(placeholders.FactionMember(), placeholders.Player())
 
   def fate(self, game):
     members = self.members(game)

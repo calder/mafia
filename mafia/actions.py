@@ -2,7 +2,7 @@ from .action_base import *
 from .effects import *
 from . import events
 from .log import *
-from .placeholders import *
+from . import placeholders
 from .util import *
 
 import copy

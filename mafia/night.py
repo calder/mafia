@@ -30,18 +30,18 @@ class Night(Phase):
     for player in game.players:
       for action in player.role.actions:
         for i in range(player.action_count):
-          options.add(player.role.action.with_player(player))
+          options.add(player.action)
     del player  # Avoid confusion if used
     for faction in game.factions:
       if faction.action:
-        options.add(FactionAction(faction, faction.action))
+        options.add(faction.action)
     del faction  # Avoid confusion if used
 
     # Check actions
     actions = []
     for action in reversed(self.raw_actions):
       for option in options:
-        if option.matches(action, game=game, player=action.player):
+        if option.matches(action, game=game):
           actions.append(action.concrete_action())
           options.remove(option)
           break
@@ -50,7 +50,7 @@ class Night(Phase):
     # Add compelled actions
     for option in options:
       if option.compelled:
-        instance = option.random_instance(game=game, player=option.player)
+        instance = option.random_instance(game=game)
         actions.append(instance)
 
     # Resolve actions using Natural Action Resolution

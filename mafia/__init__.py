@@ -10,7 +10,7 @@ from .log import *
 from .mixin import *
 from .night import *
 from .phase import *
-from .placeholders import *
+from . import placeholders
 from .player import *
 from .roles import *
 from .util import *

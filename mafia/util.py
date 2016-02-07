@@ -7,22 +7,6 @@ def assert_equal(x, y):
     print("-----------------------------------------")
   assert x == y
 
-def assert_one_of(x, *ys):
-  if x not in ys:
-    print("--------------------1--------------------")
-    print(x)
-    print("-----------------------------------------")
-  assert x in ys
-
-def assert_matches(x, y):
-  if not x.matches(y):
-    print("--------------------1--------------------")
-    print(x)
-    print("--------------------2--------------------")
-    print(y)
-    print("-----------------------------------------")
-  assert x.matches(y)
-
 class SingletonValue(object):
   pass
 

@@ -1,7 +1,8 @@
 from .actions import *
 from .factions import *
+from . import placeholders
+from .player import *
 from .virtual_actions import *
-from .placeholders import *
 
 import copy
 import re
@@ -69,22 +70,22 @@ class Role(object):
     return self.base.actions
 
 class ActionDoubler(Role):
-  action = Double(Placeholder.Self(), Placeholder.Player())
+  action = Double(placeholders.Self(), placeholders.Player())
 
 class Busdriver(Role):
-  action = Busdrive(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
+  action = Busdrive(placeholders.Self(), placeholders.Player(), placeholders.Player())
 
 class Cop(Role):
-  action = Investigate(Placeholder.Self(), Placeholder.Player())
+  action = Investigate(placeholders.Self(), placeholders.Player())
 
 class Doctor(Role):
-  action = Protect(Placeholder.Self(), Placeholder.Player())
+  action = Protect(placeholders.Self(), placeholders.Player())
 
 class DoubleVoter(Role):
   votes = 2
 
 class ForensicInvestigator(Role):
-  action = Autopsy(Placeholder.Self(), Placeholder.Corpse())
+  action = Autopsy(placeholders.Self(), placeholders.Corpse())
 
 class Godfather(Role):
   apparent_alignment = Alignment.good
@@ -119,13 +120,13 @@ class Ninja(Role):
   visible = False
 
 class Politician(Role):
-  action = StealVote(Placeholder.Self(), Placeholder.Player())
+  action = StealVote(placeholders.Self(), placeholders.Player())
 
 class Roleblocker(Role):
-  action = Roleblock(Placeholder.Self(), Placeholder.Player())
+  action = Roleblock(placeholders.Self(), placeholders.Player())
 
 class Tracker(Role):
-  action = Track(Placeholder.Self(), Placeholder.Player())
+  action = Track(placeholders.Self(), placeholders.Player())
 
 class Usurper(Role):
   def __init__(self, faction, usurpee):
@@ -139,10 +140,10 @@ class Usurper(Role):
     return faction_fate
 
 class Watcher(Role):
-  action = Watch(Placeholder.Self(), Placeholder.Player())
+  action = Watch(placeholders.Self(), placeholders.Player())
 
 class Ventriloquist(Role):
-  action = Possess(Placeholder.Self(), Placeholder.Player(), Placeholder.Player())
+  action = Possess(placeholders.Self(), placeholders.Player(), placeholders.Player())
 
 class Villager(Role):
   pass
