@@ -53,11 +53,12 @@ nosetests
   - [x] Tracker
   - [x] Usurper
   - [x] Ventriloquist
+  - [x] Vigilante
   - [x] Watcher
 - Role modifiers
   - [x] Hitman
   - [x] Ninja
   - [ ] One Shot
-  - [ ] Overeager
+  - [x] Overeager
 - Questions
   - [ ] How should a one-shot hitman work?

@@ -1,6 +1,6 @@
 from mafia import *
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 class StrTest(TestCase):
   def test_nested_role(self):

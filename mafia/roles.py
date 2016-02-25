@@ -119,6 +119,11 @@ class Miller(Role):
 class Ninja(Role):
   visible = False
 
+class Overeager(Role):
+  @property
+  def actions(self):
+    return [Compelled(action) for action in self.base.actions]
+
 class Politician(Role):
   action = StealVote(placeholders.Self(), placeholders.Player())
 
@@ -144,6 +149,9 @@ class Watcher(Role):
 
 class Ventriloquist(Role):
   action = Possess(placeholders.Self(), placeholders.Player(), placeholders.Player())
+
+class Vigilante(Role):
+  action = Kill(placeholders.Self(), placeholders.Player())
 
 class Villager(Role):
   pass

@@ -1,7 +1,7 @@
 from .test_game import *
 from mafia import *
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 class ActionValidationTest(TestCase):
   def setUp(self):
@@ -47,6 +47,3 @@ class ActionValidationTest(TestCase):
     self.game.resolve(night0)
 
     assert_equal(2, len(self.game.log.phase(night0)))
-
-if __name__ == "__main__":
-  main()
