@@ -4,7 +4,8 @@ from unittest import TestCase
 
 class ReadMeTest(TestCase):
   def setUp(self):
-    self.readme = open("README.md").read()
+    with open("README.md") as file:
+      self.readme = file.read()
 
   def exec_block(self, regex):
     match = re.search(regex, self.readme, re.MULTILINE + re.DOTALL)

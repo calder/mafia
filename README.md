@@ -1,10 +1,6 @@
 # Mafia
 
-## Installing Dependencies
-
-```sh
-sudo pip3 install nose nose-parameterized termcolor
-```
+This is a library for running games of [Mafia](http://wiki.mafiascum.net/).
 
 ## Usage
 
@@ -41,9 +37,18 @@ g.resolve(day1)
 print(g.log.phase(day1))
 ```
 
+## Installing
+
+```sh
+python3 setup.py install
+```
+
 ## Running Tests
 
 ```sh
+python3 setup.py test
+
+# Or after you have run the above once to install dependencies...
 nosetests
 ```
 
