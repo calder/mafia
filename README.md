@@ -6,12 +6,6 @@
 sudo pip3 install nose nose-parameterized termcolor
 ```
 
-## Running Tests
-
-```sh
-nosetests
-```
-
 ## Usage
 
 ```python
@@ -45,6 +39,12 @@ day1.set_vote(malory, bob)
 g.resolve(day1)
 
 print(g.log.phase(day1))
+```
+
+## Running Tests
+
+```sh
+nosetests
 ```
 
 ## Features
