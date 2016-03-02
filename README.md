@@ -47,9 +47,6 @@ python3 setup.py install
 
 ```sh
 python3 setup.py test
-
-# Or after you have run the above once to install dependencies...
-nosetests
 ```
 
 ## Features
