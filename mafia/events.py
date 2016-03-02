@@ -145,7 +145,7 @@ class VisitorsResult(Result):
     self.visitors = visitors
 
   def _str(self):
-    return "%s visited %s." % (str_player_list(self.visitors).capitalize(), self.target)
+    return "%s visited %s." % (str_player_list(self.visitors), self.target)
 
 class InvestigationResult(Result):
   def __init__(self, alignment, *, target, to):

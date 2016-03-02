@@ -26,16 +26,14 @@ class Night(Phase):
 
   def _resolve(self, game):
     # Compile valid action set
-    options = set()
+    options = []
     for player in game.players:
-      for action in player.role.actions:
+      for action in player.actions:
         for i in range(player.action_count):
-          options.add(action)
-    del player  # Avoid confusion if used
+          options.append(action)
     for faction in game.factions:
       if faction.action:
-        options.add(faction.action)
-    del faction  # Avoid confusion if used
+        options.append(faction.action)
 
     # Check actions
     actions = []

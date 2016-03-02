@@ -1,6 +1,6 @@
 # Mafia
 
-## Dependencies
+## Installing Dependencies
 
 ```sh
 sudo pip3 install nose nose-parameterized termcolor
@@ -12,7 +12,42 @@ sudo pip3 install nose nose-parameterized termcolor
 nosetests
 ```
 
-## To Do
+## Usage
+
+```python
+from mafia import *
+
+g = Game()
+
+town  = g.add_faction(Town())
+mafia = g.add_faction(Mafia("NSA"))
+
+alice   = g.add_player("Alice", Doctor(town))
+bob     = g.add_player("Bob", Cop(town))
+charlie = g.add_player("Charlie", Vigilante(town))
+eve     = g.add_player("Eve", Godfather(mafia))
+malory  = g.add_player("Malory", Goon(mafia))
+
+night0 = Night(0)
+night0.add_action(Protect(alice, bob))
+night0.add_action(FactionAction(mafia, Kill(eve, bob)))
+night0.add_action(Investigate(bob, malory))
+night0.add_action(Kill(charlie, eve))
+g.resolve(night0)
+
+print(g.log.phase(night0))
+
+day1 = Day(1)
+day1.set_vote(alice, malory)
+day1.set_vote(bob, malory)
+day1.set_vote(charlie, malory)
+day1.set_vote(malory, bob)
+g.resolve(day1)
+
+print(g.log.phase(day1))
+```
+
+## Features
 
 - Mechanics
   - [x] Night resolution
@@ -42,8 +77,9 @@ nosetests
   - [x] Godfather
   - [ ] Governor
   - [ ] Jack of All Trades
+  - [ ] Jailkeeper
   - [x] Joker
-  - [ ] Lovers
+  - [ ] Lover
   - [x] Lyncher
   - [x] Mason
   - [x] Miller

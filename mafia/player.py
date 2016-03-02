@@ -18,8 +18,8 @@ class Player(object):
     self.effects.append(effect)
 
   @property
-  def action(self):
-    return self.role.action.with_player(self)
+  def actions(self):
+    return [action.with_player(self) for action in self.role.actions]
 
   @property
   def faction(self):
