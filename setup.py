@@ -11,7 +11,7 @@ setup(
   long_description="See https://github.com/calder/mafia/ for documentation.",
 
   # Contents
-  packages=find_packages(),
+  packages=find_packages(exclude=["*.test"]),
 
   # Dependencies
   install_requires=[
