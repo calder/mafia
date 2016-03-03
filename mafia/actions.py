@@ -33,7 +33,7 @@ class Action(ActionBase):
 
   def __str__(self):
     targets = ", ".join([str(target) for target in self.targets])
-    return "%s(%s, %s)" %(self.__class__.__name__, self.player, targets)
+    return "%s(%s, %s)" % (self.__class__.__name__, self.player, targets)
 
   @property
   def targets(self):
@@ -129,6 +129,10 @@ class Kill(Action):
   def __init__(self, player, target, *, protectable=True):
     super().__init__(player, target)
     self.protectable = protectable
+
+  def __str__(self):
+    type = "Kill" if protectable else "Hitman Kill"
+    return "%s(%s, %s)" % (type, self.player, self.target)
 
   def _resolve(self, game):
     self.target.alive = False
