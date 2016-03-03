@@ -68,7 +68,7 @@ class Action(ActionBase):
                                      original_target=raw_target))
 
     # Apply protection
-    if self.protectable and self.target.bulletproof and self.player.role.protectable:
+    if self.protectable and self.target.bulletproof:
       game.log.append(events.Protected(target))
       return
 
@@ -125,7 +125,10 @@ class Investigate(Action):
 
 class Kill(Action):
   precedence = 2000
-  protectable = True
+
+  def __init__(self, player, target, *, protectable=True):
+    super().__init__(player, target)
+    self.protectable = protectable
 
   def _resolve(self, game):
     self.target.alive = False

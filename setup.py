@@ -7,7 +7,7 @@ setup(
   author="Calder Coalson",
   author_email="caldercoalson@gmail.com",
   url="https://github.com/calder/mafia",
-  description="Mafia library.",
+  description="A library for running games of Mafia.",
   long_description="See https://github.com/calder/mafia/ for documentation.",
 
   # Contents

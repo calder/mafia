@@ -2,6 +2,18 @@
 
 This is a library for running games of [Mafia](http://wiki.mafiascum.net/).
 
+## Installing
+
+```sh
+python3 setup.py install
+```
+
+## Running Tests
+
+```sh
+python3 setup.py test
+```
+
 ## Usage
 
 ```python
@@ -37,18 +49,6 @@ g.resolve(day1)
 print(g.log.phase(day1))
 ```
 
-## Installing
-
-```sh
-python3 setup.py install
-```
-
-## Running Tests
-
-```sh
-python3 setup.py test
-```
-
 ## Features
 
 - Mechanics
@@ -56,7 +56,7 @@ python3 setup.py test
     - [x] Valid action checking
     - [x] Natural action resolution
     - [x] Compelled actions
-    - [ ] Disjunctive actions
+    - [X] Disjunctive actions
     - [ ] One-shot actions
   - [x] Day resolution
     - [x] Voting / lynching

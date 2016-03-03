@@ -13,18 +13,18 @@ class ActionValidationTest(TestCase):
 
   def test_simple_match(self):
     """Only the player should be able to take their own action."""
-    assert     self.cop.actions[0].matches(Investigate(self.cop, self.goon))
-    assert not self.cop.actions[0].matches(Investigate(self.goon, self.goon))
+    assert     self.cop.action.matches(Investigate(self.cop, self.goon))
+    assert not self.cop.action.matches(Investigate(self.goon, self.goon))
 
   def test_faction_action(self):
     """Only a faction member should be able to use the faction's action."""
-    assert     self.mafia.action.matches(FactionAction(self.mafia, Kill(self.goon, self.cop)))
-    assert not self.mafia.action.matches(FactionAction(self.mafia, Kill(self.cop, self.cop)))
+    assert     self.mafia.action(self.game).matches(FactionAction(self.mafia, Kill(self.goon, self.cop)))
+    assert not self.mafia.action(self.game).matches(FactionAction(self.mafia, Kill(self.cop, self.cop)))
 
   def test_compelled_action_matching(self):
     """Compelled actions should match their concrete counterparts."""
-    assert     Compelled(self.cop.actions[0]).matches(Investigate(self.cop, self.goon))
-    assert not Compelled(self.cop.actions[0]).matches(Investigate(self.goon, self.goon))
+    assert     Compelled(self.cop.action).matches(Investigate(self.cop, self.goon))
+    assert not Compelled(self.cop.action).matches(Investigate(self.goon, self.goon))
 
   def test_compelled_action_with_choice(self):
     """Compelled actions should respect the player's choice when possible."""

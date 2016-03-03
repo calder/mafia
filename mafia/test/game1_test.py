@@ -153,7 +153,7 @@ def test_game1():
   night4 = Night(4)
   night4.add_action(Possess(dave, paul, sahil))
   night4.add_action(Busdrive(sahil, sahil, sami))
-  night4.add_action(FactionAction(mafia, Kill(paul, dave)))
+  night4.add_action(FactionAction(mafia, Kill(paul, dave, protectable=False)))
   night4.add_action(Roleblock(spencer, brian))
   night4.add_action(Protect(tony, sahil))
   night4.add_action(Watch(brian, spencer))

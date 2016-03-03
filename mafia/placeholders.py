@@ -9,6 +9,13 @@ class Placeholder(object):
     """For printing of Actions."""
     return self
 
+class Bool(Placeholder):
+  def __init__(self, default=None):
+    self.default = default
+
+  def matches(self, other, **kwargs):
+    return isinstance(other, bool)
+
 class Player(Placeholder):
   def matches(self, other, **kwargs):
     return isinstance(other, player.Player) and other.alive

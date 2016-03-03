@@ -28,12 +28,11 @@ class Night(Phase):
     # Compile valid action set
     options = []
     for player in game.players:
-      for action in player.actions:
+      if player.action:
         for i in range(player.action_count):
-          options.append(action)
+          options.append(player.action)
     for faction in game.factions:
-      if faction.action:
-        options.append(faction.action)
+      if faction.action(game): options.append(faction.action(game))
 
     # Check actions
     actions = []

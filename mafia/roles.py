@@ -8,13 +8,12 @@ import copy
 import re
 
 class RoleBase(object):
-  adjectives  = []
-  actions     = []
-  action      = None
-  protectable = True  # Whether the role respects doctors
-  blockable   = True  # Whether the role respects roleblockers
-  visible     = True  # Whether the role respects trackers, watchers, and forensic investigators
-  votes       = 1     # The number of votes the player gets during the day
+  adjectives     = []
+  action         = None
+  faction_action = None
+  blockable      = True  # Whether the role respects roleblockers
+  visible        = True  # Whether the role respects trackers, watchers, and forensic investigators
+  votes          = 1     # The number of votes the player gets during the day
 
   def __init__(self, faction):
     assert isinstance(faction, Faction)
@@ -64,11 +63,6 @@ class Role(object):
   def adjective(self):
     return " ".join(re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__))
 
-  @property
-  def actions(self):
-    if self.action: return [self.action] + self.base.actions
-    return self.base.actions
-
 class ActionDoubler(Role):
   action = Double(placeholders.Self(), placeholders.Player())
 
@@ -89,16 +83,17 @@ class ForensicInvestigator(Role):
 
 class Godfather(Role):
   apparent_alignment = Alignment.good
+  faction_action = Kill(placeholders.Self(), placeholders.Player())
 
 class Goon(Role):
-  pass
+  faction_action = Kill(placeholders.Self(), placeholders.Player())
 
 class Hitman(Role):
-  protectable = False
+  faction_action = Kill(placeholders.Self(), placeholders.Player(), protectable=placeholders.Bool(default=False))
 
 class Joker(Role):
   def __init__(self, faction=None):
-    faction = faction or JokerFaction("Solo Joker")
+    faction = faction or JokerFaction("Joker")
     super().__init__(faction)
 
 class Lyncher(Role):
@@ -120,9 +115,9 @@ class Ninja(Role):
   visible = False
 
 class Overeager(Role):
-  @property
-  def actions(self):
-    return [Compelled(action) for action in self.base.actions]
+  def __init__(self, base):
+    super().__init__(base)
+    if base.action: self.action = Compelled(base.action)
 
 class Politician(Role):
   action = StealVote(placeholders.Self(), placeholders.Player())

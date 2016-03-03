@@ -11,16 +11,10 @@ class Fate(enum.Enum):
   undecided = 3
 
 class Faction(object):
-  action = None
   wins_exclusively = True
 
   def __init__(self, name):
     self.name = name
-
-    # Prevent accidental modification of a class's prototypical action
-    if self.action:
-      self.action = FactionAction(self, copy.deepcopy(self.action))
-      self.action.action.player = placeholders.FactionMember(self)
 
   def __lt__(self, other):
     return self.name < other.name
@@ -33,6 +27,10 @@ class Faction(object):
 
   def apparent_members(self, game):
     return [p for p in game.players if self in p.apparent_factions]
+
+  def action(self, game):
+    member_actions = [p.faction_action for p in self.members(game) if p.faction_action]
+    if member_actions: return FactionAction(self, OneOfAction(member_actions))
 
 class Town(Faction):
   adjective = "Town"
@@ -84,7 +82,6 @@ class LyncherFaction(Faction):
 class Mafia(Faction):
   adjective = "Mafia"
   alignment = Alignment.evil
-  action = Kill(placeholders.FactionMember(), placeholders.Player())
 
   def fate(self, game):
     members = self.members(game)

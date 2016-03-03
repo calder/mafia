@@ -30,6 +30,17 @@ class FactionAction(VirtualAction):
     super().__init__(action)
     self.faction = faction
 
+class OneOfAction(VirtualAction):
+  """An action that may be one of a number of different actions."""
+  def __init__(self, actions):
+    self.actions = actions
+
+  def matches(self, other, **kwargs):
+    return any([a.matches(other, **kwargs) for a in self.actions])
+
+  def random_instance(self, *, game, **kwargs):
+    return game.random.choice(self.actions).random_instance(game=game, **kwargs)
+
 class Compelled(VirtualAction):
   """An action that MUST be used each night."""
 
