@@ -100,3 +100,4 @@ print(g.log.phase(day1))
   - [x] Overeager
 - Questions
   - [ ] How should a one-shot hitman work?
+  - [ ] How should multi-action factions work?
