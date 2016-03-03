@@ -92,7 +92,9 @@ class Hitman(Role):
   faction_action = Kill(placeholders.Self(), placeholders.Player(), protectable=placeholders.Bool(default=False))
 
 class Joker(Role):
-  pass
+  def __init__(self, faction=None):
+    faction = faction or JokerFaction("Joker")
+    super().__init__(faction)
 
 class Lyncher(Role):
   def __init__(self, lynchee_or_lyncher_faction):
