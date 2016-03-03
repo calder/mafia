@@ -19,6 +19,9 @@ class Faction(object):
   def __lt__(self, other):
     return self.name < other.name
 
+  def __str__(self):
+    return self.name
+
   def members(self, game):
     return [p for p in game.players if p.faction == self]
 

@@ -8,16 +8,15 @@ import copy
 import re
 
 class RoleBase(object):
-  adjectives     = []
   action         = None
   faction_action = None
-  blockable      = True  # Whether the role respects roleblockers
   visible        = True  # Whether the role respects trackers, watchers, and forensic investigators
   votes          = 1     # The number of votes the player gets during the day
 
   def __init__(self, faction):
     assert isinstance(faction, Faction)
     self.faction       = faction
+    self.adjectives    = []
     self.fake_factions = []
 
   @property
@@ -47,21 +46,22 @@ class Role(object):
     self.base = faction_or_role
 
     # Prevent accidental modification of a class's prototypical action
-    self.action = copy.deepcopy(self.action)
+    self.action         = copy.deepcopy(self.action)
+    self.faction_action = copy.deepcopy(self.faction_action)
+
+  def __str__(self):
+    return "%s %s" % (self.faction.adjective, self.adjective)
 
   def __getattr__(self, attr):
     return getattr(self.base, attr)
 
-  def __str__(self):
-    return "%s %s" % (self.faction.adjective, " ".join(self.adjectives))
-
   @property
   def adjectives(self):
-    return [self.adjective] + self.base.adjectives
+    return re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__) + self.base.adjectives
 
   @property
   def adjective(self):
-    return " ".join(re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__))
+    return " ".join(self.adjectives)
 
 class ActionDoubler(Role):
   action = Double(placeholders.Self(), placeholders.Player())
@@ -92,9 +92,7 @@ class Hitman(Role):
   faction_action = Kill(placeholders.Self(), placeholders.Player(), protectable=placeholders.Bool(default=False))
 
 class Joker(Role):
-  def __init__(self, faction=None):
-    faction = faction or JokerFaction("Joker")
-    super().__init__(faction)
+  pass
 
 class Lyncher(Role):
   def __init__(self, lynchee_or_lyncher_faction):

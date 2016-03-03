@@ -16,6 +16,7 @@ def roleblock_targetted_player(self, other):
 
 class Action(ActionBase):
   protectable = False
+
   dependencies = [
     roleblock_targetted_player,
     busdrive_shares_target,
@@ -53,7 +54,7 @@ class Action(ActionBase):
 
   @property
   def blocked(self):
-    return self.player.blocked and self.player.role.blockable
+    return self.player.blocked
 
   def resolve(self, game):
     # Apply roleblocking
@@ -136,7 +137,9 @@ class Kill(Action):
 
   @property
   def name(self):
-    return "Kill" if self.protectable else "Hitman Kill"
+    if   self.protectable is True:  return "Kill"
+    elif self.protectable is False: return "Hitman Kill"
+    else:                           return "[Hitman] Kill"
 
   def _resolve(self, game):
     self.target.alive = False

@@ -9,9 +9,6 @@ class VirtualAction(ActionBase):
     super().__init__()
     self.action = action
 
-  def __str__(self):
-    return "%s(%s)" % (self.__class__.__name__, self.action)
-
   @property
   def player(self):
     return self.action.player
@@ -30,10 +27,17 @@ class FactionAction(VirtualAction):
     super().__init__(action)
     self.faction = faction
 
+  def __str__(self):
+    return "FactionAction(%s, %s)" % (self.faction, self.action)
+
 class OneOfAction(VirtualAction):
   """An action that may be one of a number of different actions."""
   def __init__(self, actions):
     self.actions = actions
+
+  def __str__(self):
+    actions = ", ".join([str(a) for a in self.actions])
+    return "OneOfAction(%s)" % actions
 
   def matches(self, other, **kwargs):
     return any([a.matches(other, **kwargs) for a in self.actions])
@@ -45,6 +49,9 @@ class Compelled(VirtualAction):
   """An action that MUST be used each night."""
 
   compelled = True
+
+  def __str__(self):
+    return "Compelled(%s)" % self.action
 
   def matches(self, other, **kwargs):
     return self.action.matches(other, **kwargs)
