@@ -136,7 +136,7 @@ class Kill(Action):
 
   @property
   def name(self):
-    return "Kill" if protectable else "Hitman Kill"
+    return "Kill" if self.protectable else "Hitman Kill"
 
   def _resolve(self, game):
     self.target.alive = False
