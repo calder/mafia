@@ -66,6 +66,12 @@ class Action(ActionBase):
     if self.player.must_target:
       self.raw_targets[0] = self.player.must_target
 
+    # Apply delaying
+    if self.player.delayed:
+      game.delayed_actions.append(self)
+      game.log.append(events.Delayed(self.player))
+      return
+
     # Record visit
     for target, raw_target in zip(self.targets, self.raw_targets):
       game.log.append(events.Visited(self.player, target,
@@ -81,7 +87,7 @@ class Action(ActionBase):
     self._resolve(game)
 
   def resolve_post(self, game):
-    if self.blocked: return
+    if self.blocked or self.player.delayed: return
     self._resolve_post(game)
 
   def _resolve(self, game):
@@ -104,11 +110,17 @@ class Autopsy(Action):
     visitors = set(v.player for v in visits if v.player is not self.player)
     game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
 
+class Delay(Action):
+  precedence = 3
+
+  def _resolve(self, game):
+    self.target.add_effect(Delayed())
+
 class Double(Action):
   precedence = 1000
 
   def _resolve(self, game):
-    self.target.add_effect(ExtraAction(expiration=Nights(2)))
+    self.target.add_effect(ExtraAction())
 
 class Busdrive(Action):
   precedence = 0

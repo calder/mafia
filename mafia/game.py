@@ -34,11 +34,12 @@ class Game(object):
     game.resolve(day1)
   """
 
-  def __init__(self, seed=42):
-    self.faction_dict = {}
-    self.player_dict  = {}
-    self.log          = Log()
-    self.random       = random.Random(seed)
+  def __init__(self, *, seed=42):
+    self.random          = random.Random(seed)
+    self.log             = Log()
+    self.faction_dict    = {}
+    self.player_dict     = {}
+    self.delayed_actions = []
 
   def add_faction(self, faction):
     assert faction.name not in self.faction_dict

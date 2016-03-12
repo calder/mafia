@@ -31,9 +31,12 @@ class Blocked(Effect):
   blocked = True
 
 class ExtraAction(Effect):
-  def __init__(self, extra_actions=1, **kwargs):
-    super().__init__(**kwargs)
+  def __init__(self, extra_actions=1, expiration=Nights(2), **kwargs):
+    super().__init__(expiration=expiration, **kwargs)
     self.extra_actions = extra_actions
+
+class Delayed(Effect):
+  delayed = True
 
 class MustTarget(Effect):
   def __init__(self, must_target, **kwargs):

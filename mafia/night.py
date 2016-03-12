@@ -44,6 +44,10 @@ class Night(Phase):
           break
     actions.reverse()
 
+    # Add delayed actions
+    actions = game.delayed_actions + actions
+    game.delayed_actions = []
+
     # Add compelled actions
     for option in options:
       if option.compelled:

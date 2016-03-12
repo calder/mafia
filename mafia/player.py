@@ -60,10 +60,13 @@ class Player(object):
 
   @mixin("effects")
   def action_count(self):
-    return 1 + mixin_sum(self.effects, "extra_actions")
+    return 1 + sum([getattr(m, "extra_actions", 0) for m in self.effects])
 
   @mixin("effects")
   def blocked(self): return False
+
+  @mixin("effects")
+  def delayed(self): return False
 
   @mixin("effects")
   def must_target(self): return None

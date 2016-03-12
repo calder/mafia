@@ -24,3 +24,11 @@ class UtilTest(TestCase):
   def test_has_method(self):
     assert has_method([1,2,3], "append")
     assert not has_method([1,2,3], "foozle")
+
+  def test_flatten(self):
+    assert_equal(flatten([]), [])
+    assert_equal(flatten([[]]), [])
+    assert_equal(flatten([[], []]), [])
+    assert_equal(flatten([[], [1]]), [1])
+    assert_equal(flatten([[1], [2, 3]]), [1,2,3])
+    assert_equal(flatten([[1, 2], [3]]), [1,2,3])

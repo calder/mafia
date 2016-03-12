@@ -1,3 +1,5 @@
+import itertools
+
 def assert_equal(x, y):
   if x != y:
     print("--------------------1--------------------")
@@ -22,7 +24,7 @@ def str_list(list, empty):
   if len(list) == 1: return str(list[0])
   return ", ".join([str(e) for e in list[:-1]]) + " and " + str(list[-1])
 
-def str_player_list(list): return str_list(list, "no-one")
+def str_player_list(list): return str_list(list, "nobody")
 
 def has_method(object, method):
   return callable(getattr(object, method, None))
@@ -51,3 +53,6 @@ def fill_randomly(x, **kwargs):
   for k, v in x.__dict__.items():
     if has_method(v, "random_instance"):
       x.__dict__[k] = v.random_instance(**kwargs)
+
+def flatten(list_of_lists):
+  return list(itertools.chain(*list_of_lists))

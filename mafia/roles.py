@@ -72,6 +72,9 @@ class Busdriver(Role):
 class Cop(Role):
   action = Investigate(placeholders.Self(), placeholders.Player())
 
+class Delayer(Role):
+  action = Delay(placeholders.Self(), placeholders.Player())
+
 class Doctor(Role):
   action = Protect(placeholders.Self(), placeholders.Player())
 

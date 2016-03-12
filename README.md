@@ -73,7 +73,7 @@ See [mafia/test/vmx_game_test.py](mafia/test/vmx_game_test.py) for examples of s
   - [x] Action Doubler
   - [x] Busdriver
   - [x] Cop
-  - [ ] Delayer
+  - [x] Delayer
   - [x] Doctor
   - [x] Double Voter
   - [x] Forensic Investigator

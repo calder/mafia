@@ -39,8 +39,7 @@ class RoleblockerTest(TestCase):
     night0.add_action(Roleblock(self.roleblocker, self.goon))
     self.game.resolve(night0)
 
-    day1 = Day(1)
-    self.game.resolve(day1)
+    self.game.resolve(Day(1))
 
     night1 = Night(1)
     night1.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))

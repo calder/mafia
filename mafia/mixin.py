@@ -12,6 +12,3 @@ def mixin(mixin_attr):
       return f(self)
     return wrapper
   return inner
-
-def mixin_sum(mixins, attr):
-  return sum([getattr(m, attr, 0) for m in mixins])

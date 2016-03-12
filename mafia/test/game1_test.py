@@ -11,6 +11,7 @@ def test_game1():
   brian    = g.add_player("Brian", Watcher(town))
   calder   = g.add_player("Calder", DoubleVoter(town))
   dave     = g.add_player("Dave", Ventriloquist(mafia))
+  derek    = g.add_player("Derek", Vigilante(town))
   devin    = g.add_player("Devin", Politician(town))
   doug     = g.add_player("Doug", Villager(town))
   fejta    = g.add_player("Fejta", Tracker(town))
@@ -28,6 +29,7 @@ def test_game1():
   spencer  = g.add_player("Spencer", Roleblocker(town))
   tarl     = g.add_player("Tarl", Hitman(mafia))
   tony     = g.add_player("Tony", Doctor(town))
+  tyler    = g.add_player("Tyler", Delayer(town))
   g.begin()
 
   assert_equal(g.log.filter(lambda e: not isinstance(e, events.RoleAnnouncement)), Log([
@@ -79,9 +81,12 @@ def test_game1():
   night1.add_action(Protect(tony, gijosh))
   night1.add_action(Watch(justin, gijosh))
   night1.add_action(Watch(justin, asmar))
+  night1.add_action(Watch(brian, tony))
+  night1.add_action(Delay(tyler, brian))
   g.resolve(night1)
 
   assert_equal(g.log.phase(night1), Log([
+    events.Visited(tyler, brian),
     events.Visited(gijosh, asmar),
     events.InvestigationResult(Alignment.good, target=asmar, to=gijosh),
     events.Visited(tony, gijosh),
@@ -91,6 +96,7 @@ def test_game1():
     events.Visited(fejta, asmar),
     events.Visited(justin, gijosh),
     events.Visited(justin, asmar),
+    events.Delayed(brian),
     events.VisiteesResult([gijosh], target=asmar, to=fejta),
     events.VisitorsResult([asmar, tony], target=gijosh, to=justin),
     events.VisitorsResult([fejta, gijosh], target=asmar, to=justin),
@@ -129,9 +135,11 @@ def test_game1():
     events.Blocked(tony),
     events.Visited(asmar, kim),
     events.Died(kim),
+    events.Visited(brian, tony),
     events.Visited(brian, kim),
     events.Visited(fejta, tony),
     events.Visited(justin, kim),
+    events.VisitorsResult([fejta, spencer], target=tony, to=brian),
     events.VisitorsResult([asmar, justin], target=kim, to=brian),
     events.VisiteesResult([], target=tony, to=fejta),
     events.VisitorsResult([asmar, brian], target=kim, to=justin),

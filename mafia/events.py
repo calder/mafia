@@ -76,6 +76,14 @@ class Blocked(Event):
   def _str(self):
     return "%s was blocked." % self.player
 
+class Delayed(Event):
+  def __init__(self, player):
+    super().__init__()
+    self.player = player
+
+  def _str(self):
+    return "%s's action was delayed." % self.player
+
 class Died(Event):
   color = "red"
 
