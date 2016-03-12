@@ -49,6 +49,8 @@ g.resolve(day1)
 print(g.log.phase(day1))
 ```
 
+See [mafia/test/vmx_game_test.py](mafia/test/vmx_game_test.py) for examples of some crazier roles.
+
 ## Features
 
 - Mechanics
