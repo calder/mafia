@@ -134,6 +134,7 @@ class Busdrive(Action):
     b = self.targets[1]
     a.add_effect(SwitchedWith(b))
     b.add_effect(SwitchedWith(a))
+    game.log.append(events.Busdriven(a, b))
 
 class Investigate(Action):
   precedence = 1000

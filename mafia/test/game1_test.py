@@ -181,6 +181,7 @@ def test_game1():
   assert_equal(g.log.phase(night4), Log([
     events.Visited(sahil, sahil),
     events.Visited(sahil, sami),
+    events.Busdriven(sahil, sami),
     events.Visited(dave, paul),
     events.Visited(spencer, brian),
     events.Visited(tony, sami, original_target=sahil),

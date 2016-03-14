@@ -69,6 +69,8 @@ class RoleAnnouncement(Event):
 ##################
 
 class Blocked(Event):
+  color = "yellow"
+
   def __init__(self, player):
     super().__init__()
     self.player = player
@@ -76,7 +78,20 @@ class Blocked(Event):
   def _str(self):
     return "%s was blocked." % self.player
 
+class Busdriven(Event):
+  color = "yellow"
+
+  def __init__(self, player1, player2):
+    super().__init__()
+    self.player1 = player1
+    self.player2 = player2
+
+  def _str(self):
+    return "%s was busdriven with %s." % (self.player1, self.player2)
+
 class Delayed(Event):
+  color = "yellow"
+
   def __init__(self, player):
     super().__init__()
     self.player = player
@@ -94,6 +109,16 @@ class Died(Event):
 
   def _str(self):
     return "%s, the %s, has died." % (self.player, self.player.role)
+
+class Doubled(Event):
+  color = "green"
+
+  def __init__(self, player):
+    super().__init__()
+    self.player = player
+
+  def _str(self):
+    return "%s's action was doubled." % self.player
 
 class Lynched(Died):
   def _str(self):

@@ -24,6 +24,7 @@ class NaturalActionResolutionTest(TestCase):
     assert_equal(self.game.log, Log([
       events.Visited(self.busdriver, self.villager),
       events.Visited(self.busdriver, self.goon),
+      events.Busdriven(self.villager, self.goon),
       events.Visited(self.roleblocker, self.goon, original_target=self.villager),
       events.Blocked(self.goon),
     ], phase=night0))
@@ -68,6 +69,7 @@ class NaturalActionResolutionTest(TestCase):
     assert_equal(self.game.log, Log([
       events.Visited(self.busdriver, self.roleblocker),
       events.Visited(self.busdriver, self.goon),
+      events.Busdriven(self.roleblocker, self.goon),
       events.Visited(self.roleblocker, self.goon, original_target=self.roleblocker),
       events.Blocked(self.goon),
     ], phase=night0))
