@@ -99,6 +99,10 @@ class Lynched(Died):
   def _str(self):
     return "%s, the %s, was lynched." % (self.player, self.player.role)
 
+class NoLynch(Event):
+  def _str(self):
+    return "Nobody was lynched."
+
 class Protected(Event):
   def __init__(self, player):
     super().__init__()

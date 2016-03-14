@@ -38,6 +38,12 @@ class ExtraAction(Effect):
 class Delayed(Effect):
   delayed = True
 
+class Unlynchable(Effect):
+  lynchable = False
+
+  def __init__(self, expiration=Days(1), **kwargs):
+    super().__init__(expiration=expiration, **kwargs)
+
 class MustTarget(Effect):
   def __init__(self, must_target, **kwargs):
     super().__init__(**kwargs)

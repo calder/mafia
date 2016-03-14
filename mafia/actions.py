@@ -52,13 +52,9 @@ class Action(ActionBase):
   def raw_target(self):
     return self.raw_targets[0]
 
-  @property
-  def blocked(self):
-    return self.player.blocked
-
   def resolve(self, game):
     # Apply roleblocking
-    if self.blocked:
+    if self.player.blocked:
       game.log.append(events.Blocked(self.player))
       return
 
@@ -87,7 +83,7 @@ class Action(ActionBase):
     self._resolve(game)
 
   def resolve_post(self, game):
-    if self.blocked or self.player.delayed: return
+    if self.player.blocked or self.player.delayed: return
     self._resolve_post(game)
 
   def _resolve(self, game):

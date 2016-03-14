@@ -42,6 +42,10 @@ class Player(object):
     return self.role.apparent_alignment
 
   @property
+  def is_governor(self):
+    return self.role.is_governor
+
+  @property
   def votes(self):
     return self.role.votes
 
@@ -73,6 +77,9 @@ class Player(object):
 
   @mixin("effects")
   def bulletproof(self): return False
+
+  @mixin("effects")
+  def lynchable(self): return True
 
   @mixin("effects")
   def switched_with(self): return self

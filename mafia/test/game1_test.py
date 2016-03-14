@@ -6,6 +6,7 @@ def test_game1():
   town    = g.add_faction(Town())
   masons  = g.add_faction(Masonry("Test Team", town))
   mafia   = g.add_faction(Mafia("VMX Mafia"))
+  andy     = g.add_player("Andy", Governor(town))
   asmar    = g.add_player("Asmar", Godfather(mafia))
   becky    = g.add_player("Becky", Joker())
   brian    = g.add_player("Brian", Watcher(town))
@@ -146,6 +147,8 @@ def test_game1():
   ], phase=night2))
   assert kim.alive is False
 
+  g.resolve(Day(3))
+
   night3 = Night(3)
   night3.add_action(Autopsy(leese, kim))
   g.resolve(night3)
@@ -155,8 +158,16 @@ def test_game1():
     events.VisitorsResult([asmar, brian, justin], target=kim, to=leese),
   ], phase=night3))
 
-  day3 = Day(3)
-  g.resolve(day3)
+  day4 = Day(4)
+  day4.set_vote(becky, becky)
+  day4.set_vote(andy, becky)
+  g.resolve(day4)
+
+  assert_equal(g.log.phase(day4), Log([
+      events.VotedFor(andy, becky),
+      events.VotedFor(becky, becky),
+      events.NoLynch(),
+  ], phase=day4))
 
   night4 = Night(4)
   night4.add_action(Possess(dave, paul, sahil))
@@ -180,13 +191,13 @@ def test_game1():
   assert sami.alive is False
   assert sahil.alive is True
 
-  day4 = Day(4)
-  day4.set_vote(becky, becky)
-  g.resolve(day4)
+  day5 = Day(5)
+  day5.set_vote(becky, becky)
+  g.resolve(day5)
 
-  assert_equal(g.log.phase(day4), Log([
+  assert_equal(g.log.phase(day5), Log([
     events.VotedFor(becky, becky),
     events.Lynched(becky),
-  ], phase=day4))
+  ], phase=day5))
   assert_equal(g.winners(), [becky, hung])
   assert g.is_game_over() is False

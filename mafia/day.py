@@ -1,3 +1,4 @@
+from . import effects
 from . import events
 from .log import *
 from .phase import *
@@ -5,8 +6,6 @@ from .util import *
 
 from collections import *
 import copy
-
-NO_LYNCH = SingletonValue()
 
 class Day(Phase):
   """
@@ -36,12 +35,17 @@ class Day(Phase):
 
     # Determine actual votes after politicianing
     for player in game.players:
-      if player.alive and player.votes_with.alive:
+      if player.votes_with.alive:
         votes[player] = self.votes[player.votes_with]
+
+    # Save any other player a governor votes for
+    for player in game.players:
+      if player.is_governor and votes[player] and votes[player] != player:
+        votes[player].add_effect(effects.Unlynchable())
 
     # Count votes
     for player in sorted(game.players):
-      if votes[player.votes_with]:
+      if votes[player]:
         game.log.append(events.VotedFor(player, votes[player], votes=player.votes, original_vote=self.votes[player]))
         candidates[votes[player]] += player.votes
 
@@ -49,7 +53,8 @@ class Day(Phase):
     candidate_list = game.shuffled([(c,p) for p,c in candidates.items()])
     ranked_candidates = [p for c,p in sorted(candidate_list, reverse=True)]
     for candidate in ranked_candidates:
-      if candidate and candidate.alive:
+      if candidate and candidate.alive and candidate.lynchable:
         game.log.append(events.Lynched(candidate))
         candidate.alive = False
         return
+    game.log.append(events.NoLynch())

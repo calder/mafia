@@ -13,6 +13,7 @@ class PoliticianTest(TestCase):
     self.roleblocker  = self.game.add_player("Roleblocker", Roleblocker(self.town))
     self.politician   = self.game.add_player("Politician", Politician(self.town))
     self.villager     = self.game.add_player("Villager", Villager(self.town))
+    self.governor     = self.game.add_player("Governor", Governor(self.town))
 
   def test_basic_politician(self):
     """Test that a politician can swing someone's vote."""
@@ -49,7 +50,7 @@ class PoliticianTest(TestCase):
     self.game.resolve(day1)
 
     assert_equal(self.game.log.phase(day1), Log([
-      # No votes or lynches
+      events.NoLynch(),
     ], phase=day1))
     assert self.roleblocker.alive is True
 
@@ -75,3 +76,23 @@ class PoliticianTest(TestCase):
       events.Lynched(self.roleblocker),
     ], phase=day1))
     assert self.roleblocker.alive is False
+
+  def test_politician_governor(self):
+    """Test that a politician can manipulate a governor's pardon."""
+    night0 = Night(0)
+    night0.add_action(StealVote(self.politician, self.governor))
+    self.game.resolve(night0)
+
+    day1 = Day(1)
+    day1.set_vote(self.goon, self.politician)
+    day1.set_vote(self.politician, self.politician)
+    day1.set_vote(self.governor, self.goon)
+    self.game.resolve(day1)
+
+    assert_equal(self.game.log.phase(day1), Log([
+      events.VotedFor(self.goon, self.politician),
+      events.VotedFor(self.governor, self.politician, original_vote=self.goon),
+      events.VotedFor(self.politician, self.politician),
+      events.NoLynch(),
+    ], phase=day1))
+    assert self.politician.alive is True

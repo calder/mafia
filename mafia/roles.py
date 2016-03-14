@@ -12,6 +12,7 @@ class RoleBase(object):
   faction_action = None
   visible        = True  # Whether the role respects trackers, watchers, and forensic investigators
   votes          = 1     # The number of votes the player gets during the day
+  is_governor    = False # Whether the player's votes are actually pardons
 
   def __init__(self, faction):
     assert isinstance(faction, Faction)
@@ -90,6 +91,9 @@ class Godfather(Role):
 
 class Goon(Role):
   faction_action = Kill(placeholders.Self(), placeholders.Player())
+
+class Governor(Role):
+  is_governor = True
 
 class Hitman(Role):
   faction_action = Kill(placeholders.Self(), placeholders.Player(), protectable=placeholders.Bool(default=False))
