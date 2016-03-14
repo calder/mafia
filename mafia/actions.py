@@ -122,6 +122,7 @@ class Double(Action):
 
   def _resolve(self, game):
     self.target.add_effect(ExtraAction())
+    game.log.append(events.Doubled(self.target))
 
 class Busdrive(Action):
   precedence = 0
