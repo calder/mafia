@@ -30,7 +30,7 @@ class Day(Phase):
     self.votes[player] = candidate
 
   def _resolve(self, game):
-    votes = defaultdict(lambda: None)
+    votes      = defaultdict(lambda: None)
     candidates = defaultdict(lambda: 0)
 
     # Determine actual votes after politicianing
@@ -38,10 +38,11 @@ class Day(Phase):
       if player.votes_with.alive:
         votes[player] = self.votes[player.votes_with]
 
-    # Save any other player a governor votes for
+    # Apply vote actions
     for player in game.players:
-      if player.is_governor and votes[player] and votes[player] != player:
-        votes[player].add_effect(effects.Unlynchable())
+      if votes[player] and player.vote_action:
+        action = player.vote_action.with_target(votes[player])
+        if player.vote_action.matches(action): action.resolve(game)
 
     # Count votes
     for player in sorted(game.players):

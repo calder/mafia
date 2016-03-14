@@ -22,6 +22,18 @@ class Player(object):
     if self.role.action: return self.role.action.with_player(self)
 
   @property
+  def alignment(self):
+    return self.role.alignment
+
+  @property
+  def apparent_factions(self):
+    return self.role.apparent_factions
+
+  @property
+  def apparent_alignment(self):
+    return self.role.apparent_alignment
+
+  @property
   def faction_action(self):
     if self.role.faction_action: return self.role.faction_action.with_player(self)
 
@@ -30,20 +42,8 @@ class Player(object):
     return self.role.faction
 
   @property
-  def apparent_factions(self):
-    return self.role.apparent_factions
-
-  @property
-  def alignment(self):
-    return self.role.alignment
-
-  @property
-  def apparent_alignment(self):
-    return self.role.apparent_alignment
-
-  @property
-  def is_governor(self):
-    return self.role.is_governor
+  def vote_action(self):
+    if self.role.vote_action: return self.role.vote_action.with_player(self)
 
   @property
   def votes(self):

@@ -24,6 +24,14 @@ class ActionBase(object):
     clone.player = player
     return clone
 
+  def with_target(self, target):
+    return self.with_targets([target])
+
+  def with_targets(self, targets):
+    clone = copy.copy(self)
+    clone.raw_targets = TargetList(targets)
+    return clone
+
   def random_instance(self, **kwargs):
     clone = copy.copy(self)
     fill_randomly(clone, **kwargs)

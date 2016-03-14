@@ -15,19 +15,20 @@ def roleblock_targetted_player(self, other):
   return isinstance(other, Roleblock) and self.player == other.target
 
 class Action(ActionBase):
-  protectable = False
-
   dependencies = [
     roleblock_targetted_player,
     busdrive_shares_target,
   ]
 
-  def __init__(self, player, targets, **kwargs):
+  def __init__(self, player, targets, *, protectable=False, visible=True, **kwargs):
     if not isinstance(targets, list):
       targets = TargetList([targets])
 
     self.player      = player
     self.raw_targets = TargetList(targets)
+
+    self.protectable = protectable
+    self.visible     = visible
 
     # Prevent accidental modification of a class's prototypical dependencies
     self.dependencies = copy.deepcopy(self.dependencies)
@@ -35,6 +36,9 @@ class Action(ActionBase):
   def __str__(self):
     targets = ", ".join([str(target) for target in self.targets])
     return "%s(%s, %s)" % (self.name, self.player, targets)
+
+  def matches(self, other, **kwargs):
+    return matches(self, other, player=self.player, **kwargs)
 
   @property
   def name(self):
@@ -69,10 +73,11 @@ class Action(ActionBase):
       return
 
     # Record visit
-    for target, raw_target in zip(self.targets, self.raw_targets):
-      game.log.append(events.Visited(self.player, target,
-                                     visible=self.player.role.visible,
-                                     original_target=raw_target))
+    if self.visible:
+      for target, raw_target in zip(self.targets, self.raw_targets):
+        game.log.append(events.Visited(self.player, target,
+                                       visible=self.player.role.visible,
+                                       original_target=raw_target))
 
     # Apply protection
     if self.protectable and self.target.bulletproof:
@@ -152,6 +157,12 @@ class Kill(Action):
   def _resolve(self, game):
     self.target.alive = False
     game.log.append(events.Died(self.target))
+
+class Pardon(Action):
+  precedence = 1000
+
+  def _resolve(self, game):
+    self.target.add_effect(Unlynchable())
 
 class Possess(Action):
   precedence = 1

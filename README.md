@@ -77,7 +77,9 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
   - [x] Delayer
   - [x] Doctor
   - [x] Double Voter
+  - [ ] Elite Bodyguard
   - [x] Forensic Investigator
+  - [ ] Framer
   - [x] Goon
   - [x] Godfather
   - [x] Governor

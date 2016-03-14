@@ -10,9 +10,9 @@ import re
 class RoleBase(object):
   action         = None
   faction_action = None
+  vote_action    = None
   visible        = True  # Whether the role respects trackers, watchers, and forensic investigators
   votes          = 1     # The number of votes the player gets during the day
-  is_governor    = False # Whether the player's votes are actually pardons
 
   def __init__(self, faction):
     assert isinstance(faction, Faction)
@@ -49,6 +49,7 @@ class Role(object):
     # Prevent accidental modification of a class's prototypical action
     self.action         = copy.deepcopy(self.action)
     self.faction_action = copy.deepcopy(self.faction_action)
+    self.vote_action    = copy.deepcopy(self.vote_action)
 
   def __str__(self):
     return "%s %s" % (self.faction.adjective, self.adjective)
@@ -93,7 +94,7 @@ class Goon(Role):
   faction_action = Kill(placeholders.Self(), placeholders.Player())
 
 class Governor(Role):
-  is_governor = True
+  vote_action = Pardon(placeholders.Self, placeholders.Other(), visible=False)
 
 class Hitman(Role):
   faction_action = Kill(placeholders.Self(), placeholders.Player(), protectable=placeholders.Bool(default=False))

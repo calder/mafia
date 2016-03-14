@@ -36,8 +36,13 @@ class FactionMember(Player):
   def random_instance(self, *, game, **kwargs):
     return game.random.choice(self.faction.players(game.players))
 
+class Other(Player):
+  def matches(self, other, *, player, **kwargs):
+    return super().matches(other) and other != player
+
 class Self(Player):
-  pass
+  def matches(self, other, *, player, **kwargs):
+    return other == player
 
 class Corpse(Placeholder):
   def matches(self, other, **kwargs):
