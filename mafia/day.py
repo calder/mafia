@@ -20,14 +20,23 @@ class Day(Phase):
   """
 
   def __init__(self, number):
-    self.number = number
-    self.votes  = defaultdict(lambda: None)
+    self.number     = number
+    self.votes      = defaultdict(lambda: None)
+    self.vote_order = []
+
+  def __eq__(self, other):
+    return isinstance(other, Day) and other.number == self.number
 
   def __str__(self):
     return "Day %d" % self.number
 
   def set_vote(self, player, candidate):
     self.votes[player] = candidate
+
+    # Keep track of voting order for vote action resolution
+    if player in self.vote_order:
+      self.vote_order.remove(player)
+    self.vote_order.append(player)
 
   def _resolve(self, game):
     votes      = defaultdict(lambda: None)
@@ -39,10 +48,13 @@ class Day(Phase):
         votes[player] = self.votes[player.votes_with]
 
     # Apply vote actions
-    for player in game.players:
-      if votes[player] and player.vote_action:
+    vote_actions = []
+    for player in self.vote_order:
+      if player.vote_action:
         action = player.vote_action.with_target(votes[player])
-        if player.vote_action.matches(action): action.resolve(game)
+        if player.vote_action.matches(action):
+          vote_actions.append(action)
+    self.resolve_actions(vote_actions, game=game)
 
     # Count votes
     for player in sorted(game.players):

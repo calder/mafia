@@ -106,3 +106,5 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
 - Questions
   - [ ] How should a one-shot hitman work?
   - [ ] How should multi-action factions work?
+- ToDo
+  - [ ] Make votes into real actions?
