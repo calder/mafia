@@ -20,14 +20,12 @@ class Action(ActionBase):
     busdrive_shares_target,
   ]
 
-  def __init__(self, player, targets, *, protectable=False, visible=True, **kwargs):
+  def __init__(self, player, targets, *, visible=True, **kwargs):
     if not isinstance(targets, list):
       targets = TargetList([targets])
 
     self.player      = player
     self.raw_targets = TargetList(targets)
-
-    self.protectable = protectable
     self.visible     = visible
 
     # Prevent accidental modification of a class's prototypical dependencies
@@ -78,11 +76,6 @@ class Action(ActionBase):
         game.log.append(events.Visited(self.player, target,
                                        visible=self.player.role.visible,
                                        original_target=raw_target))
-
-    # Apply protection
-    if self.protectable and self.target.bulletproof:
-      game.log.append(events.Protected(target))
-      return
 
     # Resolve action
     self._resolve(game)
@@ -163,12 +156,27 @@ class Kill(Action):
     else:                           return "[Hitman] Kill"
 
   def _resolve(self, game):
-    victim = self.target
+    # Skip redundant kills
+    if not self.target.alive:
+      return
+
+    # Apply bodyguarding
     if self.target.guarded_by:
-      victim = self.target.guarded_by
+      bodyguard = self.target.guarded_by
       game.log.append(events.Protected(self.target))
-    victim.alive = False
-    game.log.append(events.Died(victim))
+      Kill(self.player, bodyguard)._resolve(game)
+      if bodyguard.elite_bodyguard:
+        Kill(bodyguard, self.player)._resolve(game)
+      return
+
+    # Apply protection
+    if self.protectable and self.target.bulletproof:
+      game.log.append(events.Protected(self.target))
+      return
+
+    # Kill the victim
+    self.target.alive = False
+    game.log.append(events.Died(self.target))
 
 class Pardon(Action):
   precedence = 1000

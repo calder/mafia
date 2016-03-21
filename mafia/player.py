@@ -14,6 +14,9 @@ class Player(object):
   def __lt__(self, other):
     return self.name < other.name
 
+  def matches(self, other, **kwargs):
+    return self == other
+
   def add_effect(self, effect):
     self.effects.append(effect)
 
@@ -32,6 +35,10 @@ class Player(object):
   @property
   def apparent_alignment(self):
     return self.role.apparent_alignment
+
+  @property
+  def elite_bodyguard(self):
+    return self.role.elite_bodyguard
 
   @property
   def faction_action(self):
@@ -55,9 +62,6 @@ class Player(object):
 
   def fate(self, game):
     return self.role.fate(game)
-
-  def matches(self, other, **kwargs):
-    return self == other
 
 
   ###   Overridable by Effects   ###

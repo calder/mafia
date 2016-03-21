@@ -77,7 +77,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
   - [x] Delayer
   - [x] Doctor
   - [x] Double Voter
-  - [ ] Elite Bodyguard
+  - [x] Elite Bodyguard
   - [x] Forensic Investigator
   - [ ] Framer
   - [x] Goon
@@ -95,6 +95,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
   - [x] Roleblocker
   - [x] Tracker
   - [x] Usurper
+  - [ ] Vengeful
   - [x] Ventriloquist
   - [x] Vigilante
   - [x] Watcher

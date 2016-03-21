@@ -1,5 +1,6 @@
 from .actions import *
 from .factions import *
+from . import events
 from . import placeholders
 from .player import *
 from .virtual_actions import *
@@ -70,6 +71,10 @@ class ActionDoubler(Role):
 
 class Bodyguard(Role):
   action = Guard(placeholders.Self(), placeholders.Other())
+  elite_bodyguard = False
+
+class EliteBodyguard(Bodyguard):
+  elite_bodyguard = True
 
 class Busdriver(Role):
   action = Busdrive(placeholders.Self(), placeholders.Player(), placeholders.Player())

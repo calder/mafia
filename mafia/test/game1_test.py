@@ -28,38 +28,46 @@ def test_game1():
   paul     = g.add_player("Paul", Ninja(Hitman(mafia)))
   sahil    = g.add_player("Sahil", Busdriver(town))
   sami     = g.add_player("Sami", Goon(mafia))
+  scott    = g.add_player("Scott", EliteBodyguard(masons))
   spencer  = g.add_player("Spencer", Roleblocker(town))
   tarl     = g.add_player("Tarl", Hitman(mafia))
   tony     = g.add_player("Tony", Doctor(town))
   tyler    = g.add_player("Tyler", Delayer(town))
+  wac      = g.add_player("Wac", Goon(mafia))
   g.begin()
 
   assert_equal(g.log.filter(lambda e: not isinstance(e, events.RoleAnnouncement)), Log([
-    events.FactionAnnouncement(masons, [josh, michelle]),
-    events.FactionAnnouncement(mafia, [asmar, dave, paul, sami, tarl]),
+    events.FactionAnnouncement(masons, [josh, michelle, scott]),
+    events.FactionAnnouncement(mafia, [asmar, dave, paul, sami, tarl, wac]),
   ]))
 
   night0 = Night(0)
   night0.add_action(Guard(alex, max))
+  night0.add_action(Guard(scott, alex))
   night0.add_action(Double(max, justin))
-  night0.add_action(FactionAction(mafia, Kill(asmar, max)))
+  night0.add_action(FactionAction(mafia, Kill(wac, max)))
   night0.add_action(Investigate(gijosh, tony))
   night0.add_action(Protect(tony, asmar))
   g.resolve(night0)
 
   assert_equal(g.log.phase(night0), Log([
     events.Visited(alex, max),
+    events.Visited(scott, alex),
     events.Visited(max, justin),
     events.Doubled(justin),
     events.Visited(gijosh, tony),
     events.InvestigationResult(Alignment.good, target=tony, to=gijosh),
     events.Visited(tony, asmar),
-    events.Visited(asmar, max),
+    events.Visited(wac, max),
     events.Protected(max),
-    events.Died(alex),
+    events.Protected(alex),
+    events.Died(scott),
+    events.Died(wac),
   ], phase=night0))
-  assert alex.alive is False
   assert max.alive is True
+  assert alex.alive is True
+  assert scott.alive is False
+  assert wac.alive is False
   assert_equal(g.winners(), NO_WINNER_YET)
 
   day1 = Day(1)
@@ -115,7 +123,6 @@ def test_game1():
   day2.set_vote(doug, devin)
   day2.set_vote(calder, devin)
   day2.set_vote(gijosh, devin)
-  day2.set_vote(alex, devin)
   g.resolve(day2)
   assert_equal(g.log.phase(day2), Log([
     events.VotedFor(calder, calder, votes=2, original_vote=devin),
