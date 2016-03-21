@@ -57,7 +57,7 @@ class Day(Phase):
     self.resolve_actions(vote_actions, game=game)
 
     # Count votes
-    for player in sorted(game.players):
+    for player in game.players:
       if votes[player]:
         game.log.append(events.VotedFor(player, votes[player], votes=player.votes, original_vote=self.votes[player]))
         candidates[votes[player]] += player.votes
