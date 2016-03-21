@@ -111,19 +111,6 @@ class Autopsy(Action):
     visitors = set(v.player for v in visits if v.player is not self.player)
     game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
 
-class Delay(Action):
-  precedence = 3
-
-  def _resolve(self, game):
-    self.target.add_effect(Delayed())
-
-class Double(Action):
-  precedence = 1000
-
-  def _resolve(self, game):
-    self.target.add_effect(ExtraAction())
-    game.log.append(events.Doubled(self.target))
-
 class Busdrive(Action):
   precedence = 0
 
@@ -136,6 +123,19 @@ class Busdrive(Action):
     a.add_effect(SwitchedWith(b))
     b.add_effect(SwitchedWith(a))
     game.log.append(events.Busdriven(a, b))
+
+class Delay(Action):
+  precedence = 3
+
+  def _resolve(self, game):
+    self.target.add_effect(Delayed())
+
+class Double(Action):
+  precedence = 1000
+
+  def _resolve(self, game):
+    self.target.add_effect(ExtraAction())
+    game.log.append(events.Doubled(self.target))
 
 class Investigate(Action):
   precedence = 1000
