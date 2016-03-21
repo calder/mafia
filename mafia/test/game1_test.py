@@ -21,7 +21,7 @@ def test_game1():
   hung     = g.add_player("Hung", Lyncher(doug))
   josh     = g.add_player("Josh", Mason(masons))
   justin   = g.add_player("Justin", Watcher(town))
-  kim      = g.add_player("Kim", Miller(town))
+  kim      = g.add_player("Kim", Vengeful(Miller(town)))
   leese    = g.add_player("Leese", ForensicInvestigator(town))
   max      = g.add_player("Max", ActionDoubler(town))
   michelle = g.add_player("Michelle", Mason(masons))
@@ -149,6 +149,7 @@ def test_game1():
     events.Blocked(tony),
     events.Visited(asmar, kim),
     events.Died(kim),
+    events.Died(asmar),
     events.Visited(brian, tony),
     events.Visited(brian, kim),
     events.Visited(fejta, tony),
@@ -159,6 +160,7 @@ def test_game1():
     events.VisitorsResult([asmar, brian], target=kim, to=justin),
   ], phase=night2))
   assert kim.alive is False
+  assert asmar.alive is False
 
   g.resolve(Day(3))
 

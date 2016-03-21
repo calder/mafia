@@ -95,7 +95,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
   - [x] Roleblocker
   - [x] Tracker
   - [x] Usurper
-  - [ ] Vengeful
+  - [x] Vengeful
   - [x] Ventriloquist
   - [x] Vigilante
   - [x] Watcher

@@ -12,6 +12,7 @@ class RoleBase(object):
   action         = None
   faction_action = None
   vote_action    = None
+  vengeful       = False # Takes down killers with them
   visible        = True  # Whether the role respects trackers, watchers, and forensic investigators
   votes          = 1     # The number of votes the player gets during the day
 
@@ -157,6 +158,9 @@ class Usurper(Role):
 
 class Watcher(Role):
   action = Watch(placeholders.Self(), placeholders.Player())
+
+class Vengeful(Role):
+  vengeful = True
 
 class Ventriloquist(Role):
   action = Possess(placeholders.Self(), placeholders.Player(), placeholders.Player())

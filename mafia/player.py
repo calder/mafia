@@ -49,6 +49,10 @@ class Player(object):
     return self.role.faction
 
   @property
+  def vengeful(self):
+    return self.role.vengeful
+
+  @property
   def vote_action(self):
     if self.role.vote_action: return self.role.vote_action.with_player(self)
 

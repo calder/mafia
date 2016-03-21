@@ -178,6 +178,10 @@ class Kill(Action):
     self.target.alive = False
     game.log.append(events.Died(self.target))
 
+    # Avenge victim
+    if self.target.vengeful:
+      Kill(self.target, self.player)._resolve(game)
+
 class Pardon(Action):
   precedence = 1000
 
