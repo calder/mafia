@@ -90,7 +90,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
   - [x] Lyncher
   - [x] Mason
   - [x] Miller
-  - [ ] Paranoid Gun Owner
+  - [x] Paranoid Gun Owner
   - [x] Politician
   - [x] Roleblocker
   - [x] Tracker
