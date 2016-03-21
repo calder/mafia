@@ -12,6 +12,7 @@ class RoleBase(object):
   action         = None
   faction_action = None
   vote_action    = None
+  kills_visitors = False # Kills anyone who visits them
   vengeful       = False # Takes down killers with them
   visible        = True  # Whether the role respects trackers, watchers, and forensic investigators
   votes          = 1     # The number of votes the player gets during the day
@@ -40,6 +41,12 @@ class RoleBase(object):
 
   def fate(self, game):
     return self.faction.fate(game)
+
+  def on_killed(self, **kwargs):
+    pass
+
+  def on_visited(self, **kwargs):
+    pass
 
 class Role(object):
   def __init__(self, faction_or_role):
@@ -136,6 +143,10 @@ class Overeager(Role):
     super().__init__(base)
     if base.action: self.action = Compelled(base.action)
 
+class ParanoidGunOwner(Role):
+  def on_visited(self, *, player, game, by):
+    Kill(player, by)._resolve(game)
+
 class Politician(Role):
   action = StealVote(placeholders.Self(), placeholders.Player())
 
@@ -160,7 +171,8 @@ class Watcher(Role):
   action = Watch(placeholders.Self(), placeholders.Player())
 
 class Vengeful(Role):
-  vengeful = True
+  def on_killed(self, *, player, game, by):
+    Kill(player, by)._resolve(game)
 
 class Ventriloquist(Role):
   action = Possess(placeholders.Self(), placeholders.Player(), placeholders.Player())

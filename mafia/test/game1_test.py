@@ -7,6 +7,7 @@ def test_game1():
   masons  = g.add_faction(Masonry("Test Team", town))
   mafia   = g.add_faction(Mafia("VMX Mafia"))
   alex     = g.add_player("Alex", Bodyguard(town))
+  alphago  = g.add_player("AlphaGo", ParanoidGunOwner(town))
   andy     = g.add_player("Andy", Governor(town))
   asmar    = g.add_player("Asmar", Godfather(mafia))
   becky    = g.add_player("Becky", Joker())
@@ -133,6 +134,7 @@ def test_game1():
   assert calder.alive is False
 
   night2 = Night(2)
+  night2.add_action(Delay(tyler, alphago))
   night2.add_action(FactionAction(mafia, Kill(asmar, kim)))
   night2.add_action(Watch(brian, kim))
   night2.add_action(Track(fejta, tony))
@@ -144,6 +146,8 @@ def test_game1():
 
   assert_equal(g.log.phase(night2), Log([
     events.Visited(spencer, tony),
+    events.Visited(tyler, alphago),
+    events.Died(tyler),
     events.Visited(gijosh, sami),
     events.InvestigationResult(Alignment.evil, target=sami, to=gijosh),
     events.Blocked(tony),

@@ -67,6 +67,12 @@ class Player(object):
   def fate(self, game):
     return self.role.fate(game)
 
+  def on_killed(self, **kwargs):
+    return self.role.on_killed(player=self, **kwargs)
+
+  def on_visited(self, **kwargs):
+    return self.role.on_visited(player=self, **kwargs)
+
 
   ###   Overridable by Effects   ###
 

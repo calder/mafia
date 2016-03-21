@@ -51,7 +51,7 @@ print(g.log.phase(day1))
 
 See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some crazier roles.
 
-## Features
+## Features / ToDo
 
 - Mechanics
   - [x] Night resolution
@@ -64,7 +64,6 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
     - [x] Voting / lynching
     - [ ] Day actions
   - [ ] Immediate actions
-  - [ ] Reflex actions
   - [x] Winner calculation
   - [x] Faction actions
   - [x] Roles as modifiers (i.e. Ninja Hitman)
@@ -72,6 +71,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
 - Roles
   - [x] Action Doubler
   - [x] Bodyguard
+  - [ ] Bomb
   - [x] Busdriver
   - [x] Cop
   - [x] Delayer

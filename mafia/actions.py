@@ -76,6 +76,7 @@ class Action(ActionBase):
         game.log.append(events.Visited(self.player, target,
                                        visible=self.player.role.visible,
                                        original_target=raw_target))
+        self.target.on_visited(game=game, by=self.player)
 
     # Resolve action
     self._resolve(game)
@@ -177,6 +178,7 @@ class Kill(Action):
     # Kill the victim
     self.target.alive = False
     game.log.append(events.Died(self.target))
+    self.target.on_killed(game=game, by=self.player)
 
     # Avenge victim
     if self.target.vengeful:
