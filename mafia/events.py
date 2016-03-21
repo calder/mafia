@@ -129,6 +129,8 @@ class NoLynch(Event):
     return "Nobody was lynched."
 
 class Protected(Event):
+  color = "green"
+
   def __init__(self, player):
     super().__init__()
     self.player = player

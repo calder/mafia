@@ -68,6 +68,9 @@ class Role(object):
 class ActionDoubler(Role):
   action = Double(placeholders.Self(), placeholders.Player())
 
+class Bodyguard(Role):
+  action = Guard(placeholders.Self(), placeholders.Other())
+
 class Busdriver(Role):
   action = Busdrive(placeholders.Self(), placeholders.Player(), placeholders.Player())
 

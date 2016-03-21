@@ -71,7 +71,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
   - [x] Non-exclusive win conditions
 - Roles
   - [x] Action Doubler
-  - [ ] Bodyguard
+  - [x] Bodyguard
   - [x] Busdriver
   - [x] Cop
   - [x] Delayer

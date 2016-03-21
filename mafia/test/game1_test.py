@@ -6,6 +6,7 @@ def test_game1():
   town    = g.add_faction(Town())
   masons  = g.add_faction(Masonry("Test Team", town))
   mafia   = g.add_faction(Mafia("VMX Mafia"))
+  alex     = g.add_player("Alex", Bodyguard(town))
   andy     = g.add_player("Andy", Governor(town))
   asmar    = g.add_player("Asmar", Godfather(mafia))
   becky    = g.add_player("Becky", Joker())
@@ -39,6 +40,7 @@ def test_game1():
   ]))
 
   night0 = Night(0)
+  night0.add_action(Guard(alex, max))
   night0.add_action(Double(max, justin))
   night0.add_action(FactionAction(mafia, Kill(asmar, max)))
   night0.add_action(Investigate(gijosh, tony))
@@ -46,15 +48,18 @@ def test_game1():
   g.resolve(night0)
 
   assert_equal(g.log.phase(night0), Log([
+    events.Visited(alex, max),
     events.Visited(max, justin),
     events.Doubled(justin),
     events.Visited(gijosh, tony),
     events.InvestigationResult(Alignment.good, target=tony, to=gijosh),
     events.Visited(tony, asmar),
     events.Visited(asmar, max),
-    events.Died(max),
+    events.Protected(max),
+    events.Died(alex),
   ], phase=night0))
-  assert max.alive is False
+  assert alex.alive is False
+  assert max.alive is True
   assert_equal(g.winners(), NO_WINNER_YET)
 
   day1 = Day(1)
@@ -110,7 +115,7 @@ def test_game1():
   day2.set_vote(doug, devin)
   day2.set_vote(calder, devin)
   day2.set_vote(gijosh, devin)
-  day2.set_vote(max, devin)
+  day2.set_vote(alex, devin)
   g.resolve(day2)
   assert_equal(g.log.phase(day2), Log([
     events.VotedFor(calder, calder, votes=2, original_vote=devin),

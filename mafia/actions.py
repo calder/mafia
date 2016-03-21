@@ -111,6 +111,12 @@ class Autopsy(Action):
     visitors = set(v.player for v in visits if v.player is not self.player)
     game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
 
+class Guard(Action):
+  precedence = 1000
+
+  def _resolve(self, game):
+    self.target.add_effect(GuardedBy(self.player))
+
 class Busdrive(Action):
   precedence = 0
 
@@ -157,8 +163,12 @@ class Kill(Action):
     else:                           return "[Hitman] Kill"
 
   def _resolve(self, game):
-    self.target.alive = False
-    game.log.append(events.Died(self.target))
+    victim = self.target
+    if self.target.guarded_by:
+      victim = self.target.guarded_by
+      game.log.append(events.Protected(self.target))
+    victim.alive = False
+    game.log.append(events.Died(victim))
 
 class Pardon(Action):
   precedence = 1000

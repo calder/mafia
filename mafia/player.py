@@ -73,6 +73,9 @@ class Player(object):
   def delayed(self): return False
 
   @mixin("effects")
+  def guarded_by(self): return None
+
+  @mixin("effects")
   def must_target(self): return None
 
   @mixin("effects")

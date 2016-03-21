@@ -38,6 +38,11 @@ class ExtraAction(Effect):
 class Delayed(Effect):
   delayed = True
 
+class GuardedBy(Effect):
+  def __init__(self, bodyguard, **kwargs):
+    super().__init__(**kwargs)
+    self.guarded_by = bodyguard
+
 class Unlynchable(Effect):
   lynchable = False
 
