@@ -144,7 +144,8 @@ class Overeager(Role):
     if base.action: self.action = Compelled(base.action)
 
 class ParanoidGunOwner(Role):
-  def on_visited(self, *, player, game, by):
+  def on_visited(self, *, game, player, by):
+    self.base.on_visited(game=game, player=player, by=by)
     Kill(player, by)._resolve(game)
 
 class Politician(Role):
@@ -171,7 +172,8 @@ class Watcher(Role):
   action = Watch(placeholders.Self(), placeholders.Player())
 
 class Vengeful(Role):
-  def on_killed(self, *, player, game, by):
+  def on_killed(self, *, game, player, by):
+    self.base.on_killed(game=game, player=player, by=by)
     Kill(player, by)._resolve(game)
 
 class Ventriloquist(Role):
