@@ -2,11 +2,13 @@
 
 A library for moderating games of [Mafia](http://wiki.mafiascum.net/).
 
+
 ## Installing
 
 ```sh
 sudo easy_install3 mafia
 ```
+
 
 ## Usage
 
@@ -44,6 +46,7 @@ print(g.log.phase(day1))
 ```
 
 See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some crazier roles.
+
 
 ## Contributing
 
