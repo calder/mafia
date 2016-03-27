@@ -1,4 +1,3 @@
-from . import effects
 from . import events
 from .log import *
 from .phase import *
