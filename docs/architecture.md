@@ -7,9 +7,9 @@ The state of a single Mafia game consists of:
  2. Effects which temporarily modify players in some way.
  3. A log of events that have occurred so far in the game.
 
-Actions may affect any component of the state. They can kill players or bring them back to life. They can swap players' roles or factions. They can temporarily make a player bulletproof, or steal their action. They can add events to the game log which may be read by other actions or sent to specific players.
+Actions may affect any component of the state. They can kill a player or bring them back to life. They can swap players' roles or factions. They can temporarily make a player bulletproof, or steal their action. They can add events to the game log which may be read by other actions or sent to specific players.
 
-Mafia games alternate between resolution of two phases: night and day. During night resolution, players' actions from the night are resolved psuedo-simultaneously following a well-defined order. During day resolution, players' votes are counted and a player is potentially lynched by the mob.
+Mafia games alternate between two phases: night and day. During night resolution, players' actions from the night are resolved psuedo-simultaneously following a well-defined order. During day resolution, players' votes are counted and a player is potentially lynched by the mob.
 
 ## Resolving a Night
 
