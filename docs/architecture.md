@@ -56,7 +56,7 @@ Day resolution is much simpler than night resolution. When you call ```game.reso
 
  2. Votes are recorded after accounting for those manipulated by Politicians.
 
- 3. [Vote actions](#vote-actions) are applied.
+ 3. [Vote actions](#vote-actions) are resolved.
 
  4. Votes are tallied, and the player with the most votes for them is lynched.
 
