@@ -1,18 +1,14 @@
 # Mafia
 
-This is a library for running games of [Mafia](http://wiki.mafiascum.net/).
+A library for moderating games of [Mafia](http://wiki.mafiascum.net/).
+
 
 ## Installing
 
 ```sh
-python3 setup.py install
+sudo easy_install3 mafia
 ```
 
-## Running Tests
-
-```sh
-python3 setup.py test
-```
 
 ## Usage
 
@@ -50,6 +46,25 @@ print(g.log.phase(day1))
 ```
 
 See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some crazier roles.
+
+
+## Contributing
+
+Install dependencies:
+```sh
+sudo easy_install3 nose nose-parameterized termcolor
+```
+
+Set up presubmit hooks:
+```sh
+scripts/install-git-hooks
+```
+
+Run tests:
+```sh
+nosetests
+```
+
 
 ## Features / ToDo
 
