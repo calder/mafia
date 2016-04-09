@@ -29,18 +29,9 @@ class Phase(object):
           next_action = action
           break
 
-      # If none was found, break the first loop by resolving
-      # the lowest precedence action in the loop.
+      # If none was found, resolve the lowest precedence action
       if not next_action:
-        chain = [actions[0]]
-        while True:
-          dep = dependencies[chain[-1]][0]
-          if dep in chain:
-            chain = chain[chain.index(dep):]
-            chain.sort(key=lambda a: a.precedence, reverse=True)
-            next_action = chain[-1]
-            break
-          chain.append(dep)
+        next_action = actions[0]
 
       # Resolve the action
       next_action.resolve(game)
