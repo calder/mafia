@@ -11,6 +11,10 @@ Actions may affect any component of the state. They can kill a player or bring t
 
 Mafia games alternate between two phases: night and day. During night resolution, players' actions from the night are resolved psuedo-simultaneously following a well-defined order. During day resolution, players' votes are counted and a player is potentially lynched by the mob.
 
+## Game State
+
+A game contains zero or more (probably more) *players*, each with a number of attributes. The name, liveness and role attributes are permanent properties of the player themselves, but all other attributes defer to the value given by player's role or by the current effects on the player.
+
 ## Resolving a Night
 
 When you call ```game.resolve(some_night)```:

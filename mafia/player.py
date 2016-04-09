@@ -5,8 +5,8 @@ class Player(object):
     super().__init__()
     self.name    = name
     self.role    = role
-    self.effects = []
     self.alive   = True
+    self.effects = []
 
   def __str__(self):
     return self.name
@@ -93,10 +93,10 @@ class Player(object):
   def must_target(self): return None
 
   @mixin("effects")
-  def bulletproof(self): return False
+  def bulletproof(self): return self.role.bulletproof
 
   @mixin("effects")
-  def lynchable(self): return True
+  def lynchable(self): return self.role.lynchable
 
   @mixin("effects")
   def switched_with(self): return self

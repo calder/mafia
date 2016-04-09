@@ -96,7 +96,7 @@ class Game(object):
     return sorted(set([p.faction for p in self.all_players]))
 
   def winners(self):
-    fates = {p: p.fate(self) for p in self.player_dict.values()}
+    fates = {p: p.fate(self) for p in self.all_players}
     winners   = sorted([f for f in fates if fates[f] is Fate.won])
     undecided = sorted([f for f in fates if fates[f] is Fate.undecided])
     losers    = sorted([f for f in fates if fates[f] is Fate.lost])

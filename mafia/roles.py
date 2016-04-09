@@ -12,9 +12,12 @@ class RoleBase(object):
   action         = None
   faction_action = None
   vote_action    = None
+
+  bulletproof    = False # Immune to night kills
   kills_visitors = False # Kills anyone who visits them
+  lynchable      = True  # Immune to lynching
   vengeful       = False # Takes down killers with them
-  visible        = True  # Whether the role respects trackers, watchers, and forensic investigators
+  visible        = True  # Whether the role shows up to trackers, watchers, and forensic investigators
   votes          = 1     # The number of votes the player gets during the day
 
   def __init__(self, faction):
@@ -81,6 +84,9 @@ class Bodyguard(Role):
   action = Guard(placeholders.Self(), placeholders.Other())
   elite_bodyguard = False
 
+class Bulletproof(Role):
+  bulletproof = True
+
 class EliteBodyguard(Bodyguard):
   elite_bodyguard = True
 
@@ -102,12 +108,11 @@ class DoubleVoter(Role):
 class ForensicInvestigator(Role):
   action = Autopsy(placeholders.Self(), placeholders.Corpse())
 
-class Godfather(Role):
-  apparent_alignment = Alignment.good
-  faction_action = Kill(placeholders.Self(), placeholders.Player())
-
 class Goon(Role):
   faction_action = Kill(placeholders.Self(), placeholders.Player())
+
+class Godfather(Goon):
+  apparent_alignment = Alignment.good
 
 class Governor(Role):
   vote_action = Pardon(placeholders.Self, placeholders.Other(), visible=False)
@@ -156,6 +161,9 @@ class Roleblocker(Role):
 
 class Tracker(Role):
   action = Track(placeholders.Self(), placeholders.Player())
+
+class Unlynchable(Role):
+  unlynchable = True
 
 class Usurper(Role):
   def __init__(self, faction, usurpee):
