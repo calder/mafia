@@ -1,15 +1,14 @@
 from .day import *
 from .night import *
+from .util import *
 
 class Expiration(object):
   def __init__(self, *, days=0, nights=0):
     self.days   = days
     self.nights = nights
 
-  def advance(self, phase):
-    if   isinstance(phase, Day):   self.days   -= 1
-    elif isinstance(phase, Night): self.nights -= 1
-    else: assert False, "Unhandled Phase type: %s" % type(phase)
+  def __str__(self):
+    return "days=%d, nights=%d" % (self.days, self.nights)
 
   def expired(self):
     return self.days <= 0 and self.nights <= 0
@@ -22,6 +21,9 @@ class Effect(object):
 
   def __init__(self, *, expiration=None):
     self.expiration = expiration or Days(1)
+
+  def __str__(self):
+    return "%s(expiration=%s)" % (self.__class__.__name__, str(self.expiration))
 
   @property
   def expired(self):

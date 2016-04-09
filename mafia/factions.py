@@ -53,7 +53,7 @@ class Town(Faction):
     return None
 
 class JokerFaction(Faction):
-  adjective = "Third-Party"
+  adjective = "Third Party"
   alignment = Alignment.evil
   wins_exclusively = False
 
@@ -70,7 +70,7 @@ class JokerFaction(Faction):
     return Fate.undecided
 
 class LyncherFaction(Faction):
-  adjective = "Third-Party"
+  adjective = "Third Party"
   alignment = Alignment.evil
   wins_exclusively = False
 

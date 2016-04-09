@@ -57,16 +57,21 @@ class Day(Phase):
 
     # Count votes
     for player in game.players:
-      if votes[player]:
+      if votes[player] and votes[player].alive:
         game.log.append(events.VotedFor(player, votes[player], votes=player.votes, original_vote=self.votes[player]))
         candidates[votes[player]] += player.votes
 
-    # Lynch the first viable candidate by number of votes, then coin flip
-    candidate_list = game.shuffled([(c,p) for p,c in candidates.items()])
-    ranked_candidates = [p for c,p in sorted(candidate_list, reverse=True)]
-    for candidate in ranked_candidates:
-      if candidate and candidate.alive and candidate.lynchable:
-        game.log.append(events.Lynched(candidate))
-        candidate.alive = False
-        return
-    game.log.append(events.NoLynch())
+    # Try to lynch the first viable candidate by number of votes or coin flip
+    candidate_list = game.shuffled([(c,p) for p,c in sorted(candidates.items())])
+    candidate_list = [p for c,p in sorted(candidate_list, reverse=True)]
+    victim = candidate_list[0] if len(candidate_list) > 0 else None
+    if victim and victim.lynchable:
+      game.log.append(events.Lynched(victim))
+      victim.alive = False
+    else:
+      game.log.append(events.NoLynch())
+
+    # Advance effects
+    for player in game.all_players:
+      for effect in player.effects:
+        effect.expiration.days -= 1
