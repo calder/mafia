@@ -31,7 +31,7 @@ class Blocked(Effect):
   blocked = True
 
 class ExtraAction(Effect):
-  def __init__(self, extra_actions=1, expiration=Nights(2), **kwargs):
+  def __init__(self, extra_actions=1, *, expiration=Nights(2), **kwargs):
     super().__init__(expiration=expiration, **kwargs)
     self.extra_actions = extra_actions
 
@@ -46,9 +46,6 @@ class GuardedBy(Effect):
 class Unlynchable(Effect):
   lynchable = False
 
-  def __init__(self, expiration=Days(1), **kwargs):
-    super().__init__(expiration=expiration, **kwargs)
-
 class MustTarget(Effect):
   def __init__(self, must_target, **kwargs):
     super().__init__(**kwargs)
@@ -58,9 +55,9 @@ class Protected(Effect):
   bulletproof = True
 
 class SwitchedWith(Effect):
-  def __init__(self, target, **kwargs):
+  def __init__(self, switched_with, **kwargs):
     super().__init__(**kwargs)
-    self.switched_with = target
+    self.switched_with = switched_with
 
 class VotesWith(Effect):
   def __init__(self, votes_with, **kwargs):
