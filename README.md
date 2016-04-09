@@ -131,3 +131,4 @@ nosetests
   - [ ] Busdrivers should be Ventriloquistable
   - [ ] Pass underlying attribute value to effect attributes.
   - [ ] Homogenize player attributes. Right now some are modifiable, some defer to role, some are effect-able, some defer to role and are effect-able.
+  - [ ] Simplify architecture.md

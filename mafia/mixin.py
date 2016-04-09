@@ -5,10 +5,9 @@ def mixin(mixin_attr):
     @property
     @wraps(f)
     def wrapper(self):
-      name = f.__name__
-      for mixin in getattr(self, mixin_attr):
-        if hasattr(mixin, name):
-          return getattr(mixin, name)
+      for mixin in reversed(getattr(self, mixin_attr)):
+        if hasattr(mixin, f.__name__):
+          return getattr(mixin, f.__name__)
       return f(self)
     return wrapper
   return inner

@@ -2,22 +2,15 @@ import itertools
 
 def assert_equal(x, y):
   if x != y:
-    print("--------------------1--------------------")
+    print("------------------------------------------------------------")
     print(x)
-    print("--------------------2--------------------")
+    print("-----------------------------!=-----------------------------")
     print(y)
-    print("-----------------------------------------")
+    print("------------------------------------------------------------")
   assert x == y
 
 class SingletonValue(object):
   pass
-
-class identitydefaultdict(dict):
-  def __getitem__(self, key):
-    if key in self:
-      return super().__getitem__(key)
-    else:
-      return key
 
 def str_list(list, empty):
   if len(list) == 0: return empty
@@ -53,6 +46,3 @@ def fill_randomly(x, **kwargs):
   for k, v in x.__dict__.items():
     if has_method(v, "random_instance"):
       x.__dict__[k] = v.random_instance(**kwargs)
-
-def flatten(list_of_lists):
-  return list(itertools.chain(*list_of_lists))
