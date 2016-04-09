@@ -11,7 +11,7 @@ class Expiration(object):
     elif isinstance(phase, Night): self.nights -= 1
     else: assert False, "Unhandled Phase type: %s" % type(phase)
 
-  def passed(self):
+  def expired(self):
     return self.days <= 0 and self.nights <= 0
 
 def Days(days): return Expiration(days=days)
@@ -25,7 +25,7 @@ class Effect(object):
 
   @property
   def expired(self):
-    return self.expiration.passed()
+    return self.expiration.expired()
 
 class Blocked(Effect):
   blocked = True
