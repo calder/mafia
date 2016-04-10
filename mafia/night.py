@@ -64,4 +64,3 @@ class Night(Phase):
     for player in game.all_players:
       for effect in player.effects:
         effect.expiration.nights -= 1
-        print(effect)

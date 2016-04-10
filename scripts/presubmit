@@ -6,8 +6,8 @@ nosetests || exit 1
 
 echo
 ! grep -r --exclude=mafia/util.py "print(" mafia/*.py ||
-  (echo "\nFAIL: Remove leftover print statements before committing."; exit 1)
+  { echo "\nFAIL: Remove leftover print statements before committing."; exit 1; }
 
 echo
 ! grep -r --exclude=mafia/util.py "debug=True" mafia/*.py mafia/*/*.py ||
-  (echo "\nFAIL: Remove leftover 'debug=True's before committing."; exit 1)
+  { echo "\nFAIL: Remove leftover 'debug=True's before committing."; exit 1; }
