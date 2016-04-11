@@ -3,31 +3,37 @@ from .night import *
 from .util import *
 
 class Expiration(object):
-  def __init__(self, *, days=0, nights=0):
-    self.days   = days
+  """An expiration condition for an Effect."""
+  def expired(self):       raise NotImplementedError()
+  def advance_day(self):   pass
+  def advance_night(self): pass
+
+class Days(Expiration):
+  """Expires after a number of days. Unaffected by intervening nights."""
+  def __init__(self, days):
+    self.days = days
+  def expired(self):       return self.days <= 0
+  def advance_day(self):   self.days -= 1
+
+class Nights(Expiration):
+  """Expires after number of nights. Unaffected by intervening days."""
+  def __init__(self, nights):
     self.nights = nights
+  def expired(self):       return self.nights <= 0
+  def advance_night(self): self.nights -= 1
 
-  def __str__(self):
-    return "days=%d, nights=%d" % (self.days, self.nights)
-
-  def expired(self):
-    return self.days <= 0 and self.nights <= 0
-
-def Days(days): return Expiration(days=days)
-def Nights(nights): return Expiration(nights=nights)
+class Never(Expiration):
+  """Never expires."""
+  def expired(self): return False
 
 class Effect(object):
-  """Effects are temporary alterations which can be applied to players."""
+  """Effects are temporary alterations which can be applied to players or roles."""
 
   def __init__(self, *, expiration=None):
     self.expiration = expiration or Days(1)
 
   def __str__(self):
     return "%s(expiration=%s)" % (self.__class__.__name__, str(self.expiration))
-
-  @property
-  def expired(self):
-    return self.expiration.expired()
 
 class Blocked(Effect):
   blocked = True
@@ -58,6 +64,12 @@ class MustTarget(Effect):
 
 class Protected(Effect):
   bulletproof = True
+
+class Stoned(Effect):
+  bulletproof = True
+
+  def __init__(self):
+    super().__init__(expiration=FirstUse())
 
 class SwitchedWith(Effect):
   def __init__(self, switched_with, **kwargs):

@@ -9,7 +9,7 @@ class Phase(object):
 
     # Remove expired effects
     for player in game.all_players:
-      player.effects = [e for e in player.effects if not e.expired]
+      player.effects = [e for e in player.effects if not e.expiration.expired()]
 
   def _resolve(self, game):
     pass

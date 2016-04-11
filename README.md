@@ -120,6 +120,7 @@ nosetests
   - [x] Ninja
   - [ ] One Shot
   - [x] Overeager
+  - [ ] Stone
   - [ ] Unlynchable
 - Questions
   - [ ] How should a one-shot hitman work?

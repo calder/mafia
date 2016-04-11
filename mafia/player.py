@@ -4,9 +4,11 @@ class Player(object):
   def __init__(self, name, role):
     super().__init__()
     self.name    = name
+    self.effects = []
+
+    # TODO: Make these use effects.
     self.role    = role
     self.alive   = True
-    self.effects = []
 
   def __str__(self):
     return self.name

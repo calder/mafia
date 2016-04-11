@@ -1,6 +1,7 @@
 from .actions import *
 from .factions import *
 from . import events
+from .mixin import *
 from . import placeholders
 from .player import *
 from .virtual_actions import *
@@ -9,47 +10,93 @@ import copy
 import re
 
 class RoleBase(object):
-  action         = None
-  faction_action = None
-  vote_action    = None
-
-  bulletproof    = False # Immune to night kills
-  kills_visitors = False # Kills anyone who visits them
-  lynchable      = True  # Immune to lynching
-  vengeful       = False # Takes down killers with them
-  visible        = True  # Whether the role shows up to trackers, watchers, and forensic investigators
-  votes          = 1     # The number of votes the player gets during the day
-
   def __init__(self, faction):
     assert isinstance(faction, Faction)
-    self.faction       = faction
-    self.adjectives    = []
-    self.fake_factions = []
+    self.adjectives     = []
+    self.effects        = []
+    self._faction       = faction
+    self._fake_factions = []
 
-  @property
+  def add_effect(self, effect):
+    self.effects.append(effect)
+
+  @mixin("effects")
   def apparent_factions(self):
     return [self.faction] + self.fake_factions
 
-  @property
+  @mixin("effects")
   def alignment(self):
     return self.faction.alignment
 
-  @property
+  @mixin("effects")
   def apparent_alignment(self):
     return self.alignment
 
-  @property
+  @mixin("effects")
+  def faction(self):
+    return self._faction
+
+  @mixin("effects")
+  def fake_factions(self):
+    return self._fake_factions
+
+  @mixin("effects")
   def wins_exclusively(self):
     return self.faction.wins_exclusively
 
+  @mixin_fn("effects")
   def fate(self, game):
     return self.faction.fate(game)
 
+  @mixin_fn("effects")
   def on_killed(self, **kwargs):
     pass
 
+  @mixin_fn("effects")
   def on_visited(self, **kwargs):
     pass
+
+  @mixin("effects")
+  def action(self):
+    return None
+
+  @mixin("effects")
+  def faction_action(self):
+    return None
+
+  @mixin("effects")
+  def vote_action(self):
+    return None
+
+  @mixin("effects")
+  def bulletproof(self):
+    """Immune to night kills."""
+    return False
+
+  @mixin("effects")
+  def kills_visitors(self):
+    """Kills anyone who visits them."""
+    return False
+
+  @mixin("effects")
+  def lynchable(self):
+    """Immune to lynching."""
+    return True
+
+  @mixin("effects")
+  def vengeful(self):
+    """Takes down killers with them."""
+    return False
+
+  @mixin("effects")
+  def visible(self):
+    """Whether the role shows up to trackers, watchers, and forensic investigators."""
+    return True
+
+  @mixin("effects")
+  def votes(self):
+    """The number of votes the player gets during the day."""
+    return 1
 
 class Role(object):
   def __init__(self, faction_or_role):

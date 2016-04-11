@@ -74,4 +74,4 @@ class Day(Phase):
     # Advance effects
     for player in game.all_players:
       for effect in player.effects:
-        effect.expiration.days -= 1
+        effect.expiration.advance_day()
