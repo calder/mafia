@@ -129,6 +129,4 @@ nosetests
   - [ ] Ventriloquists should respect target restrictions (i.e. Forensic Investigators shouldn't be able to be Ventriloquisted into investigating living players)
   - [ ] An unlynchable player receiving the most lynch votes should result in a no-lynch rather than the player with the second highest votes being lynched
   - [ ] Busdrivers should be Ventriloquistable
-  - [ ] Pass underlying attribute value to effect attributes.
-  - [ ] Homogenize player attributes. Right now some are modifiable, some defer to role, some are effect-able, some defer to role and are effect-able.
   - [ ] Simplify architecture.md

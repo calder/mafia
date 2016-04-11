@@ -20,61 +20,61 @@ class Player(object):
   def add_effect(self, effect):
     self.effects.append(effect)
 
-  @property
+  @mixin("effects")
   def action(self):
     if self.role.action: return self.role.action.with_player(self)
 
-  @property
+  @mixin("effects")
   def alignment(self):
     return self.role.alignment
 
-  @property
+  @mixin("effects")
   def apparent_factions(self):
     return self.role.apparent_factions
 
-  @property
+  @mixin("effects")
   def apparent_alignment(self):
     return self.role.apparent_alignment
 
-  @property
+  @mixin("effects")
   def elite_bodyguard(self):
     return self.role.elite_bodyguard
 
-  @property
+  @mixin("effects")
   def faction_action(self):
     if self.role.faction_action: return self.role.faction_action.with_player(self)
 
-  @property
+  @mixin("effects")
   def faction(self):
     return self.role.faction
 
-  @property
+  @mixin("effects")
   def vengeful(self):
     return self.role.vengeful
 
-  @property
+  @mixin("effects")
   def vote_action(self):
     if self.role.vote_action: return self.role.vote_action.with_player(self)
 
-  @property
+  @mixin("effects")
   def votes(self):
     return self.role.votes
 
-  @property
+  @mixin("effects")
   def wins_exclusively(self):
     return self.role.wins_exclusively
 
+  @mixin_fn("effects")
   def fate(self, game):
     return self.role.fate(game)
 
+  @mixin_fn("effects")
   def on_killed(self, **kwargs):
     return self.role.on_killed(player=self, **kwargs)
 
+  @mixin_fn("effects")
   def on_visited(self, **kwargs):
     return self.role.on_visited(player=self, **kwargs)
-
-
-  ###   Overridable by Effects   ###
 
   @mixin("effects")
   def action_count(self): return 1
