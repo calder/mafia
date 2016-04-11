@@ -1,6 +1,7 @@
 """
 Mixins are objects that can be "attached" to other objects to override their
-functions or properties. This is used by effects to temporarily modify players.
+functions or properties. This is used by effects to temporarily modify Player
+and Role objects.
 
 Usage:
   class Base(object):
@@ -26,16 +27,30 @@ def mixin_fn(mixin_attr):
   def decorator(f):
     @wraps(f)
     def wrapper(self, *args, **kwargs):
+      if "on_mixin_hit" in kwargs:
+        on_mixin_hit = kwargs["on_mixin_hit"]
+        del kwargs["on_mixin_hit"]
+      else:
+        on_mixin_hit = lambda m: None
+
       def call_next():
         for mixin in reversed(getattr(self, mixin_attr)):
           # Look for the function variant first
           if hasattr(mixin, f.__name__ + "_fn"):
-            mixin_f = getattr(mixin, f.__name__ + "_fn")
-            yield lambda: mixin_f(next(next_gen), *args, **kwargs)
+            def call(mixin):
+              mixin_f = getattr(mixin, f.__name__ + "_fn")
+              value = mixin_f(lambda: next(next_gen)(), *args, **kwargs)
+              on_mixin_hit(mixin)
+              return value
+            yield lambda mixin=mixin: call(mixin)
 
           # Look for the attribute variant second
           if hasattr(mixin, f.__name__):
-            yield lambda: getattr(mixin, f.__name__)
+            def call(mixin):
+              value = getattr(mixin, f.__name__)
+              on_mixin_hit(mixin)
+              return value
+            yield lambda mixin=mixin: call(mixin)
 
         # Fall back to the base implementation
         yield lambda: f(self, *args, **kwargs)

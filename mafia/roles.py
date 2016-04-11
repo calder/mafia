@@ -206,6 +206,11 @@ class Politician(Role):
 class Roleblocker(Role):
   action = Roleblock(placeholders.Self(), placeholders.Player())
 
+class Stone(Role):
+  def __init__(self, base):
+    supr().__init__(self, base)
+    self.add_effect(Stoned())
+
 class Tracker(Role):
   action = Track(placeholders.Self(), placeholders.Player())
 

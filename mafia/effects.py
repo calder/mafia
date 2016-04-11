@@ -1,3 +1,5 @@
+import re
+
 from .day import *
 from .night import *
 from .util import *
@@ -7,6 +9,7 @@ class Expiration(object):
   def expired(self):       raise NotImplementedError()
   def advance_day(self):   pass
   def advance_night(self): pass
+  def on_used(self):       pass
 
 class Days(Expiration):
   """Expires after a number of days. Unaffected by intervening nights."""
@@ -26,14 +29,31 @@ class Never(Expiration):
   """Never expires."""
   def expired(self): return False
 
+class FirstUse(Expiration):
+  """Expires the first time it gets used."""
+  def __init__(self):
+    self.used = False
+  def on_used(self): self.used = True
+  def expired(self): return self.used
+
 class Effect(object):
-  """Effects are temporary alterations which can be applied to players or roles."""
+  """Temporary alterations which can be applied to players or roles."""
 
   def __init__(self, *, expiration=None):
     self.expiration = expiration or Days(1)
 
   def __str__(self):
     return "%s(expiration=%s)" % (self.__class__.__name__, str(self.expiration))
+
+  def __getattribute__(self, attr):
+    special = re.compile(r"__.*__|expiration")
+    if special.match(attr):
+      return super().__getattribute__(attr)
+
+    if self.expiration.expired():
+      raise AttributeError()
+
+    return super().__getattribute__(attr)
 
 class Blocked(Effect):
   blocked = True
