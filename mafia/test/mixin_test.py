@@ -6,7 +6,7 @@ class Base(object):
   def __init__(self):
     self.mixins = []
 
-  @mixin_func("mixins")
+  @mixin_fn("mixins")
   def bar(self, *args, **kwargs): return "Base", args, kwargs
 
   @mixin("mixins")
@@ -25,7 +25,7 @@ class FuncMixin(object):
     if self.defer: return next()
     return self.value
 
-class AttrMixin(object):
+class PropMixin(object):
   def __init__(self, value):
     self.bar = value
     self.baz = value
@@ -44,10 +44,10 @@ class MixinTest(TestCase):
     self.assertEqual(("Mixin", (1, 2), {"a":3, "b":4}), base.bar(1, 2, a=3, b=4))
     self.assertEqual("Mixin", base.baz)
 
-  def test_attr_mixin(self):
-    """Test basic attribute mixin behavior."""
+  def test_prop_mixin(self):
+    """Test basic property mixin behavior."""
     base = Base()
-    base.mixins.append(AttrMixin("Mixin"))
+    base.mixins.append(PropMixin("Mixin"))
     self.assertEqual("Mixin", base.bar(1, 2, a=3, b=4))
     self.assertEqual("Mixin", base.baz)
 

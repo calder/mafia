@@ -22,7 +22,7 @@ Usage:
 
 from functools import wraps
 
-def mixin_func(mixin_attr):
+def mixin_fn(mixin_attr):
   def decorator(f):
     @wraps(f)
     def wrapper(self, *args, **kwargs):
@@ -48,27 +48,4 @@ def mixin_func(mixin_attr):
   return decorator
 
 def mixin(mixin_attr):
-  def decorator(f):
-    @property
-    @wraps(f)
-    def wrapper(self):
-      def call_next():
-        for mixin in reversed(getattr(self, mixin_attr)):
-          # Look for the function variant first
-          if hasattr(mixin, f.__name__ + "_fn"):
-            mixin_f = getattr(mixin, f.__name__ + "_fn")
-            yield lambda: mixin_f(next(next_gen))
-
-          # Look for the attribute variant second
-          if hasattr(mixin, f.__name__):
-            yield lambda: getattr(mixin, f.__name__)
-
-        # Fall back to the base implementation
-        yield lambda: f(self)
-
-      next_gen = call_next()
-      return next(next_gen)()
-
-    return wrapper
-
-  return decorator
+  return lambda f: property(mixin_fn(mixin_attr)(f))
