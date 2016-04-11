@@ -22,19 +22,36 @@ class Player(object):
 
   @mixin("effects")
   def action(self):
-    if self.role.action: return self.role.action.with_player(self)
+    if self.role.action:
+      return self.role.action.with_player(self)
+
+  @mixin("effects")
+  def action_count(self):
+    return 1
 
   @mixin("effects")
   def alignment(self):
     return self.role.alignment
 
   @mixin("effects")
+  def apparent_alignment(self):
+    return self.role.apparent_alignment
+
+  @mixin("effects")
   def apparent_factions(self):
     return self.role.apparent_factions
 
   @mixin("effects")
-  def apparent_alignment(self):
-    return self.role.apparent_alignment
+  def blocked(self):
+    return False
+
+  @mixin("effects")
+  def bulletproof(self):
+    return self.role.bulletproof
+
+  @mixin("effects")
+  def delayed(self):
+    return False
 
   @mixin("effects")
   def elite_bodyguard(self):
@@ -42,31 +59,28 @@ class Player(object):
 
   @mixin("effects")
   def faction_action(self):
-    if self.role.faction_action: return self.role.faction_action.with_player(self)
+    if self.role.faction_action:
+      return self.role.faction_action.with_player(self)
 
   @mixin("effects")
   def faction(self):
     return self.role.faction
 
-  @mixin("effects")
-  def vengeful(self):
-    return self.role.vengeful
-
-  @mixin("effects")
-  def vote_action(self):
-    if self.role.vote_action: return self.role.vote_action.with_player(self)
-
-  @mixin("effects")
-  def votes(self):
-    return self.role.votes
-
-  @mixin("effects")
-  def wins_exclusively(self):
-    return self.role.wins_exclusively
-
   @mixin_fn("effects")
   def fate(self, game):
     return self.role.fate(game)
+
+  @mixin("effects")
+  def guarded_by(self):
+    return None
+
+  @mixin("effects")
+  def lynchable(self):
+    return self.role.lynchable
+
+  @mixin("effects")
+  def must_target(self):
+    return None
 
   @mixin_fn("effects")
   def on_killed(self, **kwargs):
@@ -77,28 +91,26 @@ class Player(object):
     return self.role.on_visited(player=self, **kwargs)
 
   @mixin("effects")
-  def action_count(self): return 1
+  def switched_with(self):
+    return self
 
   @mixin("effects")
-  def blocked(self): return False
+  def vengeful(self):
+    return self.role.vengeful
 
   @mixin("effects")
-  def delayed(self): return False
+  def vote_action(self):
+    if self.role.vote_action:
+      return self.role.vote_action.with_player(self)
 
   @mixin("effects")
-  def guarded_by(self): return None
+  def votes(self):
+    return self.role.votes
 
   @mixin("effects")
-  def must_target(self): return None
+  def votes_with(self):
+    return self
 
   @mixin("effects")
-  def bulletproof(self): return self.role.bulletproof
-
-  @mixin("effects")
-  def lynchable(self): return self.role.lynchable
-
-  @mixin("effects")
-  def switched_with(self): return self
-
-  @mixin("effects")
-  def votes_with(self): return self
+  def wins_exclusively(self):
+    return self.role.wins_exclusively
