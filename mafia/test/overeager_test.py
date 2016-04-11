@@ -12,11 +12,11 @@ def test_overeager():
   g.resolve(night0)
   assert (villager.alive is False) or (vigilante.alive is False)
 
-def test_overeager_vanilla():
+def test_overeager_villager():
   """Test that an Overeager Villager doesn't break everything."""
   g = TestGame()
   town = g.add_faction(Town())
-  eager_villager = g.add_player("Vigilante", Overeager(Villager(town)))
+  eager_villager = g.add_player("Villager", Overeager(Villager(town)))
 
   night0 = Night(0)
   g.resolve(night0)
