@@ -44,7 +44,7 @@ def test_game1():
 
   night0 = Night(0)
   night0.add_action(Guard(alex, max))
-  night0.add_action(Guard(scott, alex, elite=True))
+  night0.add_action(Guard(scott, alex))
   night0.add_action(Double(max, justin))
   night0.add_action(FactionAction(mafia, Kill(wac, max)))
   night0.add_action(Investigate(gijosh, tony))
@@ -191,7 +191,7 @@ def test_game1():
   night4 = Night(4)
   night4.add_action(Possess(dave, paul, sahil))
   night4.add_action(Busdrive(sahil, sahil, sami))
-  night4.add_action(FactionAction(mafia, Kill(paul, dave, protectable=False)))
+  night4.add_action(FactionAction(mafia, Kill(paul, dave)))
   night4.add_action(Roleblock(spencer, brian))
   night4.add_action(Protect(tony, sahil))
   night4.add_action(Watch(brian, spencer))

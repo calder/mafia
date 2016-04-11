@@ -24,7 +24,7 @@ class BodyguardTest(TestCase):
 
     night0 = Night(0)
     night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
-    night0.add_action(Guard(bodyguard, self.villager, elite=elite))
+    night0.add_action(Guard(bodyguard, self.villager))
     self.game.resolve(night0)
 
     assert_equal(self.game.log.phase(night0), Log([

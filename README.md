@@ -131,4 +131,3 @@ nosetests
   - [ ] An unlynchable player receiving the most lynch votes should result in a no-lynch rather than the player with the second highest votes being lynched
   - [ ] Busdrivers should be Ventriloquistable
   - [ ] Simplify architecture.md
-  - [ ] Make protectable=False and elite=True unnecessary for hitmen and elite bodyguards.
