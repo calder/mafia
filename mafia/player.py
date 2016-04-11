@@ -56,8 +56,8 @@ class Player(object):
     return False
 
   @mixin("effects")
-  def elite_bodyguard(self):
-    return self.role.elite_bodyguard
+  def elite_guarded(self):
+    return False
 
   @mixin("effects")
   def faction_action(self):

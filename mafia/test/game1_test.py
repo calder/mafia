@@ -44,7 +44,7 @@ def test_game1():
 
   night0 = Night(0)
   night0.add_action(Guard(alex, max))
-  night0.add_action(Guard(scott, alex))
+  night0.add_action(Guard(scott, alex, elite=True))
   night0.add_action(Double(max, justin))
   night0.add_action(FactionAction(mafia, Kill(wac, max)))
   night0.add_action(Investigate(gijosh, tony))

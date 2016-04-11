@@ -129,13 +129,12 @@ class ActionDoubler(Role):
 
 class Bodyguard(Role):
   action = Guard(placeholders.Self(), placeholders.Other())
-  elite_bodyguard = False
 
 class Bulletproof(Role):
   bulletproof = True
 
-class EliteBodyguard(Bodyguard):
-  elite_bodyguard = True
+class EliteBodyguard(Role):
+  action = Guard(placeholders.Self(), placeholders.Other(), elite=placeholders.Bool(default=True))
 
 class Busdriver(Role):
   action = Busdrive(placeholders.Self(), placeholders.Player(), placeholders.Player())
@@ -205,11 +204,6 @@ class Politician(Role):
 
 class Roleblocker(Role):
   action = Roleblock(placeholders.Self(), placeholders.Player())
-
-class Stone(Role):
-  def __init__(self, base):
-    supr().__init__(self, base)
-    self.add_effect(Stoned())
 
 class Tracker(Role):
   action = Track(placeholders.Self(), placeholders.Player())

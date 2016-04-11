@@ -29,13 +29,6 @@ class Never(Expiration):
   """Never expires."""
   def expired(self): return False
 
-class FirstUse(Expiration):
-  """Expires the first time it gets used."""
-  def __init__(self):
-    self.used = False
-  def on_used(self): self.used = True
-  def expired(self): return self.used
-
 class Effect(object):
   """Temporary alterations which can be applied to players or roles."""
 
@@ -70,9 +63,10 @@ class Delayed(Effect):
   delayed = True
 
 class GuardedBy(Effect):
-  def __init__(self, bodyguard, **kwargs):
+  def __init__(self, bodyguard, *, elite=False, **kwargs):
     super().__init__(**kwargs)
-    self.guarded_by = bodyguard
+    self.guarded_by    = bodyguard
+    self.elite_guarded = elite
 
 class Unlynchable(Effect):
   lynchable = False
@@ -84,12 +78,6 @@ class MustTarget(Effect):
 
 class Protected(Effect):
   bulletproof = True
-
-class Stoned(Effect):
-  bulletproof = True
-
-  def __init__(self):
-    super().__init__(expiration=FirstUse())
 
 class SwitchedWith(Effect):
   def __init__(self, switched_with, **kwargs):

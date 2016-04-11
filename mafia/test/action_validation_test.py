@@ -28,7 +28,7 @@ class ActionValidationTest(TestCase):
 
   def test_compelled_action_with_choice(self):
     """Compelled actions should respect the player's choice when possible."""
-    self.cop.role.action = Compelled(self.cop.role.action)
+    self.cop.role = Overeager(self.cop.role)
 
     night0 = Night(0)
     night0.add_action(Investigate(self.cop, self.goon))

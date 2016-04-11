@@ -108,8 +108,12 @@ class Autopsy(Action):
 class Guard(Action):
   precedence = 1000
 
+  def __init__(self, player, target, *, elite=False):
+    super().__init__(player, target)
+    self.elite = elite
+
   def _resolve(self, game):
-    self.target.add_effect(GuardedBy(self.player))
+    self.target.add_effect(GuardedBy(self.player, elite=self.elite))
 
 class Busdrive(Action):
   precedence = 0
@@ -162,11 +166,11 @@ class Kill(Action):
       return
 
     # Apply bodyguarding
-    if self.target.guarded_by:
-      bodyguard = self.target.guarded_by
+    bodyguard = self.target.guarded_by
+    if bodyguard:
       game.log.append(events.Protected(self.target))
       Kill(self.player, bodyguard)._resolve(game)
-      if bodyguard.elite_bodyguard:
+      if self.target.elite_guarded:
         Kill(bodyguard, self.player)._resolve(game)
       return
 
