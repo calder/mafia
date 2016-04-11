@@ -37,6 +37,9 @@ class ExtraAction(Effect):
     super().__init__(expiration=expiration, **kwargs)
     self.extra_actions = extra_actions
 
+  def action_count_fn(self, next):
+    return self.extra_actions + next()
+
 class Delayed(Effect):
   delayed = True
 

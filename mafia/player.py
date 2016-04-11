@@ -77,8 +77,7 @@ class Player(object):
   ###   Overridable by Effects   ###
 
   @mixin("effects")
-  def action_count(self):
-    return 1 + sum([getattr(m, "extra_actions", 0) for m in self.effects])
+  def action_count(self): return 1
 
   @mixin("effects")
   def blocked(self): return False
