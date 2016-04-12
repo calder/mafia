@@ -128,7 +128,7 @@ class ActionDoubler(Role):
   action = Double(placeholders.Self(), placeholders.Player())
 
 class Bodyguard(Role):
-  action = Guard(placeholders.Self(), placeholders.Other(), elite=False)
+  action = Guard(placeholders.Self(), placeholders.Other())
 
 class Bulletproof(Role):
   bulletproof = True
@@ -155,7 +155,7 @@ class ForensicInvestigator(Role):
   action = Autopsy(placeholders.Self(), placeholders.Corpse())
 
 class Goon(Role):
-  faction_action = Kill(placeholders.Self(), placeholders.Player(), protectable=True)
+  faction_action = Kill(placeholders.Self(), placeholders.Player())
 
 class Godfather(Goon):
   apparent_alignment = Alignment.good

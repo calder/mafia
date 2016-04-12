@@ -108,7 +108,7 @@ class Autopsy(Action):
 class Guard(Action):
   precedence = 1000
 
-  def __init__(self, player, target, *, elite=DEFAULT):
+  def __init__(self, player, target, *, elite=False):
     super().__init__(player, target)
     self.elite = elite
 
@@ -150,14 +150,15 @@ class Investigate(Action):
 class Kill(Action):
   precedence = 2000
 
-  def __init__(self, player, target, *, protectable=DEFAULT):
+  def __init__(self, player, target, *, protectable=True):
     super().__init__(player, target)
     self.protectable = protectable
 
   @property
   def name(self):
-    if not self.protectable: return "Hitman Kill"
-    else:                    return "Kill"
+    if   self.protectable is True:  return "Kill"
+    elif self.protectable is False: return "Hitman Kill"
+    else:                           return "[Hitman] Kill"
 
   def _resolve(self, game):
     # Skip redundant kills

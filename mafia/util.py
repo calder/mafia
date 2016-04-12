@@ -12,8 +12,6 @@ def assert_equal(x, y):
 class SingletonValue(object):
   pass
 
-DEFAULT = SingletonValue()
-
 def str_list(list, empty):
   if len(list) == 0: return empty
   if len(list) == 1: return str(list[0])
@@ -34,8 +32,6 @@ def matches(x, y, *, debug=False, **kwargs):
     if debug: print("Keys don't match:\n  %r\n  %r" % (xkeys, ykeys))
     return False
   for k, xv, yv in [(k, x.__dict__[k], y.__dict__[k]) for k in xkeys]:
-    if yv == DEFAULT:
-      yv = y.__dict__[k] = xv.default if hasattr(xv, "default") else xv
     if has_method(xv, "matches"):
       if not xv.matches(yv, **kwargs):
         if debug: print("Field %r doesn't match:\n  %r\n  %r" % (k, xv, yv))
