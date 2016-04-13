@@ -65,7 +65,7 @@ class Day(Phase):
     candidate_list = game.shuffled([(c,p) for p,c in sorted(candidates.items())])
     candidate_list = [p for c,p in sorted(candidate_list, reverse=True)]
     victim = candidate_list[0] if len(candidate_list) > 0 else None
-    if victim and victim.lynchable:
+    if victim and not victim.unlynchable:
       game.log.append(events.Lynched(victim))
       victim.alive = False
     else:

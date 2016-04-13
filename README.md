@@ -121,7 +121,7 @@ nosetests
   - [ ] One Shot
   - [x] Overeager
   - [ ] Stone
-  - [ ] Unlynchable
+  - [x] Unlynchable
 - Questions
   - [ ] How should a one-shot hitman work?
   - [ ] How should multi-action factions work?

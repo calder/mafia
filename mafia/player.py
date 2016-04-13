@@ -77,10 +77,6 @@ class Player(object):
     return None
 
   @mixin("effects")
-  def lynchable(self):
-    return self.role.lynchable
-
-  @mixin("effects")
   def must_target(self):
     return None
 
@@ -95,6 +91,10 @@ class Player(object):
   @mixin("effects")
   def switched_with(self):
     return self
+
+  @mixin("effects")
+  def unlynchable(self):
+    return self.role.unlynchable
 
   @mixin("effects")
   def vengeful(self):

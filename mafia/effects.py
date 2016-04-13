@@ -69,7 +69,7 @@ class GuardedBy(Effect):
     self.elite_guarded = elite
 
 class Unlynchable(Effect):
-  lynchable = False
+  unlynchable = True
 
 class MustTarget(Effect):
   def __init__(self, must_target, **kwargs):

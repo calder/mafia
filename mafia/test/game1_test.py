@@ -17,7 +17,7 @@ def test_game1():
   becky    = g.add_player("Becky", Joker(jokers))
   brian    = g.add_player("Brian", Watcher(town))
   calder   = g.add_player("Calder", DoubleVoter(town))
-  dave     = g.add_player("Dave", Ventriloquist(mafia))
+  dave     = g.add_player("Dave", Unlynchable(Ventriloquist(mafia)))
   derek    = g.add_player("Derek", Vigilante(town))
   devin    = g.add_player("Devin", Politician(town))
   doug     = g.add_player("Doug", Villager(town))
@@ -172,7 +172,15 @@ def test_game1():
   assert kim.alive is False
   assert asmar.alive is False
 
-  g.resolve(Day(3))
+  day3 = Day(3)
+  day3.set_vote(sami, dave)
+  g.resolve(day3)
+
+  assert_equal(g.log.phase(day3), Log([
+      events.VotedFor(sami, dave),
+      events.NoLynch(),
+  ], phase=day3))
+  assert dave.alive is True
 
   night3 = Night(3)
   night3.add_action(Autopsy(leese, kim))

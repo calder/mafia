@@ -65,8 +65,8 @@ class RoleBase(object):
     return False
 
   @mixin("effects")
-  def lynchable(self):
-    return True
+  def unlynchable(self):
+    return False
 
   @mixin_fn("effects")
   def on_killed(self, **kwargs):
