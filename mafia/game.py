@@ -1,7 +1,7 @@
 from .log import *
 from .factions import *
 from .player import *
-from .roles import Role
+from .roles import RoleBase
 from .util import *
 
 import random
@@ -57,7 +57,7 @@ class Game(object):
     """
 
     if role:
-      assert isinstance(role, Role)
+      assert isinstance(role, RoleBase)
       player = Player(player, role)
 
     assert isinstance(player, Player)

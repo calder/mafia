@@ -4,7 +4,6 @@ from .phase import *
 from .util import *
 
 from collections import *
-import copy
 
 class Day(Phase):
   """

@@ -57,8 +57,8 @@ class ExtraAction(Effect):
     super().__init__(expiration=expiration, **kwargs)
     self.extra_actions = extra_actions
 
-  def action_count_fn(self, next):
-    return self.extra_actions + next()
+  def action_count_fn(self, base):
+    return self.extra_actions + base()
 
 class Delayed(Effect):
   delayed = True
@@ -69,7 +69,7 @@ class GuardedBy(Effect):
     self.bodyguard = bodyguard
     self.elite     = elite
 
-  def on_killed_fn(self, next, *, game, player, by, **kwargs):
+  def on_killed_fn(self, base, *, game, player, by, **kwargs):
     game.log.append(events.Protected(player))
     resolve_kill(by, self.bodyguard, game=game, **kwargs)
     if self.elite: resolve_kill(self.bodyguard, by, game=game)
@@ -83,9 +83,9 @@ class MustTarget(Effect):
     self.must_target = must_target
 
 class Protected(Effect):
-  def on_killed_fn(self, next, *, game, player, by, protectable, **kwargs):
+  def on_killed_fn(self, base, *, game, player, by, protectable, **kwargs):
     if protectable: game.log.append(events.Protected(player))
-    else:           return next()
+    else:           return base()
 
 class SwitchedWith(Effect):
   def __init__(self, switched_with, **kwargs):

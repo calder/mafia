@@ -6,168 +6,172 @@ from . import placeholders
 from .player import *
 from .virtual_actions import *
 
-import copy
 import re
 
 class RoleBase(object):
   def __init__(self, faction):
     assert isinstance(faction, Faction)
-    self.adjectives     = []
-    self.effects        = []
+    self.mixins         = []
     self._faction       = faction
     self._fake_factions = []
-
-  def add_effect(self, effect):
-    self.effects.append(effect)
-
-  @mixin("effects")
-  def action(self):
-    return None
-
-  @mixin("effects")
-  def apparent_factions(self):
-    return [self.faction] + self.fake_factions
-
-  @mixin("effects")
-  def alignment(self):
-    return self.faction.alignment
-
-  @mixin("effects")
-  def apparent_alignment(self):
-    return self.alignment
-
-  @mixin("effects")
-  def faction(self):
-    return self._faction
-
-  @mixin("effects")
-  def fake_factions(self):
-    return self._fake_factions
-
-  @mixin("effects")
-  def wins_exclusively(self):
-    return self.faction.wins_exclusively
-
-  @mixin("effects")
-  def faction_action(self):
-    return None
-
-  @mixin("effects")
-  def fate(self):
-    return self.faction.fate
-
-  @mixin("effects")
-  def kills_visitors(self):
-    return False
-
-  @mixin("effects")
-  def unlynchable(self):
-    return False
-
-  @mixin_fn("effects")
-  def on_killed(self, *, game, player, **kwargs):
-    player.alive = False
-    game.log.append(events.Died(player))
-
-  @mixin_fn("effects")
-  def on_visited(self, **kwargs):
-    pass
-
-  @mixin("effects")
-  def visible(self):
-    return True
-
-  @mixin("effects")
-  def vote_action(self):
-    return None
-
-  @mixin("effects")
-  def votes(self):
-    return 1
-
-class Role(object):
-  def __init__(self, faction_or_role):
-    if isinstance(faction_or_role, Faction):
-      faction_or_role = RoleBase(faction_or_role)
-    assert isinstance(faction_or_role, Role) or isinstance(faction_or_role, RoleBase)
-    self.base = faction_or_role
 
   def __str__(self):
     return "%s %s" % (self.faction.adjective, self.adjective)
 
-  def __getattr__(self, attr):
-    return getattr(self.base, attr)
+  def add_mixin(self, effect):
+    self.mixins.append(effect)
 
-  @mixin("effects")
-  def adjectives(self):
-    return re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__) + self.base.adjectives
+  @mixin("mixins")
+  def action(self):
+    return None
 
-  @mixin("effects")
+  @mixin("mixins")
   def adjective(self):
     return " ".join(self.adjectives)
 
+  @mixin("mixins")
+  def adjectives(self):
+    return []
+
+  @mixin("mixins")
+  def apparent_factions(self):
+    return [self.faction] + self.fake_factions
+
+  @mixin("mixins")
+  def alignment(self):
+    return self.faction.alignment
+
+  @mixin("mixins")
+  def apparent_alignment(self):
+    return self.alignment
+
+  @mixin("mixins")
+  def faction(self):
+    return self._faction
+
+  @mixin("mixins")
+  def fake_factions(self):
+    return self._fake_factions
+
+  @mixin("mixins")
+  def wins_exclusively(self):
+    return self.faction.wins_exclusively
+
+  @mixin("mixins")
+  def faction_action(self):
+    return None
+
+  @mixin("mixins")
+  def fate(self):
+    return self.faction.fate
+
+  @mixin("mixins")
+  def kills_visitors(self):
+    return False
+
+  @mixin("mixins")
+  def unlynchable(self):
+    return False
+
+  @mixin_fn("mixins")
+  def on_killed(self, *, game, player, **kwargs):
+    player.alive = False
+    game.log.append(events.Died(player))
+
+  @mixin_fn("mixins")
+  def on_visited(self, **kwargs):
+    pass
+
+  @mixin("mixins")
+  def visible(self):
+    return True
+
+  @mixin("mixins")
+  def vote_action(self):
+    return None
+
+  @mixin("mixins")
+  def votes(self):
+    return 1
+
+class Role(object):
+  def __new__(cls, faction_or_role, *args, **kwargs):
+    if isinstance(faction_or_role, Faction):
+      base = RoleBase(faction_or_role)
+    else:
+      base = faction_or_role
+    assert isinstance(base, RoleBase)
+
+    obj = super(Role, cls).__new__(cls)
+    obj.__init__(*args, **kwargs)
+    base.add_mixin(obj)
+    return base
+
+  def adjectives_fn(self, base):
+    return re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__) + base()
+
 class ActionDoubler(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Double(placeholders.Self(), placeholders.Player())
 
 class Bodyguard(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Guard(placeholders.Self(), placeholders.Other())
 
 class EliteBodyguard(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Guard(placeholders.Self(), placeholders.Other(), elite=placeholders.Bool(default=True))
 
 class Busdriver(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Busdrive(placeholders.Self(), placeholders.Player(), placeholders.Player())
 
 class Cop(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Investigate(placeholders.Self(), placeholders.Player())
 
 class Delayer(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Delay(placeholders.Self(), placeholders.Player())
 
 class Doctor(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Protect(placeholders.Self(), placeholders.Player())
 
 class DoubleVoter(Role):
-  @mixin("effects")
+  @property
   def votes(self):
     return 2
 
 class ForensicInvestigator(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Autopsy(placeholders.Self(), placeholders.Corpse())
 
 class Goon(Role):
-  @mixin("effects")
+  @property
   def faction_action(self):
     return Kill(placeholders.Self(), placeholders.Player())
 
 class Godfather(Goon):
-  @mixin("effects")
+  @property
   def apparent_alignment(self):
     return Alignment.good
 
 class Governor(Role):
-  @mixin("effects")
+  @property
   def vote_action(self):
     return Pardon(placeholders.Self, placeholders.Other(), visible=False)
 
 class Hitman(Role):
-  @mixin("effects")
+  @property
   def faction_action(self):
     return Kill(placeholders.Self(), placeholders.Player(), protectable=placeholders.Bool(default=False))
 
@@ -181,76 +185,72 @@ class Mason(Role):
   pass
 
 class Miller(Role):
-  @mixin("effects")
+  @property
   def apparent_alignment(self):
     return Alignment.evil
 
 class Ninja(Role):
-  @mixin("effects")
+  @property
   def visible(self):
     return False
 
 class Overeager(Role):
-  @mixin("effects")
-  def action(self):
-    if self.base.action: return Compelled(self.base.action)
+  def action_fn(self, base):
+    base = base()
+    if base: return Compelled(base)
 
 class ParanoidGunOwner(Role):
-  @mixin_fn("effects")
-  def on_visited(self, *, game, player, by):
-    self.base.on_visited(game=game, player=player, by=by)
-    Kill(player, by)._resolve(game)
+  def on_visited_fn(self, base, *, game, player, by):
+    base()
+    resolve_kill(player, by, game=game)
 
 class Politician(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return StealVote(placeholders.Self(), placeholders.Player())
 
 class Roleblocker(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Roleblock(placeholders.Self(), placeholders.Player())
 
 class Tracker(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Track(placeholders.Self(), placeholders.Player())
 
 class Unlynchable(Role):
-  @mixin("effects")
+  @property
   def unlynchable(self):
     return True
 
 class Usurper(Role):
-  def __init__(self, faction, usurpee):
-    super().__init__(faction)
+  def __init__(self, usurpee):
     self.usurpee = usurpee
 
-  @mixin("effects")
-  def fate(self):
-    faction_fate = self.faction.fate
+  def fate_fn(self, base):
+    faction_fate = base()
     if faction_fate is Fate.won:
       return Fate.lost if self.usurpee.alive else Fate.won
     return faction_fate
 
 class Watcher(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Watch(placeholders.Self(), placeholders.Player())
 
 class Vengeful(Role):
-  @mixin_fn("effects")
-  def on_killed(self, *, game, player, by, **kwargs):
-    self.base.on_killed(game=game, player=player, by=by, **kwargs)
+  def on_killed_fn(self, base, *, game, player, by, **kwargs):
+    base()
     resolve_kill(player, by, game=game)
 
 class Ventriloquist(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Possess(placeholders.Self(), placeholders.Player(), placeholders.Player())
 
 class Vigilante(Role):
-  @mixin("effects")
+  @property
   def action(self):
     return Kill(placeholders.Self(), placeholders.Player())
 

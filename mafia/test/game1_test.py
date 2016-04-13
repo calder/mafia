@@ -8,7 +8,7 @@ def test_game1():
   masons   = g.add_faction(Masonry("Test Team", town))
   mafia    = g.add_faction(Mafia("VMX Mafia"))
   jokers   = g.add_faction(JokerFaction("Jokers"))
-  lynchers = g.add_faction(LyncherFaction("VMX Usurpers"))
+  lynchers = g.add_faction(LyncherFaction("Lynchers"))
 
   alex     = g.add_player("Alex", Bodyguard(town))
   alphago  = g.add_player("AlphaGo", ParanoidGunOwner(town))
@@ -39,6 +39,8 @@ def test_game1():
   tony     = g.add_player("Tony", Doctor(town))
   tyler    = g.add_player("Tyler", Delayer(town))
   wac      = g.add_player("Wac", Goon(mafia))
+
+  assert_equal(mafia.members, [asmar, dave, paul, sami, tarl, wac])
 
   lynchers.set_target(doug)
   g.begin()

@@ -6,8 +6,6 @@ from . import placeholders
 from .side_effects import *
 from .util import *
 
-import copy
-
 def busdrive_shares_target(self, other):
   return isinstance(other, Busdrive) and \
          len(set(self.targets).intersection(other.targets)) > 0
