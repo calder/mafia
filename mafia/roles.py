@@ -69,16 +69,13 @@ class RoleBase(object):
     return False
 
   @mixin_fn("effects")
-  def on_killed(self, **kwargs):
-    pass
+  def on_killed(self, *, game, player, **kwargs):
+    player.alive = False
+    game.log.append(events.Died(player))
 
   @mixin_fn("effects")
   def on_visited(self, **kwargs):
     pass
-
-  @mixin("effects")
-  def vengeful(self):
-    return False
 
   @mixin("effects")
   def visible(self):

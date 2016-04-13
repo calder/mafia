@@ -97,10 +97,6 @@ class Player(object):
     return self.role.unlynchable
 
   @mixin("effects")
-  def vengeful(self):
-    return self.role.vengeful
-
-  @mixin("effects")
   def vote_action(self):
     if self.role.vote_action:
       return self.role.vote_action.with_player(self)
