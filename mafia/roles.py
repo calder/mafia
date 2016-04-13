@@ -203,9 +203,9 @@ class Ninja(Role):
     return False
 
 class Overeager(Role):
-  def __init__(self, base):
-    super().__init__(base)
-    if base.action: self.action = Compelled(base.action)
+  @property
+  def action(self):
+    if self.base.action: return Compelled(self.base.action)
 
 class ParanoidGunOwner(Role):
   def on_visited(self, *, game, player, by):
