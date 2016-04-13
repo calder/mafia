@@ -105,81 +105,81 @@ class Role(object):
   def __getattr__(self, attr):
     return getattr(self.base, attr)
 
-  @property
+  @mixin("effects")
   def adjectives(self):
     return re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__) + self.base.adjectives
 
-  @property
+  @mixin("effects")
   def adjective(self):
     return " ".join(self.adjectives)
 
 class ActionDoubler(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Double(placeholders.Self(), placeholders.Player())
 
 class Bodyguard(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Guard(placeholders.Self(), placeholders.Other())
 
 class Bulletproof(Role):
-  @property
+  @mixin("effects")
   def bulletproof(self):
     return True
 
 class EliteBodyguard(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Guard(placeholders.Self(), placeholders.Other(), elite=placeholders.Bool(default=True))
 
 class Busdriver(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Busdrive(placeholders.Self(), placeholders.Player(), placeholders.Player())
 
 class Cop(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Investigate(placeholders.Self(), placeholders.Player())
 
 class Delayer(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Delay(placeholders.Self(), placeholders.Player())
 
 class Doctor(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Protect(placeholders.Self(), placeholders.Player())
 
 class DoubleVoter(Role):
-  @property
+  @mixin("effects")
   def votes(self):
     return 2
 
 class ForensicInvestigator(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Autopsy(placeholders.Self(), placeholders.Corpse())
 
 class Goon(Role):
-  @property
+  @mixin("effects")
   def faction_action(self):
     return Kill(placeholders.Self(), placeholders.Player())
 
 class Godfather(Goon):
-  @property
+  @mixin("effects")
   def apparent_alignment(self):
     return Alignment.good
 
 class Governor(Role):
-  @property
+  @mixin("effects")
   def vote_action(self):
     return Pardon(placeholders.Self, placeholders.Other(), visible=False)
 
 class Hitman(Role):
-  @property
+  @mixin("effects")
   def faction_action(self):
     return Kill(placeholders.Self(), placeholders.Player(), protectable=placeholders.Bool(default=False))
 
@@ -193,17 +193,17 @@ class Mason(Role):
   pass
 
 class Miller(Role):
-  @property
+  @mixin("effects")
   def apparent_alignment(self):
     return Alignment.evil
 
 class Ninja(Role):
-  @property
+  @mixin("effects")
   def visible(self):
     return False
 
 class Overeager(Role):
-  @property
+  @mixin("effects")
   def action(self):
     if self.base.action: return Compelled(self.base.action)
 
@@ -213,22 +213,22 @@ class ParanoidGunOwner(Role):
     Kill(player, by)._resolve(game)
 
 class Politician(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return StealVote(placeholders.Self(), placeholders.Player())
 
 class Roleblocker(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Roleblock(placeholders.Self(), placeholders.Player())
 
 class Tracker(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Track(placeholders.Self(), placeholders.Player())
 
 class Unlynchable(Role):
-  @property
+  @mixin("effects")
   def unlynchable(self):
     return True
 
@@ -245,7 +245,7 @@ class Usurper(Role):
     return faction_fate
 
 class Watcher(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Watch(placeholders.Self(), placeholders.Player())
 
@@ -255,12 +255,12 @@ class Vengeful(Role):
     Kill(player, by)._resolve(game)
 
 class Ventriloquist(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Possess(placeholders.Self(), placeholders.Player(), placeholders.Player())
 
 class Vigilante(Role):
-  @property
+  @mixin("effects")
   def action(self):
     return Kill(placeholders.Self(), placeholders.Player())
 
