@@ -1,7 +1,6 @@
 from mafia.mixin import *
 
 from unittest import TestCase
-from unittest.mock import MagicMock, call
 
 class Base(object):
   def __init__(self):
@@ -46,10 +45,8 @@ class MixinTest(TestCase):
     base = Base()
 
     self.assertEqual("Base", base.bar)
-    on_hit = MagicMock()
     self.assertEqual(("Base", (1, 2), {"a":3, "b":4}),
-                     base.baz(1, 2, a=3, b=4, on_mixin_hit=on_hit))
-    on_hit.assert_not_called()
+                     base.baz(1, 2, a=3, b=4))
 
   def test_func_mixin(self):
     """Test basic function mixin behavior."""
@@ -58,10 +55,8 @@ class MixinTest(TestCase):
     base.mixins.append(mixin)
 
     self.assertEqual("Mixin", base.bar)
-    on_hit = MagicMock()
     self.assertEqual(("Mixin", (1, 2), {"a":3, "b":4}),
-                     base.baz(1, 2, a=3, b=4, on_mixin_hit=on_hit))
-    on_hit.assert_called_once_with(mixin)
+                     base.baz(1, 2, a=3, b=4))
 
   def test_prop_mixin(self):
     """Test basic property mixin behavior."""
@@ -70,9 +65,7 @@ class MixinTest(TestCase):
     base.mixins.append(mixin)
 
     self.assertEqual("Mixin", base.bar)
-    on_hit = MagicMock()
-    self.assertEqual("Mixin", base.baz(1, 2, a=3, b=4, on_mixin_hit=on_hit))
-    on_hit.assert_called_once_with(mixin)
+    self.assertEqual("Mixin", base.baz(1, 2, a=3, b=4))
 
   def test_two_mixins(self):
     """
@@ -90,23 +83,17 @@ class MixinTest(TestCase):
 
     # Second mixin should take priority.
     self.assertEqual("Mixin 2", base.bar)
-    on_hit = MagicMock()
     self.assertEqual(("Mixin 2", (1, 2), {"a":3, "b":4}),
-                     base.baz(1, 2, a=3, b=4, on_mixin_hit=on_hit))
-    self.assertEqual([call(mixin2)], on_hit.mock_calls)
+                     base.baz(1, 2, a=3, b=4))
 
     # Second mixin should now defer to first mixin.
     mixin2.defer = True
     self.assertEqual("Mixin 1", base.bar)
-    on_hit = MagicMock()
     self.assertEqual(("Mixin 1", (1, 2), {"a":3, "b":4}),
-                     base.baz(1, 2, a=3, b=4, on_mixin_hit=on_hit))
-    self.assertEqual([call(mixin1), call(mixin2)], on_hit.mock_calls)
+                     base.baz(1, 2, a=3, b=4))
 
     # Both mixins should now defer to base implementation.
     mixin1.defer = True
     self.assertEqual("Base", base.bar)
-    on_hit = MagicMock()
     self.assertEqual(("Base", (1, 2), {"a":3, "b":4}),
-                     base.baz(1, 2, a=3, b=4, on_mixin_hit=on_hit))
-    self.assertEqual([call(mixin1), call(mixin2)], on_hit.mock_calls)
+                     base.baz(1, 2, a=3, b=4))

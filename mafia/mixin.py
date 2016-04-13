@@ -27,12 +27,6 @@ def mixin_fn(mixin_attr):
   def decorator(f):
     @wraps(f)
     def wrapper(self, *args, **kwargs):
-      if "on_mixin_hit" in kwargs:
-        on_mixin_hit = kwargs["on_mixin_hit"]
-        del kwargs["on_mixin_hit"]
-      else:
-        on_mixin_hit = lambda m: None
-
       def call_next():
         for mixin in reversed(getattr(self, mixin_attr)):
           # Look for the function variant first
@@ -40,7 +34,6 @@ def mixin_fn(mixin_attr):
             def call(mixin):
               mixin_f = getattr(mixin, f.__name__ + "_fn")
               value = mixin_f(lambda: next(next_gen)(), *args, **kwargs)
-              on_mixin_hit(mixin)
               return value
             yield lambda mixin=mixin: call(mixin)
 
@@ -48,7 +41,6 @@ def mixin_fn(mixin_attr):
           if hasattr(mixin, f.__name__):
             def call(mixin):
               value = getattr(mixin, f.__name__)
-              on_mixin_hit(mixin)
               return value
             yield lambda mixin=mixin: call(mixin)
 
