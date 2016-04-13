@@ -2,6 +2,7 @@ import re
 
 from .day import *
 from .night import *
+from .side_effects import *
 from .util import *
 
 class Expiration(object):
@@ -65,8 +66,13 @@ class Delayed(Effect):
 class GuardedBy(Effect):
   def __init__(self, bodyguard, *, elite=False, **kwargs):
     super().__init__(**kwargs)
-    self.guarded_by    = bodyguard
-    self.elite_guarded = elite
+    self.bodyguard = bodyguard
+    self.elite     = elite
+
+  def on_killed_fn(self, next, *, game, player, by, **kwargs):
+    game.log.append(events.Protected(player))
+    resolve_kill(by, self.bodyguard, game=game)
+    if self.elite: resolve_kill(self.bodyguard, by, game=game)
 
 class Unlynchable(Effect):
   unlynchable = True
@@ -77,7 +83,11 @@ class MustTarget(Effect):
     self.must_target = must_target
 
 class Protected(Effect):
-  bulletproof = True
+  def on_killed_fn(self, next, *, game, player, by, protectable, **kwargs):
+    if protectable:
+      game.log.append(events.Protected(player))
+    else:
+      return next()
 
 class SwitchedWith(Effect):
   def __init__(self, switched_with, **kwargs):

@@ -37,10 +37,6 @@ class RoleBase(object):
     return self.alignment
 
   @mixin("effects")
-  def bulletproof(self):
-    return False
-
-  @mixin("effects")
   def faction(self):
     return self._faction
 
@@ -119,11 +115,6 @@ class Bodyguard(Role):
   @mixin("effects")
   def action(self):
     return Guard(placeholders.Self(), placeholders.Other())
-
-class Bulletproof(Role):
-  @mixin("effects")
-  def bulletproof(self):
-    return True
 
 class EliteBodyguard(Role):
   @mixin("effects")
@@ -249,9 +240,9 @@ class Watcher(Role):
 
 class Vengeful(Role):
   @mixin_fn("effects")
-  def on_killed(self, *, game, player, by):
-    self.base.on_killed(game=game, player=player, by=by)
-    Kill(player, by)._resolve(game)
+  def on_killed(self, *, game, player, by, **kwargs):
+    self.base.on_killed(game=game, player=player, by=by, **kwargs)
+    resolve_kill(player, by, game=game)
 
 class Ventriloquist(Role):
   @mixin("effects")

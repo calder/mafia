@@ -48,15 +48,7 @@ class Player(object):
     return False
 
   @mixin("effects")
-  def bulletproof(self):
-    return self.role.bulletproof
-
-  @mixin("effects")
   def delayed(self):
-    return False
-
-  @mixin("effects")
-  def elite_guarded(self):
     return False
 
   @mixin("effects")
@@ -73,20 +65,16 @@ class Player(object):
     return self.role.fate
 
   @mixin("effects")
-  def guarded_by(self):
-    return None
-
-  @mixin("effects")
   def must_target(self):
     return None
 
   @mixin_fn("effects")
   def on_killed(self, **kwargs):
-    return self.role.on_killed(player=self, **kwargs)
+    return self.role.on_killed(**kwargs)
 
   @mixin_fn("effects")
   def on_visited(self, **kwargs):
-    return self.role.on_visited(player=self, **kwargs)
+    return self.role.on_visited(**kwargs)
 
   @mixin("effects")
   def switched_with(self):

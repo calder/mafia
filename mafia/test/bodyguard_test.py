@@ -49,8 +49,8 @@ class BodyguardTest(TestCase):
     self.game.resolve(night0)
 
     assert_equal(self.game.log.phase(night0), Log([
-      events.Visited(self.bodyguard, self.villager),
       events.Visited(self.doctor, self.villager),
+      events.Visited(self.bodyguard, self.villager),
       events.Visited(self.goon, self.villager),
       events.Protected(self.villager),
       events.Died(self.bodyguard),
@@ -70,8 +70,8 @@ class BodyguardTest(TestCase):
     self.game.resolve(night0)
 
     assert_equal(self.game.log.phase(night0), Log([
-      events.Visited(self.bodyguard, self.villager),
       events.Visited(self.doctor, self.bodyguard),
+      events.Visited(self.bodyguard, self.villager),
       events.Visited(self.goon, self.villager),
       events.Protected(self.villager),
       events.Protected(self.bodyguard),

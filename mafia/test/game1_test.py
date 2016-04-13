@@ -58,13 +58,13 @@ def test_game1():
   g.resolve(night0)
 
   assert_equal(g.log.phase(night0), Log([
-    events.Visited(alex, max),
-    events.Visited(scott, alex),
     events.Visited(max, justin),
     events.Doubled(justin),
     events.Visited(gijosh, tony),
     events.InvestigationResult(Alignment.good, target=tony, to=gijosh),
     events.Visited(tony, asmar),
+    events.Visited(alex, max),
+    events.Visited(scott, alex),
     events.Visited(wac, max),
     events.Protected(max),
     events.Protected(alex),

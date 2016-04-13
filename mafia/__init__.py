@@ -13,6 +13,7 @@ from .phase import *
 from . import placeholders
 from .player import *
 from .roles import *
+from .side_effects import *
 from .util import *
 from .virtual_actions import *
 

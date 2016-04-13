@@ -3,6 +3,7 @@ from .effects import *
 from . import events
 from .log import *
 from . import placeholders
+from .side_effects import *
 from .util import *
 
 import copy
@@ -75,7 +76,7 @@ class Action(ActionBase):
         game.log.append(events.Visited(self.player, target,
                                        visible=self.player.role.visible,
                                        original_target=raw_target))
-        self.target.on_visited(game=game, by=self.player)
+        self.target.on_visited(game=game, player=self.target, by=self.player)
 
     # Resolve action
     self._resolve(game)
@@ -105,7 +106,7 @@ class Autopsy(Action):
     game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
 
 class Guard(Action):
-  precedence = 1000
+  precedence = 1001
 
   def __init__(self, player, target, *, elite=False):
     super().__init__(player, target)
@@ -160,26 +161,7 @@ class Kill(Action):
     else:                           return "[Hitman] Kill"
 
   def _resolve(self, game):
-    # Skip redundant kills
-    if not self.target.alive:
-      return
-
-    # Apply bodyguarding
-    bodyguard = self.target.guarded_by
-    if bodyguard:
-      game.log.append(events.Protected(self.target))
-      Kill(self.player, bodyguard)._resolve(game)
-      if self.target.elite_guarded:
-        Kill(bodyguard, self.player)._resolve(game)
-      return
-
-    # Apply protection
-    if self.protectable and self.target.bulletproof:
-      game.log.append(events.Protected(self.target))
-      return
-
-    # Kill the victim
-    self.target.on_killed(game=game, by=self.player)
+    resolve_kill(self.player, self.target, game=game, protectable=self.protectable)
 
 class Pardon(Action):
   precedence = 1000
