@@ -208,6 +208,7 @@ class Overeager(Role):
     if self.base.action: return Compelled(self.base.action)
 
 class ParanoidGunOwner(Role):
+  @mixin_fn("effects")
   def on_visited(self, *, game, player, by):
     self.base.on_visited(game=game, player=player, by=by)
     Kill(player, by)._resolve(game)
@@ -250,6 +251,7 @@ class Watcher(Role):
     return Watch(placeholders.Self(), placeholders.Player())
 
 class Vengeful(Role):
+  @mixin_fn("effects")
   def on_killed(self, *, game, player, by):
     self.base.on_killed(game=game, player=player, by=by)
     Kill(player, by)._resolve(game)
