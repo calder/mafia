@@ -3,7 +3,7 @@ from .util import *
 
 from termcolor import colored
 
-PUBLIC = SingletonValue()
+PUBLIC = SingletonValue("PUBLIC")
 
 class Event(object):
   def __init__(self, *, phase=None, to=None):

@@ -15,6 +15,7 @@ class NaturalActionResolutionTest(TestCase):
     self.roleblocker = self.game.add_player("Roleblocker", Roleblocker(self.town))
 
   def test_roleblock_can_be_busdriven(self):
+    """Test that a roleblock and be busdriven."""
     night0 = Night(0)
     night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.busdriver)))
     night0.add_action(Busdrive(self.busdriver, self.villager, self.goon))
@@ -31,6 +32,7 @@ class NaturalActionResolutionTest(TestCase):
     assert self.villager.alive is True
 
   def test_busdrive_can_be_roleblocked(self):
+    """Test that a busdriver can be roleblocked."""
     night0 = Night(0)
     night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
     night0.add_action(Busdrive(self.busdriver, self.villager, self.goon))
@@ -56,14 +58,17 @@ class NaturalActionResolutionTest(TestCase):
 
     # Give the roleblock lower precedence so only an explicit
     # dependency will cause it to be resolved first.
-    self.roleblocker.role.action.precedence = Kill.precedence + 1
-    roleblock = Roleblock(self.roleblocker, self.roleblocker)
-    roleblock.precedence = Kill.precedence + 1
+    class LateRoleblock(Roleblock):
+      precedence = Kill.precedence + 1
+    class LateRoleblocker(Roleblocker):
+      action = LateRoleblock(placeholders.Self(), placeholders.Player())
+      precedence = Kill.precedence + 1
+    self.roleblocker.role = LateRoleblocker(self.town)
 
     night0 = Night(0)
     night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
     night0.add_action(Busdrive(self.busdriver, self.roleblocker, self.goon))
-    night0.add_action(roleblock)
+    night0.add_action(LateRoleblock(self.roleblocker, self.roleblocker))
     self.game.resolve(night0)
 
     assert_equal(self.game.log, Log([

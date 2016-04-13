@@ -10,7 +10,11 @@ def assert_equal(x, y):
   assert x == y
 
 class SingletonValue(object):
-  pass
+  def __init__(self, name):
+    self.name = name
+
+  def __repr__(self):
+    return self.name
 
 def str_list(list, empty):
   if len(list) == 0: return empty

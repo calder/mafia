@@ -6,8 +6,8 @@ from .util import *
 
 import random
 
-EVERYONE_LOST = SingletonValue()
-NO_WINNER_YET = SingletonValue()
+EVERYONE_LOST = SingletonValue("EVERYONE_LOST")
+NO_WINNER_YET = SingletonValue("NO_WINNER_YET")
 
 class Game(object):
   """
@@ -44,6 +44,7 @@ class Game(object):
   def add_faction(self, faction):
     assert faction.name not in self.faction_dict
 
+    faction.game = self
     self.faction_dict[faction.name] = faction
     return faction
 
@@ -71,7 +72,7 @@ class Game(object):
       self.log.append(events.RoleAnnouncement(player, player.role))
 
     for faction in self.factions:
-      members = faction.apparent_members(self)
+      members = faction.apparent_members
       if members and len(members) > 1:
         self.log.append(events.FactionAnnouncement(faction, members))
 
@@ -96,7 +97,7 @@ class Game(object):
     return sorted(set([p.faction for p in self.all_players]))
 
   def winners(self):
-    fates = {p: p.fate(self) for p in self.all_players}
+    fates = {p: p.fate for p in self.all_players}
     winners   = sorted([f for f in fates if fates[f] is Fate.won])
     undecided = sorted([f for f in fates if fates[f] is Fate.undecided])
     losers    = sorted([f for f in fates if fates[f] is Fate.lost])

@@ -15,10 +15,12 @@ def roleblock_targetted_player(self, other):
   return isinstance(other, Roleblock) and self.player == other.target
 
 class Action(ActionBase):
-  dependencies = [
-    roleblock_targetted_player,
-    busdrive_shares_target,
-  ]
+  @property
+  def dependencies(self):
+    return [
+      roleblock_targetted_player,
+      busdrive_shares_target,
+    ]
 
   def __init__(self, player, targets, *, visible=True, **kwargs):
     if not isinstance(targets, list):
@@ -27,9 +29,6 @@ class Action(ActionBase):
     self.player      = player
     self.raw_targets = TargetList(targets)
     self.visible     = visible
-
-    # Prevent accidental modification of a class's prototypical dependencies
-    self.dependencies = copy.deepcopy(self.dependencies)
 
   def __str__(self):
     targets = ", ".join([str(target) for target in self.targets])

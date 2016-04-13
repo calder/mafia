@@ -3,14 +3,18 @@ from .test_game import TestGame
 
 def test_game1():
   g = TestGame()
-  town    = g.add_faction(Town())
-  masons  = g.add_faction(Masonry("Test Team", town))
-  mafia   = g.add_faction(Mafia("VMX Mafia"))
+
+  town     = g.add_faction(Town())
+  masons   = g.add_faction(Masonry("Test Team", town))
+  mafia    = g.add_faction(Mafia("VMX Mafia"))
+  jokers   = g.add_faction(JokerFaction("Jokers"))
+  lynchers = g.add_faction(LyncherFaction("VMX Usurpers"))
+
   alex     = g.add_player("Alex", Bodyguard(town))
   alphago  = g.add_player("AlphaGo", ParanoidGunOwner(town))
   andy     = g.add_player("Andy", Governor(town))
   asmar    = g.add_player("Asmar", Godfather(mafia))
-  becky    = g.add_player("Becky", Joker())
+  becky    = g.add_player("Becky", Joker(jokers))
   brian    = g.add_player("Brian", Watcher(town))
   calder   = g.add_player("Calder", DoubleVoter(town))
   dave     = g.add_player("Dave", Ventriloquist(mafia))
@@ -19,7 +23,7 @@ def test_game1():
   doug     = g.add_player("Doug", Villager(town))
   fejta    = g.add_player("Fejta", Tracker(town))
   gijosh   = g.add_player("GI Josh", Cop(town))
-  hung     = g.add_player("Hung", Lyncher(doug))
+  hung     = g.add_player("Hung", Lyncher(lynchers))
   josh     = g.add_player("Josh", Mason(masons))
   justin   = g.add_player("Justin", Watcher(town))
   kim      = g.add_player("Kim", Vengeful(Miller(town)))
@@ -35,6 +39,8 @@ def test_game1():
   tony     = g.add_player("Tony", Doctor(town))
   tyler    = g.add_player("Tyler", Delayer(town))
   wac      = g.add_player("Wac", Goon(mafia))
+
+  lynchers.set_target(doug)
   g.begin()
 
   assert_equal(g.log.filter(lambda e: not isinstance(e, events.RoleAnnouncement)), Log([

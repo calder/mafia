@@ -68,9 +68,9 @@ class Player(object):
   def faction(self):
     return self.role.faction
 
-  @mixin_fn("effects")
-  def fate(self, game):
-    return self.role.fate(game)
+  @mixin("effects")
+  def fate(self):
+    return self.role.fate
 
   @mixin("effects")
   def guarded_by(self):
