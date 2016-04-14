@@ -120,7 +120,7 @@ class Masonry(Faction):
 
   @property
   def alignment(self):
-      return self.town.alignment
+    return self.town.alignment
 
   @property
   def fate(self):

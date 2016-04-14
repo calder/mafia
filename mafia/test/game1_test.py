@@ -55,15 +55,15 @@ def test_game1():
   night0.add_action(Guard(scott, alex, elite=True))
   night0.add_action(Double(max, justin))
   night0.add_action(FactionAction(mafia, Kill(wac, max)))
-  night0.add_action(Investigate(gijosh, tony))
+  night0.add_action(Investigate(gijosh, josh))
   night0.add_action(Protect(tony, asmar))
   g.resolve(night0)
 
   assert_equal(g.log.phase(night0), Log([
     events.Visited(max, justin),
     events.Doubled(justin),
-    events.Visited(gijosh, tony),
-    events.InvestigationResult(Alignment.good, target=tony, to=gijosh),
+    events.Visited(gijosh, josh),
+    events.InvestigationResult(Alignment.good, target=josh, to=gijosh),
     events.Visited(tony, asmar),
     events.Visited(alex, max),
     events.Visited(scott, alex),
@@ -77,7 +77,6 @@ def test_game1():
   assert alex.alive is True
   assert scott.alive is False
   assert wac.alive is False
-  assert_equal(becky.fate, Fate.undecided)
   assert_equal(g.winners(), NO_WINNER_YET)
 
   day1 = Day(1)
