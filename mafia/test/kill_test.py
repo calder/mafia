@@ -1,7 +1,7 @@
 from mafia import *
 from .test_game import TestGame
 
-from unittest import TestCase, skip
+from unittest import TestCase
 
 class KillTest(TestCase):
   def setUp(self):

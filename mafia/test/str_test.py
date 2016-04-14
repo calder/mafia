@@ -23,3 +23,6 @@ class StrTest(TestCase):
   def test_kill(self):
     assert_equal(str(Kill(self.jayne, self.mal)), "Kill(Jayne, Mal)")
     assert_equal(str(Kill(self.jayne, self.mal, protectable=False)), "Hitman Kill(Jayne, Mal)")
+
+  def test_alignment(self):
+    assert_equal(str(Alignment.good), "good")
