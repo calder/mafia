@@ -9,20 +9,24 @@ class StrTest(TestCase):
     self.jayne = Player("Jayne", Villager(self.town))
     self.mal   = Player("Mal", Villager(self.town))
 
-  def test_nested_role(self):
+  def test_str_nested_role(self):
     ninja_hitman = Ninja(Hitman(self.mafia))
     assert_equal(str(ninja_hitman), "Mafia Ninja Hitman")
 
-  def test_player(self):
+  def test_str_player(self):
     assert_equal(str(self.jayne), "Jayne")
 
-  def test_action(self):
+  def test_str_action(self):
     class TestAction(Action): pass
     assert_equal(str(TestAction(self.jayne, self.mal)), "TestAction(Jayne, Mal)")
 
-  def test_kill(self):
+  def test_str_kill(self):
     assert_equal(str(Kill(self.jayne, self.mal)), "Kill(Jayne, Mal)")
     assert_equal(str(Kill(self.jayne, self.mal, protectable=False)), "Hitman Kill(Jayne, Mal)")
 
-  def test_alignment(self):
+  def test_str_alignment(self):
     assert_equal(str(Alignment.good), "good")
+
+  def test_str_effect(self):
+    class TestEffect(Effect): pass
+    assert_equal(str(TestEffect(expiration=Never())), "TestEffect(expiration=Never())")

@@ -16,18 +16,24 @@ class Days(Expiration):
   """Expires after a number of days. Unaffected by intervening nights."""
   def __init__(self, days):
     self.days = days
-  def expired(self):       return self.days <= 0
-  def advance_day(self):   self.days -= 1
+  def __str__(self):
+    return "Days(%d)" % self.days
+  def expired(self):     return self.days <= 0
+  def advance_day(self): self.days -= 1
 
 class Nights(Expiration):
   """Expires after number of nights. Unaffected by intervening days."""
   def __init__(self, nights):
     self.nights = nights
+  def __str__(self):
+    return "Nights(%d)" % self.nights
   def expired(self):       return self.nights <= 0
   def advance_night(self): self.nights -= 1
 
 class Never(Expiration):
   """Never expires."""
+  def __str__(self):
+    return "Never()"
   def expired(self): return False
 
 class Effect(object):

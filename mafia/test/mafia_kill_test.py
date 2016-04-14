@@ -14,6 +14,7 @@ class MafiaKillTest(TestCase):
     self.goon2     = self.game.add_player("Goon 2", Goon(self.mafia))
 
   def test_mafia_kill(self):
+    """Basic Mafia faction kill functionality."""
     night0 = Night(0)
     night0.add_action(FactionAction(self.mafia, Kill(self.goon1, self.villager1)))
     self.game.resolve(night0)
