@@ -65,6 +65,14 @@ class Player(object):
     return self.role.fate
 
   @mixin("effects")
+  def is_town_enemy(self):
+    return self.role.is_town_enemy
+
+  @mixin("effects")
+  def is_town_friend(self):
+    return self.role.is_town_friend
+
+  @mixin("effects")
   def must_target(self):
     return None
 

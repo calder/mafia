@@ -77,6 +77,7 @@ def test_game1():
   assert alex.alive is True
   assert scott.alive is False
   assert wac.alive is False
+  assert_equal(becky.fate, Fate.undecided)
   assert_equal(g.winners(), NO_WINNER_YET)
 
   day1 = Day(1)

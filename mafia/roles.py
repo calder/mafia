@@ -54,6 +54,14 @@ class RoleBase(object):
     return self._fake_factions
 
   @mixin("mixins")
+  def is_town_enemy(self):
+    return self.faction.is_town_enemy
+
+  @mixin("mixins")
+  def is_town_friend(self):
+    return self.faction.is_town_friend
+
+  @mixin("mixins")
   def wins_exclusively(self):
     return self.faction.wins_exclusively
 

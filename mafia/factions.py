@@ -41,18 +41,20 @@ class Faction(object):
     if member_actions: return FactionAction(self, OneOfAction(member_actions))
 
 class Town(Faction):
-  adjective = "Town"
-  alignment = Alignment.good
+  adjective        = "Town"
+  alignment        = Alignment.good
+  is_town_friend   = True
+  is_town_enemy    = False
 
   def __init__(self):
     super().__init__("Town")
 
   @property
   def fate(self):
-    good_players = [p for p in self.game.players if p.alignment is Alignment.good]
-    evil_players = [p for p in self.game.players if p.alignment is Alignment.evil]
-    if len(good_players) == 0: return Fate.lost
-    if len(evil_players) == 0: return Fate.won
+    town_friends = [p for p in self.game.players if p.is_town_friend]
+    town_enemies = [p for p in self.game.players if p.is_town_enemy]
+    if len(town_friends) == 0: return Fate.lost
+    if len(town_enemies) == 0: return Fate.won
     return Fate.undecided
 
   @property
@@ -60,8 +62,10 @@ class Town(Faction):
     return None
 
 class JokerFaction(Faction):
-  adjective = "Third Party"
-  alignment = Alignment.evil
+  adjective        = "Third Party"
+  alignment        = Alignment.evil
+  is_town_enemy    = False
+  is_town_friend   = False
   wins_exclusively = False
 
   def __init__(self, name, *, must_lynch=1):
@@ -73,13 +77,15 @@ class JokerFaction(Faction):
     living         = len(self.members)
     lynched        = len([p for p in self.all_members if self.game.log.has_been_lynched(p)])
 
-    if lynched >= self.must_lynch:          return Fate.won
-    if living + lynched <= self.must_lynch: return Fate.lost
+    if lynched >= self.must_lynch:         return Fate.won
+    if living + lynched < self.must_lynch: return Fate.lost
     return Fate.undecided
 
 class LyncherFaction(Faction):
   adjective        = "Third Party"
   alignment        = Alignment.evil
+  is_town_enemy    = False
+  is_town_friend   = False
   wins_exclusively = False
 
   def set_target(self, lynchee):
@@ -91,8 +97,10 @@ class LyncherFaction(Faction):
     return Fate.won if self.game.log.has_been_lynched(self.lynchee) else Fate.lost
 
 class Mafia(Faction):
-  adjective = "Mafia"
-  alignment = Alignment.evil
+  adjective      = "Mafia"
+  alignment      = Alignment.evil
+  is_town_enemy  = True
+  is_town_friend = False
 
   @property
   def fate(self):
@@ -101,8 +109,10 @@ class Mafia(Faction):
     return Fate.undecided
 
 class Masonry(Faction):
-  adjective = "Mason"
-  alignment = Alignment.good
+  adjective      = "Mason"
+  alignment      = Alignment.good
+  is_town_enemy  = False
+  is_town_friend = True
 
   def __init__(self, name, town):
     super().__init__(name)
