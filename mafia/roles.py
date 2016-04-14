@@ -50,8 +50,16 @@ class RoleBase(object):
     return self._faction
 
   @mixin("mixins")
+  def faction_action(self):
+    return None
+
+  @mixin("mixins")
   def fake_factions(self):
     return self._fake_factions
+
+  @mixin("mixins")
+  def fate(self):
+    return self.faction.fate
 
   @mixin("mixins")
   def is_town_enemy(self):
@@ -61,26 +69,6 @@ class RoleBase(object):
   def is_town_friend(self):
     return self.faction.is_town_friend
 
-  @mixin("mixins")
-  def wins_exclusively(self):
-    return self.faction.wins_exclusively
-
-  @mixin("mixins")
-  def faction_action(self):
-    return None
-
-  @mixin("mixins")
-  def fate(self):
-    return self.faction.fate
-
-  @mixin("mixins")
-  def kills_visitors(self):
-    return False
-
-  @mixin("mixins")
-  def unlynchable(self):
-    return False
-
   @mixin_fn("mixins")
   def on_killed(self, *, game, player, **kwargs):
     player.alive = False
@@ -89,6 +77,10 @@ class RoleBase(object):
   @mixin_fn("mixins")
   def on_visited(self, **kwargs):
     pass
+
+  @mixin("mixins")
+  def unlynchable(self):
+    return False
 
   @mixin("mixins")
   def visible(self):
@@ -101,6 +93,10 @@ class RoleBase(object):
   @mixin("mixins")
   def votes(self):
     return 1
+
+  @mixin("mixins")
+  def wins_exclusively(self):
+    return self.faction.wins_exclusively
 
 class Role(object):
   def __new__(cls, faction_or_role, *args, **kwargs):
