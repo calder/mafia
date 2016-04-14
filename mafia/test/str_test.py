@@ -31,5 +31,9 @@ class StrTest(TestCase):
     class TestEffect(Effect): pass
     assert_equal(str(TestEffect(expiration=Never())), "TestEffect(expiration=Never())")
 
+  def test_expirations(self):
+    assert_equal(str(Days(123)), "Days(123)")
+    assert_equal(str(Nights(4)), "Nights(4)")
+
   def test_str_faction(self):
     assert_equal(str(Faction("Blue Sun")), "Blue Sun")

@@ -62,7 +62,7 @@ scripts/install-git-hooks
 
 Run tests:
 ```sh
-nosetests --with-coverage --cover-html && open cover/index.html
+nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index.html
 ```
 
 
