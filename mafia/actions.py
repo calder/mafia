@@ -154,9 +154,8 @@ class Kill(Action):
 
   @property
   def name(self):
-    if   self.protectable is True:  return "Kill"
-    elif self.protectable is False: return "Hitman Kill"
-    else:                           return "[Hitman] Kill"
+    if self.protectable is True: return "Kill"
+    else:                        return "Hitman Kill"
 
   def _resolve(self, game):
     resolve_kill(self.player, self.target, game=game, protectable=self.protectable)

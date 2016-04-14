@@ -52,7 +52,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
 
 Install dependencies:
 ```sh
-sudo easy_install3 nose nose-parameterized termcolor
+sudo easy_install3 coverage nose nose-parameterized termcolor
 ```
 
 Set up presubmit hooks:
@@ -62,7 +62,7 @@ scripts/install-git-hooks
 
 Run tests:
 ```sh
-nosetests
+nosetests --with-coverage --cover-html && open cover/index.html
 ```
 
 

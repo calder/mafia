@@ -5,5 +5,7 @@ __pycache__
 *.egg-info
 *.pyc
 
+/.coverage
 /build
+/cover
 /dist

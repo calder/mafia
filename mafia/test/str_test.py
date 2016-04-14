@@ -3,14 +3,23 @@ from mafia import *
 from unittest import TestCase
 
 class StrTest(TestCase):
+  def setUp(self):
+    self.town  = Town()
+    self.mafia = Mafia("Alliance")
+    self.jayne = Player("Jayne", Villager(self.town))
+    self.mal   = Player("Mal", Villager(self.town))
+
   def test_nested_role(self):
-    mafia = Mafia("The Sopranos")
-    ninja_hitman = Ninja(Hitman(mafia))
+    ninja_hitman = Ninja(Hitman(self.mafia))
     assert_equal(str(ninja_hitman), "Mafia Ninja Hitman")
 
+  def test_player(self):
+    assert_equal(str(self.jayne), "Jayne")
+
+  def test_action(self):
+    class TestAction(Action): pass
+    assert_equal(str(TestAction(self.jayne, self.mal)), "TestAction(Jayne, Mal)")
+
   def test_kill(self):
-    town = Town()
-    jayne = Player("Jayne", Villager(town))
-    mal   = Player("Mal", Villager(town))
-    assert_equal(str(Kill(jayne, mal)), "Kill(Jayne, Mal)")
-    assert_equal(str(Kill(jayne, mal, protectable=False)), "Hitman Kill(Jayne, Mal)")
+    assert_equal(str(Kill(self.jayne, self.mal)), "Kill(Jayne, Mal)")
+    assert_equal(str(Kill(self.jayne, self.mal, protectable=False)), "Hitman Kill(Jayne, Mal)")
