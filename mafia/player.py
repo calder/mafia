@@ -32,10 +32,6 @@ class Player(object):
     return 1
 
   @mixin("effects")
-  def alignment(self):
-    return self.role.alignment
-
-  @mixin("effects")
   def apparent_alignment(self):
     return self.role.apparent_alignment
 
