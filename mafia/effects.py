@@ -21,6 +21,15 @@ class Days(Expiration):
   def expired(self):     return self.days <= 0
   def advance_day(self): self.days -= 1
 
+class Manual(Expiration):
+  """A manually set expiration."""
+  def __init__(self):
+    self._expired = False
+  def set_expired(self, expired):
+    self._expired = expired
+  def expired(self):
+    return self._expired
+
 class Nights(Expiration):
   """Expires after number of nights. Unaffected by intervening days."""
   def __init__(self, nights):
@@ -114,6 +123,17 @@ class Protected(Effect):
   def on_killed_fn(self, base, *, game, player, by, protectable, **kwargs):
     if protectable: game.log.append(events.Protected(player))
     else:           return base()
+
+class Stoned(Effect):
+  def __init__(self, **kwargs):
+    super().__init__(expiration=Manual(), **kwargs)
+
+  def on_killed_fn(self, base, *, game, player, by, protectable, **kwargs):
+    if protectable:
+      game.log.append(events.Protected(player))
+      self.expiration.set_expired(True)
+    else:
+      return base()
 
 class SwitchedWith(Effect):
   def __init__(self, switched_with, **kwargs):

@@ -111,10 +111,15 @@ class Role(object):
     obj = super(Role, cls).__new__(cls)
     obj.__init__(*args, **kwargs)
     base.add_mixin(obj)
+    for e in obj.starting_effects: base.add_mixin(e)
     return base
 
   def adjectives_fn(self, base):
     return re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__) + base()
+
+  @property
+  def starting_effects(self):
+    return []
 
 class ActionDoubler(Role):
   @property
@@ -224,6 +229,11 @@ class Roleblocker(Role):
   @property
   def action(self):
     return Roleblock(placeholders.Self(), placeholders.Player())
+
+class Stone(Role):
+  @property
+  def starting_effects(self):
+    return [effects.Stoned()]
 
 class Tracker(Role):
   @property
