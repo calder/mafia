@@ -15,7 +15,7 @@ def test_game1():
   andy     = g.add_player("Andy", Governor(town))
   asmar    = g.add_player("Asmar", Godfather(mafia))
   becky    = g.add_player("Becky", Joker(jokers))
-  brian    = g.add_player("Brian", Watcher(town))
+  brian    = g.add_player("Brian", Bulletproof(Watcher(town)))
   calder   = g.add_player("Calder", DoubleVoter(town))
   dave     = g.add_player("Dave", Unlynchable(Ventriloquist(mafia)))
   derek    = g.add_player("Derek", Vigilante(town))
@@ -53,6 +53,7 @@ def test_game1():
 
   night0 = Night(0)
   night0.add_action(Guard(alex, max))
+  night0.add_action(Kill(derek, brian))
   night0.add_action(EliteGuard(scott, alex))
   night0.add_action(Double(max, justin))
   night0.add_action(FactionAction(mafia, Kill(wac, max)))
@@ -68,6 +69,8 @@ def test_game1():
     events.Visited(tony, asmar),
     events.Visited(alex, max),
     events.Visited(scott, alex),
+    events.Visited(derek, brian),
+    events.Protected(brian),
     events.Visited(wac, max),
     events.Protected(max),
     events.Protected(alex),

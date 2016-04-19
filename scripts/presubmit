@@ -11,3 +11,7 @@ echo
 echo
 ! grep -r --exclude=mafia/util.py "debug=True" mafia/*.py mafia/*/*.py ||
   { echo "\nFAIL: Remove leftover 'debug=True's before committing."; exit 1; }
+
+GREEN=`tput setaf 2`
+RESET=`tput sgr0`
+echo "Presubmits ${GREEN}PASSED${RESET}."

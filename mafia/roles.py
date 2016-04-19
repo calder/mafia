@@ -126,10 +126,10 @@ class Bodyguard(Role):
   def action(self):
     return Guard(placeholders.Self(), placeholders.Other())
 
-class EliteBodyguard(Role):
-  @property
-  def action(self):
-    return EliteGuard(placeholders.Self(), placeholders.Other())
+class Bulletproof(Role):
+  def on_killed_fn(self, base, *, game, player, by, protectable, **kwargs):
+    if protectable: game.log.append(events.Protected(player))
+    else:           return base()
 
 class Busdriver(Role):
   @property
@@ -155,6 +155,11 @@ class DoubleVoter(Role):
   @property
   def votes(self):
     return 2
+
+class EliteBodyguard(Role):
+  @property
+  def action(self):
+    return EliteGuard(placeholders.Self(), placeholders.Other())
 
 class ForensicInvestigator(Role):
   @property

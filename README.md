@@ -115,7 +115,7 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [x] Vigilante
   - [x] Watcher
 - Role modifiers
-  - [ ] Bulletproof
+  - [x] Bulletproof
   - [x] Hitman
   - [x] Ninja
   - [ ] One Shot
