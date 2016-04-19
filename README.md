@@ -128,7 +128,6 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
 - Other
   - [ ] Fix infinite kill loop
   - [ ] Ventriloquists should respect target restrictions (i.e. Forensic Investigators shouldn't be able to be Ventriloquisted into investigating living players)
-  - [ ] An unlynchable player receiving the most lynch votes should result in a no-lynch rather than the player with the second highest votes being lynched
   - [ ] Busdrivers should be Ventriloquistable
   - [ ] Simplify architecture.md
   - [ ] Make protectable=False and elite=True unnecessary for hitmen and elite bodyguards.

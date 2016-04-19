@@ -28,7 +28,7 @@ class ActionValidationTest(TestCase):
 
   def test_compelled_action_with_choice(self):
     """Compelled actions should respect the player's choice when possible."""
-    self.cop.role = Overeager(self.cop.role)
+    self.cop.add_effect(effects.ChangeRole(Overeager(self.cop.role)))
 
     night0 = Night(0)
     night0.add_action(Investigate(self.cop, self.goon))
@@ -41,7 +41,7 @@ class ActionValidationTest(TestCase):
 
   def test_compelled_action_no_choice(self):
     """Compelled actions should randomly select a target when none is chosen."""
-    self.cop.role = Overeager(self.cop.role)
+    self.cop.add_effect(effects.ChangeRole(Overeager(self.cop.role)))
 
     night0 = Night(0)
     self.game.resolve(night0)

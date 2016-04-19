@@ -3,12 +3,9 @@ from .mixin import *
 class Player(object):
   def __init__(self, name, role):
     super().__init__()
-    self.name    = name
     self.effects = []
-
-    # TODO: Make these use effects.
-    self.role    = role
-    self.alive   = True
+    self.name    = name
+    self._role   = role
 
   def __repr__(self):
     return self.name
@@ -30,6 +27,10 @@ class Player(object):
   @mixin("effects")
   def action_count(self):
     return 1
+
+  @mixin("effects")
+  def alive(self):
+    return True
 
   @mixin("effects")
   def apparent_alignment(self):
@@ -77,16 +78,20 @@ class Player(object):
     return self.role.on_killed(**kwargs)
 
   @mixin_fn("effects")
+  def on_lynched(self, **kwargs):
+    return self.role.on_lynched(**kwargs)
+
+  @mixin_fn("effects")
   def on_visited(self, **kwargs):
     return self.role.on_visited(**kwargs)
 
   @mixin("effects")
-  def switched_with(self):
-    return self
+  def role(self):
+    return self._role
 
   @mixin("effects")
-  def unlynchable(self):
-    return self.role.unlynchable
+  def switched_with(self):
+    return self
 
   @mixin("effects")
   def vote_action(self):

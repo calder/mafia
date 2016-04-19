@@ -175,10 +175,14 @@ def test_game1():
   assert asmar.alive is False
 
   day3 = Day(3)
+  day3.set_vote(dave, sami)
+  day3.set_vote(justin, dave)
   day3.set_vote(sami, dave)
   g.resolve(day3)
 
   assert_equal(g.log.phase(day3), Log([
+      events.VotedFor(dave, sami),
+      events.VotedFor(justin, dave),
       events.VotedFor(sami, dave),
       events.NoLynch(),
   ], phase=day3))

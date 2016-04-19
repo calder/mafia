@@ -63,7 +63,7 @@ class NaturalActionResolutionTest(TestCase):
     class LateRoleblocker(Roleblocker):
       action = LateRoleblock(placeholders.Self(), placeholders.Player())
       precedence = Kill.precedence + 1
-    self.roleblocker.role = LateRoleblocker(self.town)
+    self.roleblocker.add_effect(effects.ChangeRole(LateRoleblocker(self.town)))
 
     night0 = Night(0)
     night0.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))

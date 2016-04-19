@@ -1,5 +1,6 @@
 from .actions import *
 from .factions import *
+from . import effects
 from . import events
 from .mixin import *
 from . import placeholders
@@ -71,16 +72,17 @@ class RoleBase(object):
 
   @mixin_fn("mixins")
   def on_killed(self, *, game, player, **kwargs):
-    player.alive = False
     game.log.append(events.Died(player))
+    player.add_effect(effects.Dead())
+
+  @mixin_fn("mixins")
+  def on_lynched(self, *, game, player, **kwargs):
+    game.log.append(events.Lynched(player))
+    player.add_effect(effects.Dead())
 
   @mixin_fn("mixins")
   def on_visited(self, **kwargs):
     pass
-
-  @mixin("mixins")
-  def unlynchable(self):
-    return False
 
   @mixin("mixins")
   def visible(self):
@@ -224,9 +226,8 @@ class Tracker(Role):
     return Track(placeholders.Self(), placeholders.Player())
 
 class Unlynchable(Role):
-  @property
-  def unlynchable(self):
-    return True
+  def on_lynched_fn(self, base, *, game, player):
+    game.log.append(events.NoLynch())
 
 class Usurper(Role):
   def __init__(self, usurpee):

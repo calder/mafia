@@ -18,32 +18,32 @@ class WinnerTest(TestCase):
 
   def test_mafia_wins(self):
     assert_equal(self.game.winners(), NO_WINNER_YET)
-    self.villager1.alive = False
-    self.villager2.alive = False
+    self.villager1.add_effect(effects.Dead())
+    self.villager2.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.goon1, self.goon2])
 
   def test_town_wins_with_joker_alive(self):
     assert_equal(self.game.winners(), NO_WINNER_YET)
-    self.goon1.alive = False
+    self.goon1.add_effect(effects.Dead())
     assert_equal(self.game.winners(), NO_WINNER_YET)
-    self.goon2.alive = False
+    self.goon2.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.villager1, self.villager2, self.villager3])
 
   def test_usurper_wins(self):
     usurper = self.game.add_player("Usurper", Usurper(self.mafia, self.goon2))
-    self.goon2.alive = False
-    self.villager1.alive = False
-    self.villager2.alive = False
+    self.goon2.add_effect(effects.Dead())
+    self.villager1.add_effect(effects.Dead())
+    self.villager2.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.goon1, self.goon2, usurper])
 
   def test_usurper_loses(self):
     usurper = self.game.add_player("Usurper", Usurper(self.mafia, self.goon1))
-    self.villager1.alive = False
+    self.villager1.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.goon1, self.goon2])
 
   def test_godfather_alignment(self):
-    self.goon1.alive = False
-    self.goon2.alive = False
+    self.goon1.add_effect(effects.Dead())
+    self.goon2.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.villager1, self.villager2, self.villager3])
 
     godfather = self.game.add_player("Godfather", Godfather(self.mafia))
@@ -51,14 +51,14 @@ class WinnerTest(TestCase):
 
   def test_town_wins_exclusively(self):
     assert self.game.is_game_over() is False
-    self.goon1.alive = False
-    self.goon2.alive = False
+    self.goon1.add_effect(effects.Dead())
+    self.goon2.add_effect(effects.Dead())
     assert self.game.is_game_over() is True
 
   def test_mafia_wins_exclusively(self):
     assert self.game.is_game_over() is False
-    self.villager1.alive = False
-    self.villager2.alive = False
+    self.villager1.add_effect(effects.Dead())
+    self.villager2.add_effect(effects.Dead())
     assert self.game.is_game_over() is True
 
   def test_joker_undecided(self):
@@ -67,6 +67,6 @@ class WinnerTest(TestCase):
   def test_joker_wins_non_exclusively(self):
     assert self.game.is_game_over() is False
     self.game.log.append(events.Lynched(self.joker))
-    self.joker.alive = False
+    self.joker.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.joker])
     assert self.game.is_game_over() is False

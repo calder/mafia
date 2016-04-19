@@ -56,7 +56,31 @@ class Effect(object):
     return super().__getattribute__(attr)
 
 class Blocked(Effect):
-  blocked = True
+  @property
+  def blocked(self):
+    return True
+
+class ChangeRole(Effect):
+  def __init__(self, role, *, expiration=Never(), **kwargs):
+    super().__init__(expiration=expiration, **kwargs)
+    self._role = role
+
+  @property
+  def role(self):
+    return self._role
+
+class Dead(Effect):
+  def __init__(self, *, expiration=Never(), **kwargs):
+    super().__init__(expiration=expiration, **kwargs)
+
+  @property
+  def alive(self):
+    return False
+
+class Delayed(Effect):
+  @property
+  def delayed(self):
+    return True
 
 class ExtraAction(Effect):
   def __init__(self, extra_actions=1, *, expiration=Nights(2), **kwargs):
@@ -65,9 +89,6 @@ class ExtraAction(Effect):
 
   def action_count_fn(self, base):
     return self.extra_actions + base()
-
-class Delayed(Effect):
-  delayed = True
 
 class GuardedBy(Effect):
   def __init__(self, bodyguard, *, elite=False, **kwargs):
@@ -81,7 +102,8 @@ class GuardedBy(Effect):
     if self.elite: resolve_kill(self.bodyguard, by, game=game)
 
 class Unlynchable(Effect):
-  unlynchable = True
+  def on_lynched_fn(self, base, *, game, player):
+    game.log.append(events.NoLynch())
 
 class MustTarget(Effect):
   def __init__(self, must_target, **kwargs):
