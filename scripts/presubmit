@@ -14,4 +14,4 @@ echo
 
 GREEN=`tput setaf 2`
 RESET=`tput sgr0`
-echo "Presubmits ${GREEN}PASSED${RESET}."
+echo "Presubmits ${GREEN}PASSED${RESET}.\n"

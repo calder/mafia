@@ -3,11 +3,11 @@ from setuptools import *
 setup(
   # Metadata
   name="mafia",
-  version="0.2",
+  version="0.3",
   author="Calder Coalson",
   author_email="caldercoalson@gmail.com",
   url="https://github.com/calder/mafia",
-  description="A library for running games of Mafia.",
+  description="A library for moderating games of Mafia.",
   long_description="See https://github.com/calder/mafia/ for documentation.",
 
   # Contents
