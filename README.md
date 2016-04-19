@@ -120,7 +120,7 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [x] Ninja
   - [ ] One Shot
   - [x] Overeager
-  - [ ] Stone
+  - [x] Stone
   - [x] Unlynchable
 - Questions
   - [ ] How should a one-shot hitman work?
