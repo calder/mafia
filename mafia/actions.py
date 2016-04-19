@@ -103,15 +103,17 @@ class Autopsy(Action):
     visitors = set(v.player for v in visits if v.player is not self.player)
     game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
 
+class EliteGuard(Action):
+  precedence = 1001
+
+  def _resolve(self, game):
+    self.target.add_effect(GuardedBy(self.player, elite=True))
+
 class Guard(Action):
   precedence = 1001
 
-  def __init__(self, player, target, *, elite=False):
-    super().__init__(player, target)
-    self.elite = elite
-
   def _resolve(self, game):
-    self.target.add_effect(GuardedBy(self.player, elite=self.elite))
+    self.target.add_effect(GuardedBy(self.player))
 
 class Busdrive(Action):
   precedence = 0
@@ -139,6 +141,12 @@ class Double(Action):
     self.target.add_effect(ExtraAction())
     game.log.append(events.Doubled(self.target))
 
+class HitmanKill(Action):
+  precedence = 2000
+
+  def _resolve(self, game):
+    resolve_kill(self.player, self.target, game=game, protectable=False)
+
 class Investigate(Action):
   precedence = 1000
 
@@ -148,17 +156,8 @@ class Investigate(Action):
 class Kill(Action):
   precedence = 2000
 
-  def __init__(self, player, target, *, protectable=True):
-    super().__init__(player, target)
-    self.protectable = protectable
-
-  @property
-  def name(self):
-    if self.protectable is True: return "Kill"
-    else:                        return "Hitman Kill"
-
   def _resolve(self, game):
-    resolve_kill(self.player, self.target, game=game, protectable=self.protectable)
+    resolve_kill(self.player, self.target, game=game)
 
 class Pardon(Action):
   precedence = 1000

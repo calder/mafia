@@ -129,7 +129,7 @@ class Bodyguard(Role):
 class EliteBodyguard(Role):
   @property
   def action(self):
-    return Guard(placeholders.Self(), placeholders.Other(), elite=placeholders.Bool(default=True))
+    return EliteGuard(placeholders.Self(), placeholders.Other())
 
 class Busdriver(Role):
   @property
@@ -179,7 +179,7 @@ class Governor(Role):
 class Hitman(Role):
   @property
   def faction_action(self):
-    return Kill(placeholders.Self(), placeholders.Player(), protectable=placeholders.Bool(default=False))
+    return HitmanKill(placeholders.Self(), placeholders.Player())
 
 class Joker(Role):
   pass
