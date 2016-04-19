@@ -41,6 +41,7 @@ def test_game1():
   wac      = g.add_player("Wac", Goon(mafia))
 
   assert_equal(mafia.members, [asmar, dave, paul, sami, tarl, wac])
+  assert_equal(g.all_factions, [jokers, lynchers, masons, town, mafia])
 
   lynchers.set_target(doug)
   g.begin()

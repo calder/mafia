@@ -70,3 +70,10 @@ class WinnerTest(TestCase):
     self.joker.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.joker])
     assert self.game.is_game_over() is False
+
+  def test_everyone_loses(self):
+    g = TestGame()
+    town = g.add_faction(Town())
+    villager = g.add_player("Villager", Villager(town))
+    villager.add_effect(effects.Dead())
+    assert_equal(g.winners(), EVERYONE_LOST)
