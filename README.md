@@ -128,4 +128,3 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
 - Other
   - [ ] Ventriloquists should respect target restrictions (i.e. Forensic Investigators shouldn't be able to be Ventriloquisted into investigating living players)
   - [ ] Busdrivers should be Ventriloquistable
-  - [ ] Simplify architecture.md
