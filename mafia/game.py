@@ -20,6 +20,7 @@ class Game(object):
     alice = game.add_player("Alice", Cop(town))
     bob   = game.add_player("Bob", Doctor(town))
     eve   = game.add_player("Eve", Goon(mafia))
+    game.begin()
 
     night0 = Night(0)
     night0.add_action(Investigate(alice, eve))
