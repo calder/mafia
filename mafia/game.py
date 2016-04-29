@@ -9,24 +9,6 @@ import random
 EVERYONE_LOST = SingletonValue("EVERYONE_LOST")
 NO_WINNER_YET = SingletonValue("NO_WINNER_YET")
 
-def MakeGame(*, seed, players, factions, roles):
-  assert len(players) == len(roles)
-
-  rng = random.Random(seed)
-  rng.shuffle(players)
-  rng.shuffle(factions)
-  rng.shuffle(roles)
-
-  game = Game(seed=seed)
-  for faction in factions:
-    game.add_faction(faction)
-  for player, role in zip(players, roles):
-    game.add_player(player, role)
-
-  # TODO: Choose targets for Lynchers and Usurpers
-
-  return game
-
 class Game(object):
   """
   A single game of Mafia.
