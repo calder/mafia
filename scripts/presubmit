@@ -12,8 +12,9 @@ echo
   || { echo "\nFAIL: Remove leftover print statements before committing."; exit 1; }
 
 echo
-! grep -r --exclude=mafia/util.py "debug=True" mafia/*.py mafia/*/*.py ||
-  { echo "\nFAIL: Remove leftover 'debug=True's before committing."; exit 1; }
+! grep -r "debug=True" mafia/*.py mafia/*/*.py \
+  --exclude=mafia/util.py \
+  || { echo "\nFAIL: Remove leftover 'debug=True's before committing."; exit 1; }
 
 GREEN=`tput setaf 2`
 RESET=`tput sgr0`
