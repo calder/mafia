@@ -21,12 +21,10 @@ class FuncMixin(object):
     return "FuncMixin(%r)" % self.value
 
   def bar_fn(self, next):
-    print("bar called:", self)
     if self.defer: return next()
     return self.value
 
   def baz_fn(self, next, *args, **kwargs):
-    print("baz called:", self)
     if self.defer: return next()
     return self.value, args, kwargs
 

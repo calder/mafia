@@ -7,9 +7,12 @@ class StoneTest(TestCase):
   def setUp(self):
     self.game = TestGame()
     self.town = self.game.add_faction(Town())
-    self.villager   = self.game.add_player("Villager", Stone(Villager(self.town)))
+    self.villager   = self.game.add_player("Villager", Villager(self.town))
     self.vigilante1 = self.game.add_player("Vigilante 1", Vigilante(self.town))
     self.vigilante2 = self.game.add_player("Vigilante 2", Vigilante(self.town))
+
+    # TODO: Make Stone a proper role.
+    self.villager.add_effect(effects.Stoned())
 
   def test_basic_stone(self):
     """Stone should only apply the first night the player is killed."""
