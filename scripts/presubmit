@@ -7,8 +7,8 @@ nosetests || exit 1
 echo
 ! grep -r "print(" mafia/*.py mafia/*/*.py \
   --exclude=mafia/util.py \
-  --exclude=mafia/test/test_game.py \
   --exclude=mafia/test/readme_test.py \
+  --exclude=mafia/test/test_game.py \
   || { echo "\nFAIL: Remove leftover print statements before committing."; exit 1; }
 
 echo
