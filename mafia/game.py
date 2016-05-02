@@ -11,24 +11,6 @@ NO_WINNER_YET = SingletonValue("NO_WINNER_YET")
 
 START = SingletonValue("Start")
 
-def new_game(*, seed, players, factions, roles):
-  assert len(players) == len(roles)
-
-  rng = random.Random(seed)
-  rng.shuffle(players)
-  rng.shuffle(factions)
-  rng.shuffle(roles)
-
-  game = Game(seed=seed)
-  for faction in factions:
-    game.add_faction(faction)
-  for player, role in zip(players, roles):
-    game.add_player(player, role)
-
-  # TODO: Choose targets for Lynchers and Usurpers
-
-  return game
-
 class Game(object):
   """
   A single game of Mafia.
@@ -40,6 +22,7 @@ class Game(object):
     alice = game.add_player("Alice", Cop(town))
     bob   = game.add_player("Bob", Doctor(town))
     eve   = game.add_player("Eve", Goon(mafia))
+    game.begin()
 
     night0 = Night(0)
     night0.add_action(Investigate(alice, eve))
