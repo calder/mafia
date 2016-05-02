@@ -6,7 +6,7 @@ class StrTest(TestCase):
   def setUp(self):
     self.town  = Town()
     self.mafia = Mafia("Alliance")
-    self.jayne = Player("Jayne", Villager(self.town), email="j4yne@aol.com")
+    self.jayne = Player("Jayne", Villager(self.town))
     self.mal   = Player("Mal", Villager(self.town))
 
   def test_str_nested_role(self):
@@ -16,11 +16,13 @@ class StrTest(TestCase):
   def test_str_player(self):
     assert_equal(str(self.jayne), "Jayne")
 
-  def test_full_str_player(self):
+  def test_str_player_info(self):
+    mal_info   = PlayerInfo(name="Mal")
+    jayne_info = PlayerInfo(name="Jayne", email="j4yne@aol.com")
+    self.mal.name   = mal_info
+    self.jayne.name = jayne_info
     assert_equal(str(self.mal), "Mal")
     assert_equal(str(self.jayne), "Jayne")
-    assert_equal(self.mal.full_str(), "Mal")
-    assert_equal(self.jayne.full_str(),"Jayne <j4yne@aol.com>")
 
   def test_str_action(self):
     class TestAction(Action): pass
