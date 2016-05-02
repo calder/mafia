@@ -8,6 +8,9 @@ class PlayerInfo(object):
   def __str__(self):
     return self.name
 
+  def full_str(self):
+    return self.name + (" <%s>" % self.email if self.email else "")
+
 class Player(object):
   def __init__(self, name, role):
     super().__init__()

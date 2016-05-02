@@ -16,6 +16,12 @@ class StrTest(TestCase):
   def test_str_player(self):
     assert_equal(str(self.jayne), "Jayne")
 
+  def test_str_player_info(self):
+    assert_equal(PlayerInfo("Mal").full_str(), "Mal")
+    assert_equal(str(PlayerInfo("Jayne", email="j4yne@aol.com")), "Jayne")
+    assert_equal(PlayerInfo("Jayne", email="j4yne@aol.com").full_str(),
+                 "Jayne <j4yne@aol.com>")
+
   def test_str_action(self):
     class TestAction(Action): pass
     assert_equal(str(TestAction(self.jayne, self.mal)), "TestAction(Jayne, Mal)")
