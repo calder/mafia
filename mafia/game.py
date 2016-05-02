@@ -51,7 +51,7 @@ class Game(object):
     self.faction_dict[faction.name] = faction
     return faction
 
-  def add_player(self, player, role=None):
+  def add_player(self, player, role=None, **kwargs):
     """
     Add a player to the game and return it.
 
@@ -61,7 +61,7 @@ class Game(object):
 
     if role:
       assert isinstance(role, Role)
-      player = Player(player, role)
+      player = Player(player, role, **kwargs)
 
     assert isinstance(player, Player)
     assert player.name not in self.player_dict
