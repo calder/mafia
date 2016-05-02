@@ -5,7 +5,10 @@ class PlayerInfo(dict):
     return self["name"]
 
   def __getattr__(self, attr):
-    return self[attr]
+    if attr in self:
+      return self[attr]
+    else:
+      raise AttributeError()
 
 class Player(object):
   def __init__(self, name, role):
