@@ -37,7 +37,8 @@ class Game(object):
     game.resolve(day1)
   """
 
-  def __init__(self, *, seed=42):
+  def __init__(self, name=None, *, seed=42):
+    self.name            = name
     self.random          = random.Random(seed)
     self.log             = Log()
     self.faction_dict    = {}
