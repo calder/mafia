@@ -42,8 +42,8 @@ class Announcement(Event):
   pass
 
 class Result(Event):
-  def __init__(self, *, target, to):
-    super().__init__(to=to)
+  def __init__(self, *, target, to, **kwargs):
+    super().__init__(to=to, **kwargs)
     self.target = target
 
 #########################
@@ -51,8 +51,8 @@ class Result(Event):
 #########################
 
 class FactionAnnouncement(Event):
-  def __init__(self, faction, members):
-    super().__init__(to=members)
+  def __init__(self, faction, members, **kwargs):
+    super().__init__(to=members, **kwargs)
     self.faction = faction
     self.members = members
 
@@ -61,8 +61,8 @@ class FactionAnnouncement(Event):
     return "You are the %s." % self.faction.name
 
 class RoleAnnouncement(Event):
-  def __init__(self, player, role):
-    super().__init__(to=player)
+  def __init__(self, player, role, **kwargs):
+    super().__init__(to=player, **kwargs)
     self.player = player
     self.role   = role
 
@@ -77,8 +77,8 @@ class RoleAnnouncement(Event):
 class Blocked(Event):
   color = "yellow"
 
-  def __init__(self, player):
-    super().__init__()
+  def __init__(self, player, **kwargs):
+    super().__init__(**kwargs)
     self.player = player
 
   @property
@@ -88,8 +88,8 @@ class Blocked(Event):
 class Busdriven(Event):
   color = "yellow"
 
-  def __init__(self, player1, player2):
-    super().__init__()
+  def __init__(self, player1, player2, **kwargs):
+    super().__init__(**kwargs)
     self.player1 = player1
     self.player2 = player2
 
@@ -100,8 +100,8 @@ class Busdriven(Event):
 class Delayed(Event):
   color = "yellow"
 
-  def __init__(self, player):
-    super().__init__()
+  def __init__(self, player, **kwargs):
+    super().__init__(**kwargs)
     self.player = player
 
   @property
@@ -111,8 +111,8 @@ class Delayed(Event):
 class Died(Event):
   color = "red"
 
-  def __init__(self, player):
-    super().__init__()
+  def __init__(self, player, **kwargs):
+    super().__init__(**kwargs)
     self.player = player
     self.to     = PUBLIC
 
@@ -123,8 +123,8 @@ class Died(Event):
 class Doubled(Event):
   color = "green"
 
-  def __init__(self, player):
-    super().__init__()
+  def __init__(self, player, **kwargs):
+    super().__init__(**kwargs)
     self.player = player
 
   @property
@@ -144,8 +144,8 @@ class NoLynch(Event):
 class Protected(Event):
   color = "green"
 
-  def __init__(self, player):
-    super().__init__()
+  def __init__(self, player, **kwargs):
+    super().__init__(**kwargs)
     self.player = player
 
   @property
@@ -153,8 +153,8 @@ class Protected(Event):
     return "%s was protected." % self.player
 
 class Visited(Event):
-  def __init__(self, player, target, *, visible=True, original_target=None):
-    super().__init__()
+  def __init__(self, player, target, *, visible=True, original_target=None, **kwargs):
+    super().__init__(**kwargs)
     self.player          = player
     self.target          = target
     self.visible         = visible
@@ -168,8 +168,8 @@ class Visited(Event):
     return "%s %s %s." % (self.player, visited, target)
 
 class VotedFor(Event):
-  def __init__(self, player, vote, *, votes=1, original_vote=None):
-    super().__init__()
+  def __init__(self, player, vote, *, votes=1, original_vote=None, **kwargs):
+    super().__init__(**kwargs)
     self.player        = player
     self.vote          = vote
     self.votes         = votes
@@ -187,8 +187,8 @@ class VotedFor(Event):
 ###################
 
 class VisiteesResult(Result):
-  def __init__(self, visitees, *, target, to):
-    super().__init__(target=target, to=to)
+  def __init__(self, visitees, *, target, to, **kwargs):
+    super().__init__(target=target, to=to, **kwargs)
     self.visitees = visitees
 
   @property
@@ -196,8 +196,8 @@ class VisiteesResult(Result):
     return "%s visited %s." % (self.target, str_player_list(self.visitees))
 
 class VisitorsResult(Result):
-  def __init__(self, visitors, *, target, to):
-    super().__init__(target=target, to=to)
+  def __init__(self, visitors, *, target, to, **kwargs):
+    super().__init__(target=target, to=to, **kwargs)
     self.visitors = visitors
 
   @property
@@ -205,8 +205,8 @@ class VisitorsResult(Result):
     return "%s visited %s." % (str_player_list(self.visitors), self.target)
 
 class InvestigationResult(Result):
-  def __init__(self, alignment, *, target, to):
-    super().__init__(target=target, to=to)
+  def __init__(self, alignment, *, target, to, **kwargs):
+    super().__init__(target=target, to=to, **kwargs)
     self.alignment = "good" if alignment == Alignment.good else "evil"
 
   @property
