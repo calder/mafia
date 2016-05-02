@@ -1,21 +1,11 @@
 from .mixin import *
 
-class PlayerInfo(object):
-  def __init__(self, name, *, email=None):
-    self.name  = name
-    self.email = email
-
-  def __str__(self):
-    return self.name
-
-  def full_str(self):
-    return self.name + (" <%s>" % self.email if self.email else "")
-
 class Player(object):
-  def __init__(self, name, role):
+  def __init__(self, name, role, *, email=None):
     super().__init__()
     self.effects = []
     self.name    = name
+    self.email   = email
     self._role   = role
 
   def __repr__(self):
@@ -23,6 +13,9 @@ class Player(object):
 
   def __lt__(self, other):
     return self.name < other.name
+
+  def full_str(self):
+    return self.name + (" <%s>" % self.email if self.email else "")
 
   def matches(self, other, **kwargs):
     return self == other
