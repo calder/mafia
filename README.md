@@ -77,7 +77,7 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
     - [ ] One-shot actions
   - [x] Day resolution
     - [x] Lynching
-    - [ ] Vote actions
+    - [x] Vote actions
     - [ ] Day actions
   - [ ] Immediate actions
   - [x] Winner calculation

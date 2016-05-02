@@ -1,6 +1,8 @@
 from .mixin import *
 
 class PlayerInfo(dict):
+  """Can be used as a Player.name in place of a string."""
+
   def __str__(self):
     return self["name"]
 
@@ -11,11 +13,13 @@ class PlayerInfo(dict):
       raise AttributeError()
 
 class Player(object):
+  """A player in a game of Mafia."""
+
   def __init__(self, name, role):
     super().__init__()
-    self.effects = []
     self.name    = name
     self._role   = role
+    self.effects = []
 
   def __repr__(self):
     return self.name if isinstance(self.name, str) else str(self.name)
