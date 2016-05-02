@@ -13,10 +13,10 @@ class PickleTest(TestCase):
 
     pickled  = pickle.dumps(game)
     game     = pickle.loads(pickled)
-    town     = game.faction_dict["Town"]
-    mafia    = game.faction_dict["Mafia"]
-    villager = game.player_dict["Villager"]
-    goon     = game.player_dict["Goon"]
+    town     = [f for f in game.factions if f.name == "Town"][0]
+    mafia    = [f for f in game.factions if f.name == "Mafia"][0]
+    villager = [p for p in game.players if p.name == "Villager"][0]
+    goon     = [p for p in game.players if p.name == "Goon"][0]
 
     night0 = Night(0)
     night0.add_action(FactionAction(mafia, Kill(goon, villager)))
