@@ -1,5 +1,13 @@
 from .mixin import *
 
+class PlayerInfo(object):
+  def __init__(self, name, *, email=None):
+    self.name  = name
+    self.email = email
+
+  def __str__(self):
+    return self.name
+
 class Player(object):
   def __init__(self, name, role):
     super().__init__()

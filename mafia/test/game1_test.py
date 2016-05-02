@@ -49,7 +49,7 @@ def test_game1():
   assert_equal(g.log.filter(lambda e: not isinstance(e, events.RoleAnnouncement)), Log([
     events.FactionAnnouncement(masons, [josh, michelle, scott]),
     events.FactionAnnouncement(mafia, [asmar, dave, paul, sami, tarl, wac]),
-  ]))
+  ], phase=START))
 
   night0 = Night(0)
   night0.add_action(Guard(alex, max))

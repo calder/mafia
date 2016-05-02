@@ -76,7 +76,8 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
     - [X] Disjunctive actions
     - [ ] One-shot actions
   - [x] Day resolution
-    - [x] Voting / lynching
+    - [x] Lynching
+    - [ ] Vote actions
     - [ ] Day actions
   - [ ] Immediate actions
   - [x] Winner calculation
@@ -89,6 +90,8 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [ ] Bomb
   - [x] Busdriver
   - [x] Cop
+  - [ ] Cult Leader
+  - [ ] Cultist
   - [x] Delayer
   - [x] Doctor
   - [x] Double Voter

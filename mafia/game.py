@@ -9,7 +9,9 @@ import random
 EVERYONE_LOST = SingletonValue("EVERYONE_LOST")
 NO_WINNER_YET = SingletonValue("NO_WINNER_YET")
 
-def MakeGame(*, seed, players, factions, roles):
+START = SingletonValue("Start")
+
+def new_game(*, seed, players, factions, roles):
   assert len(players) == len(roles)
 
   rng = random.Random(seed)
@@ -86,6 +88,8 @@ class Game(object):
 
   def begin(self):
     """Send out roles and teammates."""
+    self.log.current_phase = START
+
     for player in self.players:
       self.log.append(events.RoleAnnouncement(player, player.role))
 
