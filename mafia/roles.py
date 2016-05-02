@@ -188,9 +188,6 @@ class Joker(Role):
 class Lyncher(Role):
   pass
 
-class Mason(Role):
-  pass
-
 class Miller(Role):
   @property
   def apparent_alignment(self):
