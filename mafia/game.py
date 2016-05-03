@@ -50,7 +50,7 @@ class Game(object):
     self.faction_set.add(faction)
     return faction
 
-  def add_player(self, player, role=None):
+  def add_player(self, player, role=None, **kwargs):
     """
     Add a player to the game and return it.
 
@@ -60,8 +60,10 @@ class Game(object):
 
     if role:
       assert isinstance(role, Role)
-      player = Player(player, role)
-    assert isinstance(player, Player)
+      player = Player(player, role, **kwargs)
+    else:
+      assert isinstance(player, Player)
+      assert len(kwargs) == 0
 
     self.player_set.add(player)
     return player
