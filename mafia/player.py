@@ -1,23 +1,12 @@
 from .mixin import *
 
-class PlayerInfo(dict):
-  """Can be used as a Player.name in place of a string."""
-
-  def __str__(self):
-    return self["name"]
-
-  def __getattr__(self, attr):
-    if attr in self:
-      return self[attr]
-    else:
-      raise AttributeError()
-
 class Player(object):
   """A player in a game of Mafia."""
 
-  def __init__(self, name, role):
+  def __init__(self, name, role, *, info=None):
     super().__init__()
     self.name    = name
+    self.info    = info
     self._role   = role
     self.effects = []
 

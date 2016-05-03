@@ -16,14 +16,6 @@ class StrTest(TestCase):
   def test_str_player(self):
     assert_equal(str(self.jayne), "Jayne")
 
-  def test_str_player_info(self):
-    mal_info   = PlayerInfo(name="Mal")
-    jayne_info = PlayerInfo(name="Jayne", email="j4yne@aol.com")
-    self.mal.name   = mal_info
-    self.jayne.name = jayne_info
-    assert_equal(str(self.mal), "Mal")
-    assert_equal(str(self.jayne), "Jayne")
-
   def test_str_action(self):
     class TestAction(Action): pass
     assert_equal(str(TestAction(self.jayne, self.mal)), "TestAction(Jayne, Mal)")
