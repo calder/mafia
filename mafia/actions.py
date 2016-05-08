@@ -38,9 +38,11 @@ class Action(ActionBase):
 
   def parse(self, s, *, game, player):
     match = re.match(r"%s (\w+)" % self.name, s)
-    if not match: return
+    if not match:
+      raise InvalidAction("Cannot parse action.")
     target = game.player_named(match.group(1))
-    if not target: return
+    if not target:
+      raise InvalidAction("%s is not a player.")
     return self.with_player(player).with_target(target)
 
   @property
@@ -131,10 +133,14 @@ class Busdrive(Action):
 
   def parse(self, s, *, game, player):
     match = re.match(r"%s (\w+) and (\w+)" % self.name, s)
-    if not match: return
+    if not match:
+      raise InvalidAction("Cannot parse Busdrive action.")
     target1 = game.player_named(match.group(1))
     target2 = game.player_named(match.group(2))
-    if not target: return
+    if not target1:
+      raise InvalidAction("%s is not a player." % target1)
+    if not target2:
+      raise InvalidAction("%s is not a player." % target2)
     return self.with_player(player).with_targets([target1, target2])
 
   def _resolve(self, game):
