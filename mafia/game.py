@@ -48,10 +48,12 @@ class Game(object):
     self.delayed_actions = []
 
   def add_faction(self, faction):
-    assert faction.name.lower() not in self.faction_names
+    faction_name = faction.name.lower().replace(" ", "")
+    assert faction_name not in self.faction_names
+
     faction.game = self
     self.faction_list.append(faction)
-    self.faction_names[faction.name.lower()] = faction
+    self.faction_names[faction_name] = faction
     return faction
 
   def add_player(self, player, role=None, **kwargs):
@@ -69,9 +71,11 @@ class Game(object):
       assert isinstance(player, Player)
       assert len(kwargs) == 0
 
-    assert player.name.lower() not in self.player_names
+    player_name = player.name.lower().replace(" ", "")
+    assert player_name not in self.player_names
+
     self.player_list.append(player)
-    self.player_names[player.name.lower()] = player
+    self.player_names[player_name] = player
     return player
 
   def begin(self):
