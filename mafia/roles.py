@@ -227,7 +227,7 @@ class Unlynchable(Role):
   def on_lynched(self, *, game, player):
     game.log.append(events.NoLynch())
 
-class Usurper(Role):
+class Usurper(Goon):
   def __init__(self, faction_or_role, usurpee):
     super().__init__(faction_or_role)
     self.usurpee = usurpee
