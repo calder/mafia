@@ -24,6 +24,11 @@ class Faction(object):
     return self.name
 
   @property
+  def leader(self):
+    members = [p for p in self.game.player_list if p.faction == self and p.alive]
+    return members[0] if len(members) > 0 else None
+
+  @property
   def members(self):
     return [p for p in self.game.players if p.faction == self]
 

@@ -2,6 +2,9 @@ from .util import *
 
 import copy
 
+class InvalidAction(Exception):
+  pass
+
 class TargetList(list):
   def matches(self, other, **kwargs):
     return len(self) == len(other) and \
