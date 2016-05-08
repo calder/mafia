@@ -31,14 +31,22 @@ class Action(ActionBase):
 
   def __str__(self):
     targets = ", ".join([str(target) for target in self.targets])
-    return "%s(%s, %s)" % (self.name, self.player, targets)
+    return "%s(%s, %s)" % (self.__class__.__name__, self.player, targets)
 
   def matches(self, other, **kwargs):
     return matches(self, other, player=self.player, **kwargs)
 
+  def parse(self, s, *, game, player):
+    match = re.match(r"%s (\w+)" % self.name, s)
+    if not match: return
+    target = game.player_named(match.group(1))
+    if not target: return
+    return self.with_player(player).with_target(target)
+
   @property
   def name(self):
-    return self.__class__.__name__
+    words = re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__)
+    return " ".join(words).lower()
 
   @property
   def targets(self):
@@ -120,6 +128,14 @@ class Busdrive(Action):
 
   def __init__(self, player, target1, target2):
     super().__init__(player, [target1, target2])
+
+  def parse(self, s, *, game, player):
+    match = re.match(r"%s (\w+) and (\w+)" % self.name, s)
+    if not match: return
+    target1 = game.player_named(match.group(1))
+    target2 = game.player_named(match.group(2))
+    if not target: return
+    return self.with_player(player).with_targets([target1, target2])
 
   def _resolve(self, game):
     a = self.targets[0]

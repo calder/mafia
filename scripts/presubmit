@@ -12,7 +12,7 @@ echo
   || { echo "\nFAIL: Remove leftover print statements before committing."; exit 1; }
 
 echo
-! grep -r "debug=True" mafia/*.py mafia/*/*.py \
+! grep -r "debug=True" mafia/*.py \
   --exclude=mafia/util.py \
   || { echo "\nFAIL: Remove leftover 'debug=True's before committing."; exit 1; }
 

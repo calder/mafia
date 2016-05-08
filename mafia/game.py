@@ -42,12 +42,16 @@ class Game(object):
     self.random          = random.Random(seed)
     self.log             = Log()
     self.faction_set     = set()
+    self.faction_names   = {}
     self.player_set      = set()
+    self.player_names    = {}
     self.delayed_actions = []
 
   def add_faction(self, faction):
+    assert faction.name.lower() not in self.faction_names
     faction.game = self
     self.faction_set.add(faction)
+    self.faction_names[faction.name.lower()] = faction
     return faction
 
   def add_player(self, player, role=None, **kwargs):
@@ -65,7 +69,9 @@ class Game(object):
       assert isinstance(player, Player)
       assert len(kwargs) == 0
 
+    assert player.name.lower() not in self.player_names
     self.player_set.add(player)
+    self.player_names[player.name.lower()] = player
     return player
 
   def begin(self):
@@ -92,9 +98,17 @@ class Game(object):
   def all_players(self):
     return sorted(self.player_set)
 
+  def player_named(self, name):
+    """Return a player with the given name (case insensitive) or None."""
+    return self.player_names.get(name, None)
+
   @property
   def factions(self):
     return sorted(set([p.faction for p in self.players]))
+
+  def faction_named(self, name):
+    """Return a faction with the given name (case insensitive) or None."""
+    return self.faction_names.get(name, None)
 
   @property
   def all_factions(self):
