@@ -37,3 +37,13 @@ class StrTest(TestCase):
 
   def test_str_faction(self):
     assert_equal(str(Faction("Blue Sun")), "Blue Sun")
+
+  def test_role_announcement_full_message(self):
+    sue = Player("Sue", Ninja(Hitman(self.mafia)))
+    sue.role.description = "Ninja stuff..."
+    sue.role.base.description = "Hitman stuff..."
+    announcement = events.RoleAnnouncement(sue, sue.role)
+    assert_equal(
+      announcement.full_message,
+      "You are the Mafia Ninja Hitman.\n\nNinja stuff...\n\nHitman stuff..."
+    )

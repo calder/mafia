@@ -114,7 +114,7 @@ class Role(object):
 
   @property
   def descriptions(self):
-    return self.description + self.base.descriptions
+    return [self.description] + self.base.descriptions
 
 class ActionDoubler(Role):
   description = "You may double one player each night. " \
@@ -226,6 +226,9 @@ class Governor(Role):
     return Pardon(placeholders.Self, placeholders.Other(), visible=False)
 
 class Hitman(Role):
+  description = "You may kill one player each night, but only at " \
+                "your faction leader's command. They cannot be protected."
+
   @property
   def faction_action(self):
     return HitmanKill(placeholders.Self(), placeholders.Player())
@@ -244,7 +247,7 @@ class Miller(Role):
     return Alignment.evil
 
 class Ninja(Role):
-  description = "Your night actions are invisible to Tracker, Watchers, " \
+  description = "Your night actions are invisible to Trackers, Watchers, " \
                 "and Forensic Investigators."
 
   @property
