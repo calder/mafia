@@ -18,7 +18,7 @@ class Game(object):
   Usage:
     game  = Game()
     town  = game.add_faction(Town())
-    mafia = game.add_faction(Mafia("The Sopranos"))
+    mafia = game.add_faction(Mafia("Crypto Mafia"))
     alice = game.add_player("Alice", Cop(town))
     bob   = game.add_player("Bob", Doctor(town))
     eve   = game.add_player("Eve", Goon(mafia))

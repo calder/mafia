@@ -46,10 +46,10 @@ class Faction(object):
     if member_actions: return FactionAction(self, OneOfAction(member_actions))
 
 class Town(Faction):
-  adjective        = "Town"
-  alignment        = Alignment.good
-  is_town_friend   = True
-  is_town_enemy    = False
+  adjective      = "Town"
+  alignment      = Alignment.good
+  is_town_friend = True
+  is_town_enemy  = False
 
   def __init__(self):
     super().__init__("Town")

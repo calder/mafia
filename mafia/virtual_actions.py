@@ -43,6 +43,15 @@ class FactionAction(VirtualAction):
       raise InvalidAction("%s is not yours to command." % match.group(1))
     return FactionAction(player.faction, self.action.parse(match.group(2), game=game, player=minion))
 
+  def help(self):
+    options = []
+    for minion in self.faction.members:
+      minion_name = minion.name.lower().replace(" ", "")
+      if minion.faction_action:
+        for option in minion.faction_action.help():
+          options.append("%s: %s" % (minion_name, option))
+    return options
+
 class OneOfAction(VirtualAction):
   """An action that may be one of a number of different actions."""
   def __init__(self, actions):

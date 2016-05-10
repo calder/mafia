@@ -45,6 +45,9 @@ class Action(ActionBase):
       raise InvalidAction("%s is not a player.")
     return self.with_player(player).with_target(target)
 
+  def help(self):
+    return ["%s PLAYER" % self.name]
+
   @property
   def name(self):
     words = re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__)
@@ -142,6 +145,9 @@ class Busdrive(Action):
     if not target2:
       raise InvalidAction("%s is not a player." % target2)
     return self.with_player(player).with_targets([target1, target2])
+
+  def help(self):
+    return ["%s PLAYER1 PLAYER2" % self.name]
 
   def _resolve(self, game):
     a = self.targets[0]
