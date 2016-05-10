@@ -54,8 +54,7 @@ class Town(Faction):
   def __init__(self):
     super().__init__("Town")
 
-  @property
-  def fate(self):
+  def fate(self, **kwargs):
     town_friends = [p for p in self.game.players if p.is_town_friend]
     town_enemies = [p for p in self.game.players if p.is_town_enemy]
     if len(town_friends) == 0: return Fate.lost
@@ -77,10 +76,9 @@ class JokerFaction(Faction):
     super().__init__(name)
     self.must_lynch = 1
 
-  @property
-  def fate(self):
-    living         = len(self.members)
-    lynched        = len([p for p in self.all_members if self.game.log.has_been_lynched(p)])
+  def fate(self, **kwargs):
+    living  = len(self.members)
+    lynched = len([p for p in self.all_members if self.game.log.has_been_lynched(p)])
 
     if lynched >= self.must_lynch:         return Fate.won
     if living + lynched < self.must_lynch: return Fate.lost
@@ -96,8 +94,7 @@ class LyncherFaction(Faction):
   def set_target(self, lynchee):
     self.lynchee = lynchee
 
-  @property
-  def fate(self):
+  def fate(self, **kwargs):
     if self.lynchee.alive: return Fate.undecided
     return Fate.won if self.game.log.has_been_lynched(self.lynchee) else Fate.lost
 
@@ -107,8 +104,7 @@ class Mafia(Faction):
   is_town_enemy  = True
   is_town_friend = False
 
-  @property
-  def fate(self):
+  def fate(self, **kwargs):
     if len(self.members) == 0: return Fate.lost
     if 2 * len(self.members) >= len(self.game.players): return Fate.won
     return Fate.undecided
@@ -127,6 +123,5 @@ class Masonry(Faction):
   def alignment(self):
     return self.town.alignment
 
-  @property
-  def fate(self):
-    return self.town.fate
+  def fate(self, **kwargs):
+    return self.town.fate(**kwargs)

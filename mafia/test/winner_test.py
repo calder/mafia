@@ -30,14 +30,16 @@ class WinnerTest(TestCase):
     assert_equal(self.game.winners(), [self.villager1, self.villager2, self.villager3])
 
   def test_usurper_wins(self):
-    usurper = self.game.add_player("Usurper", Usurper(self.mafia, self.goon2))
+    usurper = self.game.add_player("Usurper", Usurper(self.mafia))
+    self.goon1.add_effect(effects.Dead())
     self.goon2.add_effect(effects.Dead())
     self.villager1.add_effect(effects.Dead())
     self.villager2.add_effect(effects.Dead())
+    self.villager3.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.goon1, self.goon2, usurper])
 
   def test_usurper_loses(self):
-    usurper = self.game.add_player("Usurper", Usurper(self.mafia, self.goon1))
+    usurper = self.game.add_player("Usurper", Usurper(self.mafia))
     self.villager1.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.goon1, self.goon2])
 
@@ -62,7 +64,7 @@ class WinnerTest(TestCase):
     assert self.game.is_game_over() is True
 
   def test_joker_undecided(self):
-    assert_equal(self.joker.fate, Fate.undecided)
+    assert_equal(self.joker.fate(player=self.joker), Fate.undecided)
 
   def test_joker_wins_non_exclusively(self):
     assert self.game.is_game_over() is False

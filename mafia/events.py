@@ -60,6 +60,10 @@ class FactionAnnouncement(Event):
   def message(self):
     return "You are the %s." % self.faction.name
 
+  @property
+  def full_message(self):
+    return "%s, you are the %s." % (str_player_list(self.faction.members), self.faction.name)
+
 class RoleAnnouncement(Event):
   def __init__(self, player, role, **kwargs):
     super().__init__(to=player, **kwargs)
@@ -69,6 +73,10 @@ class RoleAnnouncement(Event):
   @property
   def message(self):
     return "You are the %s." % self.player.role
+
+  @property
+  def full_message(self):
+    return role_description(self.player.role)
 
 ##################
 ###   Events   ###

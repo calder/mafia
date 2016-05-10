@@ -60,9 +60,9 @@ class Player(object):
   def faction(self):
     return self.role.faction
 
-  @mixin("effects")
-  def fate(self):
-    return self.role.fate
+  @mixin_fn("effects")
+  def fate(self, **kwargs):
+    return self.role.fate(**kwargs)
 
   @mixin("effects")
   def is_town_enemy(self):

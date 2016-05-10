@@ -9,7 +9,7 @@ class ActionParsingTest(TestCase):
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("Mafia"))
     self.godfather = self.game.add_player("Godfather", Godfather(self.mafia))
-    self.usurper   = self.game.add_player("Usurper", Usurper(self.mafia, self.godfather))
+    self.usurper   = self.game.add_player("Usurper", Usurper(self.mafia))
     self.hitman    = self.game.add_player("Hitman", Hitman(self.mafia))
     self.goon      = self.game.add_player("Goon", Goon(self.mafia))
     self.cop       = self.game.add_player("Cop", Cop(self.town))

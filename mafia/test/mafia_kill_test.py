@@ -13,7 +13,7 @@ class MafiaKillTest(TestCase):
     self.godfather = self.game.add_player("Godfather", Godfather(self.mafia))
     self.goon1     = self.game.add_player("Goon 1", Goon(self.mafia))
     self.goon2     = self.game.add_player("Goon 2", Goon(self.mafia))
-    self.usurper   = self.game.add_player("Usurper", Usurper(self.mafia, self.godfather))
+    self.usurper   = self.game.add_player("Usurper", Usurper(self.mafia))
 
   def test_mafia_kill(self):
     """Basic Mafia faction kill functionality."""
