@@ -5,6 +5,7 @@ from .alignment import *
 from .day import *
 from .effects import *
 from . import events
+from .exceptions import *
 from .factions import *
 from .game import *
 from .log import *

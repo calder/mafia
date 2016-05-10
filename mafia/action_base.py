@@ -1,9 +1,7 @@
+from .exceptions import *
 from .util import *
 
 import copy
-
-class InvalidAction(Exception):
-  pass
 
 class TargetList(list):
   def matches(self, other, **kwargs):

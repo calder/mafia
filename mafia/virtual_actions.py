@@ -34,13 +34,13 @@ class FactionAction(VirtualAction):
 
   def parse(self, s, *, game, player):
     if player.faction.leader != player:
-      raise InvalidAction("You are not the leader of your faction.")
+      raise InvalidSender()
     match = re.match(r"(\w+): (.*)", s)
     if not match:
-      raise InvalidAction("Cannot parse faction action.")
+      raise MalformedAction()
     minion = game.player_named(match.group(1))
     if not minion:
-      raise InvalidAction("%s is not yours to command." % match.group(1))
+      raise InvalidPlayer(match.group(1))
     return FactionAction(player.faction, self.action.parse(match.group(2), game=game, player=minion))
 
   def help(self):

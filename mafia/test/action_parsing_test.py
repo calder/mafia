@@ -50,7 +50,7 @@ class ActionParsingTest(TestCase):
 
   def test_chain_of_command(self):
     """The chain of command should be the order players were added in."""
-    with self.assertRaises(InvalidAction):
+    with self.assertRaises(InvalidSender):
       self.mafia.action.parse("goon: kill cop", game=self.game, player=self.usurper)
 
     self.godfather.add_effect(effects.Dead())
