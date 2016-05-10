@@ -35,6 +35,10 @@ class RoleBase(object):
     return self.alignment
 
   @property
+  def descriptions(self):
+    return []
+
+  @property
   def faction(self):
     return self._faction
 
@@ -107,6 +111,10 @@ class Role(object):
   @property
   def adjectives(self):
     return re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__) + self.base.adjectives
+
+  @property
+  def descriptions(self):
+    return self.description + self.base.descriptions
 
 class ActionDoubler(Role):
   description = "You may double one player each night. " \

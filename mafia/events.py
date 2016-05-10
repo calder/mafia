@@ -76,7 +76,8 @@ class RoleAnnouncement(Event):
 
   @property
   def full_message(self):
-    return role_description(self.player.role)
+    description = "\n\n".join(self.role.descriptions)
+    return "%s\n\n%s" % (self.message, description)
 
 ##################
 ###   Events   ###
