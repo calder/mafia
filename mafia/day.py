@@ -1,10 +1,12 @@
 from . import events
+from .exceptions import *
 from .log import *
 import mafia.night
 from .phase import *
 from .util import *
 
 from collections import *
+import re
 
 class Day(Phase):
   """
@@ -31,6 +33,15 @@ class Day(Phase):
 
   def next_phase(self):
     return mafia.Night(self.number)
+
+  def add_parsed(self, player, string, *, game):
+    match = re.fullmatch(r"(vote|vote for|lynch) (\w+)", string)
+    if not match:
+      raise MalformedVote()
+    target = game.player_named(match.group(2))
+    if not target:
+      raise InvalidPlayer(match.group(2))
+    self.set_vote(player, target)
 
   def set_vote(self, player, candidate):
     self.votes[player] = candidate

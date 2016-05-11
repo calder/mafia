@@ -35,7 +35,7 @@ class FactionAction(VirtualAction):
   def parse(self, s, *, game, player):
     if player.faction.leader != player:
       raise InvalidSender()
-    match = re.match(r"(\w+): (.*)", s)
+    match = re.fullmatch(r"(\w+): (.*)", s)
     if not match:
       raise MalformedAction()
     minion = game.player_named(match.group(1))
@@ -69,7 +69,7 @@ class OneOfAction(VirtualAction):
     for action in self.actions:
       try:
         return action.parse(s, **kwargs)
-      except (InvalidAction, e):
+      except InvalidAction as e:
         errors.append(e)
 
     errors_str = "\n  - ".join([str(e) for e in errors])

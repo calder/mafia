@@ -1,4 +1,5 @@
 import mafia.day
+from .exceptions import *
 from .log import *
 from .phase import *
 from .util import *
@@ -27,6 +28,18 @@ class Night(Phase):
 
   def next_phase(self):
     return mafia.Day(self.number + 1)
+
+  def add_parsed(self, player, string, *, game):
+    if ":" in string:
+      action    = player.faction.action
+      exception = NoFactionAction()
+    else:
+      action    = player.action
+      exception = NoIndividualAction()
+
+    if not action:
+      raise exception
+    self.add_action(action.parse(string, game=game, player=player))
 
   def add_action(self, action):
     self.raw_actions.append(action)

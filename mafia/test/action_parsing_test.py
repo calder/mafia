@@ -15,6 +15,39 @@ class ActionParsingTest(TestCase):
     self.cop       = self.game.add_player("Cop", Cop(self.town))
     self.doctor    = self.game.add_player("Doctor", Doctor(self.town))
     self.busdriver = self.game.add_player("Busdriver", Busdriver(self.town))
+    self.villager  = self.game.add_player("Villager", Villager(self.town))
+
+  def test_night_parsing(self):
+    """Test Night action parsing."""
+    night0 = Night(0)
+    night0.add_parsed(self.godfather, "hitman: hitman kill cop", game=self.game)
+    night0.add_parsed(self.doctor, "protect cop", game=self.game)
+    with self.assertRaises(NoFactionAction):
+      night0.add_parsed(self.villager, "busdriver: kill godfather", game=self.game)
+    with self.assertRaises(NoIndividualAction):
+      night0.add_parsed(self.villager, "investigate godfather", game=self.game)
+    self.game.resolve(night0)
+
+    assert_equal(self.game.log.phase(night0), Log([
+      events.Visited(self.doctor, self.cop),
+      events.Visited(self.hitman, self.cop),
+      events.Died(self.cop),
+    ], phase=night0))
+
+  def test_day_parsing(self):
+    """Test Day vote parsing."""
+    day0 = Day(0)
+    day0.add_parsed(self.godfather, "vote cop", game=self.game)
+    day0.add_parsed(self.cop, "vote for godfather", game=self.game)
+    day0.add_parsed(self.usurper, "lynch godfather", game=self.game)
+    self.game.resolve(day0)
+
+    assert_equal(self.game.log.phase(day0), Log([
+      events.VotedFor(self.cop, self.godfather),
+      events.VotedFor(self.godfather, self.cop),
+      events.VotedFor(self.usurper, self.godfather),
+      events.Lynched(self.godfather),
+    ], phase=day0))
 
   def test_parse_action(self):
     """Test normal action parsing."""

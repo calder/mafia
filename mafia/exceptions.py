@@ -19,3 +19,15 @@ class MalformedAction(InvalidAction):
   def __str__(self):
     help = "\n  ".join(self.help)
     return "Action must be one of the following:\n  %s" % help
+
+class MalformedVote(InvalidAction):
+  def __str__(self):
+    return "Votes must take the form:\nvote for PLAYER"
+
+class NoFactionAction(InvalidAction):
+  def __str__(self):
+    return "No faction actions available."
+
+class NoIndividualAction(InvalidAction):
+  def __str__(self):
+    return "No actions available."

@@ -37,7 +37,7 @@ class Action(ActionBase):
     return matches(self, other, player=self.player, **kwargs)
 
   def parse(self, s, *, game, player):
-    match = re.match(r"%s (\w+)" % self.name, s)
+    match = re.fullmatch(r"%s (\w+)" % self.name, s)
     if not match:
       raise MalformedAction(self.help())
     target = game.player_named(match.group(1))
@@ -135,7 +135,7 @@ class Busdrive(Action):
     super().__init__(player, [target1, target2])
 
   def parse(self, s, *, game, player):
-    match = re.match(r"%s (\w+) and (\w+)" % self.name, s)
+    match = re.fullmatch(r"%s (\w+) and (\w+)" % self.name, s)
     if not match:
       raise MalformedAction(self.help())
     target1 = game.player_named(match.group(1))
