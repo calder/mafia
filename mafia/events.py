@@ -76,8 +76,13 @@ class RoleAnnouncement(Event):
 
   @property
   def full_message(self):
-    description = "\n\n".join(self.role.descriptions)
-    return "%s\n\n%s" % (self.message, description)
+    parts = [self.message]
+    parts += self.role.descriptions
+    if self.player.action:
+      commands = "\n".join(["- " + i for i in self.player.action.help()])
+      parts.append("---------------------------------------\n" \
+                   "You may send me the following commands:\n%s" % commands)
+    return "\n\n".join(parts)
 
 ##################
 ###   Events   ###
