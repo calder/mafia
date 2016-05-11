@@ -1,5 +1,6 @@
 from . import events
 from .log import *
+import mafia.night
 from .phase import *
 from .util import *
 
@@ -27,6 +28,9 @@ class Day(Phase):
 
   def __str__(self):
     return "Day %d" % self.number
+
+  def next_phase(self):
+    return mafia.Night(self.number)
 
   def set_vote(self, player, candidate):
     self.votes[player] = candidate

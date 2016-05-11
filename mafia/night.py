@@ -1,3 +1,4 @@
+import mafia.day
 from .log import *
 from .phase import *
 from .util import *
@@ -23,6 +24,9 @@ class Night(Phase):
 
   def __str__(self):
     return "Night %d" % self.number
+
+  def next_phase(self):
+    return mafia.Day(self.number + 1)
 
   def add_action(self, action):
     self.raw_actions.append(action)
