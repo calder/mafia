@@ -28,6 +28,10 @@ class Event(object):
       return "%s: %s: %s" % (self.phase, to, self.message)
 
   @property
+  def full_message(self):
+    return self.message
+
+  @property
   def color(self):
     if self.to is not None: return "cyan"
 
