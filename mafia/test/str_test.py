@@ -1,5 +1,4 @@
 from mafia import *
-
 from .test_game import *
 
 from unittest import TestCase

@@ -88,8 +88,8 @@ class Game(object):
       members = faction.apparent_members
       if members and len(members) > 1:
         self.log.append(events.FactionAnnouncement(faction, members))
-        if faction.action:
-          self.log.append(events.FactionLeaderAnnouncement(faction, faction.leader))
+      if faction.leader and faction.action:
+        self.log.append(events.FactionLeaderAnnouncement(faction, faction.leader))
 
   def resolve(self, phase):
     self.log.current_phase = phase
