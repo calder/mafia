@@ -99,12 +99,16 @@ class RoleAnnouncement(Event):
 
   @property
   def message(self):
-    return "You are the %s." % self.player.role
+    if self.phase is START:
+      return "You are the %s." % self.player.role
+    else:
+      return "You are now the %s." % self.player.role
 
   @property
   def full_message(self):
     parts = [self.message]
     parts += self.role.descriptions
+    parts += [self.role.objective]
     if self.player.action:
       commands = "\n".join(["- " + i for i in self.player.action.help()])
       parts.append("---------------------------------------\n" \

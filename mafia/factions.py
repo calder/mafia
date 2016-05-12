@@ -50,6 +50,7 @@ class Town(Faction):
   alignment      = Alignment.good
   is_town_friend = True
   is_town_enemy  = False
+  objective      = "You win if all the mafia are eliminated."
 
   def __init__(self):
     super().__init__("Town")
@@ -84,6 +85,13 @@ class JokerFaction(Faction):
     if living + lynched < self.must_lynch: return Fate.lost
     return Fate.undecided
 
+  @property
+  def objective(self):
+    if len(self.members) == 1:
+      return "You win if you get lynched."
+    else:
+      return "You win if at least %d of you and your joker buddies get lynched." % self.must_lynch
+
 class LyncherFaction(Faction):
   adjective        = "Third Party"
   alignment        = Alignment.evil
@@ -98,11 +106,16 @@ class LyncherFaction(Faction):
     if self.lynchee.alive: return Fate.undecided
     return Fate.won if self.game.log.has_been_lynched(self.lynchee) else Fate.lost
 
+  @property
+  def objective(self):
+    return "You win if %s gets lynched." % self.lynchee
+
 class Mafia(Faction):
   adjective      = "Mafia"
   alignment      = Alignment.evil
   is_town_enemy  = True
   is_town_friend = False
+  objective      = "You win if your mafia accounts for half or more of the surviving players."
 
   def fate(self, **kwargs):
     if len(self.members) == 0: return Fate.lost
@@ -114,6 +127,7 @@ class Masonry(Faction):
   alignment      = Alignment.good
   is_town_enemy  = False
   is_town_friend = True
+  objective      = Town.objective
 
   def __init__(self, name, town):
     super().__init__(name)

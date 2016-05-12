@@ -5,6 +5,8 @@ from unittest import TestCase
 
 class StrTest(TestCase):
   def setUp(self):
+    self.maxDiff = None
+
     self.game  = TestGame()
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("Alliance"))
@@ -66,8 +68,9 @@ class StrTest(TestCase):
     announcement = events.RoleAnnouncement(sue, sue.role)
     self.assertEqual(
       announcement.full_message,
-      "You are the Mafia Doctor Ninja Hitman.\n\n" \
+      "You are now the Mafia Doctor Ninja Hitman.\n\n" \
       "Doctor stuff...\n\nNinja stuff...\n\nHitman stuff...\n\n" \
+      "You win if your mafia accounts for half or more of the surviving players.\n\n" \
       "---------------------------------------\n" \
       "You may send me the following commands:\n" \
       "- protect PLAYER"

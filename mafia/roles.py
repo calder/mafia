@@ -116,6 +116,10 @@ class Role(object):
   def descriptions(self):
     return [self.description] + self.base.descriptions
 
+  @property
+  def objective(self):
+    return self.faction.objective
+
 class ActionDoubler(Role):
   description = "You may double one player each night. " \
                 "That player may use their action twice the following night."
