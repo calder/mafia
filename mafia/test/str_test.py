@@ -1,13 +1,18 @@
 from mafia import *
 
+from .test_game import *
+
 from unittest import TestCase
 
 class StrTest(TestCase):
   def setUp(self):
-    self.town  = Town()
-    self.mafia = Mafia("Alliance")
-    self.jayne = Player("Jayne", Villager(self.town))
-    self.mal   = Player("Mal", Villager(self.town))
+    self.game  = TestGame()
+    self.town  = self.game.add_faction(Town())
+    self.mafia = self.game.add_faction(Mafia("Alliance"))
+    self.jayne = self.game.add_player("Jayne", Villager(self.town))
+    self.mal   = self.game.add_player("Mal", Villager(self.town))
+    self.hob1  = self.game.add_player("HoB 1", Hitman(self.mafia))
+    self.hob2  = self.game.add_player("HoB 2", Goon(self.mafia))
 
   def test_str_nested_role(self):
     ninja_hitman = Ninja(Hitman(self.mafia))
@@ -37,6 +42,17 @@ class StrTest(TestCase):
 
   def test_str_faction(self):
     assert_equal(str(Faction("Blue Sun")), "Blue Sun")
+
+  def test_faction_leader_announcement_full_message(self):
+    announcement = events.FactionLeaderAnnouncement(self.mafia, self.hob1)
+    self.assertEqual(
+      announcement.full_message,
+      "You are the leader of the Alliance.\n\n" \
+      "---------------------------------------\n" \
+      "You may send me the following commands:\n" \
+      "- hob1: hitman kill PLAYER\n" \
+      "- hob2: kill PLAYER"
+    )
 
   def test_role_announcement_full_message(self):
     sue = Player("Sue", Doctor(Ninja(Hitman(self.mafia))))

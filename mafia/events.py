@@ -68,6 +68,25 @@ class FactionAnnouncement(Event):
   def full_message(self):
     return "%s, you are the %s." % (str_player_list(self.faction.members), self.faction.name)
 
+class FactionLeaderAnnouncement(Event):
+  def __init__(self, faction, leader, **kwargs):
+    super().__init__(to=leader, **kwargs)
+    self.faction = faction
+    self.leader  = leader
+
+  @property
+  def message(self):
+    return "You are the leader of the %s." % self.faction
+
+  @property
+  def full_message(self):
+    parts = [self.message]
+    if self.faction.action:
+      commands = "\n".join(["- " + i for i in self.faction.action.help()])
+      parts.append("---------------------------------------\n" \
+                   "You may send me the following commands:\n%s" % commands)
+    return "\n\n".join(parts)
+
 class RoleAnnouncement(Event):
   def __init__(self, player, role, **kwargs):
     super().__init__(to=player, **kwargs)

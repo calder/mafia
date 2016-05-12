@@ -113,7 +113,6 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [x] Roleblocker
   - [x] Tracker
   - [x] Usurper
-  - [x] Vengeful
   - [x] Ventriloquist
   - [x] Vigilante
   - [x] Watcher
@@ -125,6 +124,7 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [x] Overeager
   - [x] Stone
   - [x] Unlynchable
+  - [x] Vengeful
 - Questions
   - [ ] How should a one-shot hitman work?
   - [ ] How should multi-action factions work?
