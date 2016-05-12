@@ -8,8 +8,7 @@ import random
 
 EVERYONE_LOST = SingletonValue("EVERYONE_LOST")
 NO_WINNER_YET = SingletonValue("NO_WINNER_YET")
-
-START = SingletonValue("Start")
+START         = events.START
 
 class Game(object):
   """

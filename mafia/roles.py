@@ -63,11 +63,11 @@ class RoleBase(object):
 
   def on_killed(self, *, game, player, **kwargs):
     game.log.append(events.Died(player))
-    player.add_effect(effects.Dead())
+    resolve_death(player, game=game)
 
   def on_lynched(self, *, game, player, **kwargs):
     game.log.append(events.Lynched(player))
-    player.add_effect(effects.Dead())
+    resolve_death(player, game=game)
 
   def on_visited(self, **kwargs):
     pass

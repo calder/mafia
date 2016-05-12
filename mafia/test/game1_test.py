@@ -167,6 +167,7 @@ def test_game1():
     events.Visited(asmar, kim),
     events.Died(kim),
     events.Died(asmar),
+    events.FactionLeaderAnnouncement(mafia, dave),
     events.Visited(brian, tony),
     events.Visited(brian, kim),
     events.Visited(fejta, tony),

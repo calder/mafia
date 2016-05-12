@@ -5,6 +5,7 @@ from .util import *
 from termcolor import colored
 
 PUBLIC = SingletonValue("PUBLIC")
+START = SingletonValue("Start")
 
 class Event(object):
   def __init__(self, *, phase=None, to=None):
@@ -76,7 +77,10 @@ class FactionLeaderAnnouncement(Event):
 
   @property
   def message(self):
-    return "You are the leader of the %s." % self.faction
+    if self.phase is START:
+      return "You are the leader of the %s." % self.faction
+    else:
+      return "You are now the leader of the %s." % self.faction
 
   @property
   def full_message(self):

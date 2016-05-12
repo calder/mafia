@@ -47,6 +47,7 @@ class ActionParsingTest(TestCase):
       events.VotedFor(self.godfather, self.cop),
       events.VotedFor(self.usurper, self.godfather),
       events.Lynched(self.godfather),
+      events.FactionLeaderAnnouncement(self.mafia, self.usurper),
     ], phase=day0))
 
   def test_parse_action(self):

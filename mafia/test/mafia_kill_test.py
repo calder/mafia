@@ -62,5 +62,6 @@ class MafiaKillTest(TestCase):
     assert_equal(self.game.log, Log([
       events.Visited(self.usurper, self.godfather),
       events.Died(self.godfather),
+      events.FactionLeaderAnnouncement(self.mafia, self.goon1),
     ], phase=night0))
     assert self.godfather.alive is False

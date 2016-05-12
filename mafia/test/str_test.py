@@ -43,11 +43,16 @@ class StrTest(TestCase):
   def test_str_faction(self):
     assert_equal(str(Faction("Blue Sun")), "Blue Sun")
 
+  def test_faction_leader_announcement_message(self):
+    announcement = events.FactionLeaderAnnouncement(self.mafia, self.hob1)
+    announcement.phase = START
+    self.assertEqual(announcement.message, "You are the leader of the Alliance.")
+
   def test_faction_leader_announcement_full_message(self):
     announcement = events.FactionLeaderAnnouncement(self.mafia, self.hob1)
     self.assertEqual(
       announcement.full_message,
-      "You are the leader of the Alliance.\n\n" \
+      "You are now the leader of the Alliance.\n\n" \
       "---------------------------------------\n" \
       "You may send me the following commands:\n" \
       "- hob1: hitman kill PLAYER\n" \
