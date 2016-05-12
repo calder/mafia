@@ -134,5 +134,4 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [ ] Match actions immediatelyafter parsing them to check validity
   - [ ] Test exception __str__ methods
   - [ ] Test action parsing error cases
-  - [ ] Add a presubmit test that all roles have descriptions
   - [ ] Rethink factions
