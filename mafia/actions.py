@@ -43,7 +43,10 @@ class Action(ActionBase):
     target = game.player_named(match.group(1))
     if not target:
       raise InvalidPlayer(match.group(1))
-    return self.with_player(player).with_target(target)
+    action = self.with_player(player).with_target(target)
+    if not self.matches(action):
+      raise IllegalAction()
+    return action
 
   def help(self):
     return ["%s PLAYER" % self.name]
@@ -144,7 +147,10 @@ class Busdrive(Action):
       raise InvalidPlayer(target1)
     if not target2:
       raise InvalidPlayer(target2)
-    return self.with_player(player).with_targets([target1, target2])
+    action = self.with_player(player).with_targets([target1, target2])
+    if not self.matches(action):
+      raise IllegalAction()
+    return action
 
   def help(self):
     return ["%s PLAYER1 PLAYER2" % self.name]

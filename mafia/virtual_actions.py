@@ -41,7 +41,10 @@ class FactionAction(VirtualAction):
     minion = game.player_named(match.group(1))
     if not minion:
       raise InvalidPlayer(match.group(1))
-    return FactionAction(player.faction, self.action.parse(match.group(2), game=game, player=minion))
+    action = FactionAction(player.faction, self.action.parse(match.group(2), game=game, player=minion))
+    if not self.matches(action):
+      raise IllegalAction()
+    return action
 
   def help(self):
     options = []

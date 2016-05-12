@@ -50,18 +50,29 @@ class ActionParsingTest(TestCase):
     ], phase=day0))
 
   def test_parse_action(self):
-    """Test normal action parsing."""
+    """Test Action parsing."""
     action = self.cop.action.parse("investigate doctor", game=self.game, player=self.cop)
     assert Investigate(self.cop, self.doctor).matches(action, debug=True)
 
+  def test_parse_illegal_action(self):
+    """Test illegal Action rejection."""
+    with self.assertRaises(IllegalAction):
+      self.doctor.action.parse("protect doctor", game=self.game, player=self.doctor)
+
   def test_action_help(self):
-    """Test normal action help."""
+    """Test Action help."""
     assert_equal(self.cop.action.help(), ["investigate PLAYER"])
 
   def test_parse_busdrive(self):
     """Test Busdrive parsing."""
     action = self.busdriver.action.parse("busdrive cop and godfather", game=self.game, player=self.busdriver)
     assert Busdrive(self.busdriver, self.cop, self.godfather).matches(action, debug=True)
+
+  def test_parse_illegal_busdrive(self):
+    """Test illegal Busdrive rejection."""
+    self.doctor.add_effect(effects.Dead())
+    with self.assertRaises(IllegalAction):
+      self.busdriver.action.parse("busdrive cop and doctor", game=self.game, player=self.busdriver)
 
   def test_busdrive_help(self):
     """Test Busdrive help."""

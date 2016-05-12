@@ -1,6 +1,9 @@
 class InvalidAction(Exception):
   pass
 
+class IllegalAction(InvalidAction):
+  pass
+
 class InvalidPlayer(InvalidAction):
   def __init__(self, player):
     self.player = player
