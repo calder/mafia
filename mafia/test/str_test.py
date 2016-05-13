@@ -73,5 +73,6 @@ class StrTest(TestCase):
       "You win if your mafia accounts for half or more of the surviving players.\n\n" \
       "---------------------------------------\n" \
       "You may send me the following commands:\n" \
-      "  protect PLAYER"
+      "  protect PLAYER\n" \
+      "  vote for PLAYER"
     )
