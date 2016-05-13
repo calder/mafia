@@ -308,7 +308,7 @@ class Usurper(Goon):
 
   def fate(self, *, player):
     faction_fate = self.base.fate(player=player)
-    if faction_fate is Fate.won:
+    if faction_fate == Fate.won:
       return Fate.won if self.faction.leader == player else Fate.lost
     return faction_fate
 

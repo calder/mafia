@@ -25,7 +25,7 @@ class MafiaKillTest(TestCase):
       events.Visited(self.goon1, self.villager1),
       events.Died(self.villager1),
     ], phase=night0))
-    assert self.villager1.alive is False
+    assert not self.villager1.alive
 
   def test_reject_multiple_mafia_kills(self):
     """Only the last kill should go through."""
@@ -38,8 +38,8 @@ class MafiaKillTest(TestCase):
       events.Visited(self.goon2, self.villager2),
       events.Died(self.villager2),
     ], phase=night0))
-    assert self.villager1.alive is True
-    assert self.villager2.alive is False
+    assert self.villager1.alive
+    assert not self.villager2.alive
 
   def test_godfather_kill(self):
     """Test that Godfathers can kill."""
@@ -51,7 +51,7 @@ class MafiaKillTest(TestCase):
       events.Visited(self.godfather, self.villager1),
       events.Died(self.villager1),
     ], phase=night0))
-    assert self.villager1.alive is False
+    assert not self.villager1.alive
 
   def test_usurper_kill(self):
     """Test that Usurpers can kill."""
@@ -64,4 +64,4 @@ class MafiaKillTest(TestCase):
       events.Died(self.godfather),
       events.FactionLeaderAnnouncement(self.mafia, self.goon1),
     ], phase=night0))
-    assert self.godfather.alive is False
+    assert not self.godfather.alive

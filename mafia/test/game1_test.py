@@ -78,10 +78,10 @@ def test_game1():
     events.Died(scott),
     events.Died(wac),
   ], phase=night0))
-  assert max.alive is True
-  assert alex.alive is True
-  assert scott.alive is False
-  assert wac.alive is False
+  assert max.alive
+  assert alex.alive
+  assert not scott.alive
+  assert not wac.alive
   assert_equal(g.winners(), NO_WINNER_YET)
 
   day1 = Day(1)
@@ -98,9 +98,9 @@ def test_game1():
     events.VotedFor(doug, asmar),
     events.Lynched(doug),
   ], phase=day1))
-  assert doug.alive is False
+  assert not doug.alive
   assert_equal(g.winners(), [hung])
-  assert g.is_game_over() is False
+  assert not g.is_game_over()
 
   night1 = Night(1)
   night1.add_action(FactionAction(mafia, Kill(asmar, gijosh)))
@@ -131,7 +131,7 @@ def test_game1():
     events.VisitorsResult([fejta, gijosh], target=asmar, to=justin),
     events.NoDeaths(),
   ], phase=night1))
-  assert gijosh.alive is True
+  assert gijosh.alive
 
   day2 = Day(2)
   day2.set_vote(devin, calder)
@@ -145,7 +145,7 @@ def test_game1():
     events.VotedFor(gijosh, devin),
     events.Lynched(calder),
   ], phase=day2))
-  assert calder.alive is False
+  assert not calder.alive
 
   night2 = Night(2)
   night2.add_action(Delay(tyler, alphago))
@@ -178,8 +178,8 @@ def test_game1():
     events.VisiteesResult([], target=tony, to=fejta),
     events.VisitorsResult([asmar, brian], target=kim, to=justin),
   ], phase=night2))
-  assert kim.alive is False
-  assert asmar.alive is False
+  assert not kim.alive
+  assert not asmar.alive
 
   day3 = Day(3)
   day3.set_vote(dave, sami)
@@ -193,7 +193,7 @@ def test_game1():
       events.VotedFor(sami, dave),
       events.NoLynch(),
   ], phase=day3))
-  assert dave.alive is True
+  assert dave.alive
 
   night3 = Night(3)
   night3.add_action(Autopsy(leese, kim))
@@ -236,8 +236,8 @@ def test_game1():
     events.Died(sami),
     events.Blocked(brian),
   ], phase=night4))
-  assert sami.alive is False
-  assert sahil.alive is True
+  assert not sami.alive
+  assert sahil.alive
 
   day5 = Day(5)
   day5.set_vote(becky, becky)
@@ -248,4 +248,4 @@ def test_game1():
     events.Lynched(becky),
   ], phase=day5))
   assert_equal(g.winners(), [becky, hung])
-  assert g.is_game_over() is False
+  assert not g.is_game_over()

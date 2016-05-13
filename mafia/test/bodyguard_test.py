@@ -35,9 +35,9 @@ class BodyguardTest(TestCase):
       events.Died(bodyguard),
     ] + ([events.Died(self.goon)] if elite else []), phase=night0))
 
-    assert self.villager.alive is True
-    assert bodyguard.alive is False
-    assert self.goon.alive is (not elite)
+    assert self.villager.alive
+    assert not bodyguard.alive
+    assert self.goon.alive == (not elite)
 
 
   def test_doctor_target(self):
@@ -57,8 +57,8 @@ class BodyguardTest(TestCase):
       events.Died(self.bodyguard),
     ], phase=night0))
 
-    assert self.villager.alive is True
-    assert self.bodyguard.alive is False
+    assert self.villager.alive
+    assert not self.bodyguard.alive
 
 
   def test_doctor_bodyguard(self):
@@ -79,6 +79,6 @@ class BodyguardTest(TestCase):
       events.NoDeaths(),
     ], phase=night0))
 
-    assert self.villager.alive is True
-    assert self.bodyguard.alive is True
+    assert self.villager.alive
+    assert self.bodyguard.alive
 

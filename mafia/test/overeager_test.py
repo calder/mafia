@@ -10,7 +10,7 @@ def test_overeager():
 
   night0 = Night(0)
   g.resolve(night0)
-  assert (villager.alive is False) or (vigilante.alive is False)
+  assert (not villager.alive) or (not vigilante.alive)
 
 def test_overeager_villager():
   """Test that an Overeager Villager doesn't break everything."""

@@ -10,9 +10,9 @@ class DescriptionTest(TestCase):
   def strict_subclasses(self, cls):
     """Return all strict subclasses of the given class in 'mafia'."""
     return [c for c in vars(mafia).values()
-                     if type(c) is type
+                     if type(c) == type
                      and issubclass(c, cls)
-                     and c is not cls]
+                     and c != cls]
 
   def test_all_roles_have_descriptions(self):
     """All roles must have a description."""

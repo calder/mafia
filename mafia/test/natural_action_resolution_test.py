@@ -30,7 +30,7 @@ class NaturalActionResolutionTest(TestCase):
       events.Blocked(self.goon),
       events.NoDeaths(),
     ], phase=night0))
-    assert self.villager.alive is True
+    assert self.villager.alive
 
   def test_busdrive_can_be_roleblocked(self):
     """Test that a busdriver can be roleblocked."""
@@ -46,7 +46,7 @@ class NaturalActionResolutionTest(TestCase):
       events.Visited(self.goon, self.villager),
       events.Died(self.villager),
     ], phase=night0))
-    assert self.villager.alive is False
+    assert not self.villager.alive
 
   def test_real_targets_used(self):
     """
@@ -80,4 +80,4 @@ class NaturalActionResolutionTest(TestCase):
       events.Blocked(self.goon),
       events.NoDeaths(),
     ], phase=night0))
-    assert self.villager.alive is True
+    assert self.villager.alive

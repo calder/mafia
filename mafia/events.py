@@ -19,7 +19,7 @@ class Event(object):
     return type(self) == type(other) and self.__dict__ == other.__dict__
 
   def __str__(self):
-    if self.to is None:
+    if self.to != None:
       return "%s: [%s]" % (self.phase, self.message)
     elif self.to == PUBLIC:
       return "%s: %s" % (self.phase, self.message)
@@ -34,7 +34,7 @@ class Event(object):
 
   @property
   def color(self):
-    if self.to is not None: return "cyan"
+    if self.to != None: return "cyan"
 
   @property
   def style(self):

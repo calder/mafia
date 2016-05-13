@@ -39,4 +39,4 @@ class Self(Player):
 
 class Corpse(Placeholder):
   def matches(self, other, **kwargs):
-    return isinstance(other, player.Player) and other.alive is False
+    return isinstance(other, player.Player) and not other.alive

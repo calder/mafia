@@ -7,7 +7,7 @@ from enum import *
 class Log(list):
   def __init__(self, list=None, *, phase=None):
     if list: super().__init__(list)
-    if phase is not None:
+    if phase:
       for event in self:
         event.phase = phase
     self.append_callbacks = []

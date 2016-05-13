@@ -52,26 +52,26 @@ class WinnerTest(TestCase):
     assert_equal(self.game.winners(), NO_WINNER_YET)
 
   def test_town_wins_exclusively(self):
-    assert self.game.is_game_over() is False
+    assert not self.game.is_game_over()
     self.goon1.add_effect(effects.Dead())
     self.goon2.add_effect(effects.Dead())
-    assert self.game.is_game_over() is True
+    assert self.game.is_game_over()
 
   def test_mafia_wins_exclusively(self):
-    assert self.game.is_game_over() is False
+    assert not self.game.is_game_over()
     self.villager1.add_effect(effects.Dead())
     self.villager2.add_effect(effects.Dead())
-    assert self.game.is_game_over() is True
+    assert self.game.is_game_over()
 
   def test_joker_undecided(self):
     assert_equal(self.joker.fate(player=self.joker), Fate.undecided)
 
   def test_joker_wins_non_exclusively(self):
-    assert self.game.is_game_over() is False
+    assert not self.game.is_game_over()
     self.game.log.append(events.Lynched(self.joker))
     self.joker.add_effect(effects.Dead())
     assert_equal(self.game.winners(), [self.joker])
-    assert self.game.is_game_over() is False
+    assert not self.game.is_game_over()
 
   def test_everyone_loses(self):
     g = TestGame()

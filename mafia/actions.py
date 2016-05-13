@@ -116,7 +116,7 @@ class Autopsy(Action):
 
   def _resolve(self, game):
     visits = game.log.visits_to(self.target)
-    visitors = set(v.player for v in visits if v.player is not self.player)
+    visitors = set(v.player for v in visits if v.player != self.player)
     game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
 
 class EliteGuard(Action):

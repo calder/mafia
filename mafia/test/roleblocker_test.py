@@ -21,7 +21,7 @@ class RoleblockerTest(TestCase):
     if roleblock: night0.add_action(Roleblock(self.roleblocker, self.goon))
     self.game.resolve(night0)
 
-    assert self.villager.alive is roleblock
+    assert self.villager.alive == roleblock
     if roleblock:
       assert_equal(self.game.log, Log([
         events.Visited(self.roleblocker, self.goon),
@@ -46,7 +46,7 @@ class RoleblockerTest(TestCase):
     night1.add_action(FactionAction(self.mafia, Kill(self.goon, self.villager)))
     self.game.resolve(night1)
 
-    assert self.villager.alive is False
+    assert not self.villager.alive
     assert_equal(self.game.log.phase(night1), Log([
       events.Visited(self.goon, self.villager),
       events.Died(self.villager),
