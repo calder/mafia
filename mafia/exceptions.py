@@ -25,7 +25,7 @@ class MalformedAction(InvalidAction):
 
 class MalformedVote(InvalidAction):
   def __str__(self):
-    return "Votes must take the form:\nvote for PLAYER"
+    return "Votes must take the form:\n  vote for PLAYER"
 
 class NoFactionAction(InvalidAction):
   def __str__(self):

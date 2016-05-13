@@ -37,9 +37,11 @@ class ActionParsingTest(TestCase):
   def test_day_parsing(self):
     """Test Day vote parsing."""
     day0 = Day(0)
+    day0.add_parsed(self.hitman, "vote cop", game=self.game)
     day0.add_parsed(self.godfather, "vote cop", game=self.game)
     day0.add_parsed(self.cop, "vote for godfather", game=self.game)
     day0.add_parsed(self.usurper, "lynch godfather", game=self.game)
+    day0.add_parsed(self.hitman, "unvote", game=self.game)
     self.game.resolve(day0)
 
     assert_equal(self.game.log.phase(day0), Log([

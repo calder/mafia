@@ -74,5 +74,6 @@ class StrTest(TestCase):
       "---------------------------------------\n" \
       "You may send me the following commands:\n" \
       "  protect PLAYER\n" \
-      "  vote for PLAYER"
+      "  vote for PLAYER\n" \
+      "  unvote"
     )

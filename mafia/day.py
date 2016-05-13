@@ -35,6 +35,13 @@ class Day(Phase):
     return mafia.Night(self.number)
 
   def add_parsed(self, player, string, *, game):
+    # Handle unvoting
+    match = re.fullmatch(r"unvote|(cancel|clear|delete|retract|undo) vote", string)
+    if match:
+      self.set_vote(player, None)
+      return
+
+    # Handle voting
     match = re.fullmatch(r"(vote|vote for|lynch) (\w+)", string)
     if not match:
       raise MalformedVote()

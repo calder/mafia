@@ -114,7 +114,7 @@ class RoleAnnouncement(Event):
     parts += self.role.descriptions
     parts += [self.role.objective]
     if self.player.action:
-      commands = self.player.action.help() + ["vote for PLAYER"]
+      commands = self.player.action.help() + ["vote for PLAYER", "unvote"]
       commands = "\n".join(["  " + c for c in commands])
       parts.append("---------------------------------------\n" \
                    "You may send me the following commands:\n%s" % commands)
