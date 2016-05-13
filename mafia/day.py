@@ -22,7 +22,7 @@ class Day(Phase):
 
   def __init__(self, number):
     self.number     = number
-    self.votes      = defaultdict(lambda: None)
+    self.votes      = defaultdict(return_none)
     self.vote_order = []
 
   def __eq__(self, other):
@@ -52,8 +52,8 @@ class Day(Phase):
     self.vote_order.append(player)
 
   def _resolve(self, game):
-    votes      = defaultdict(lambda: None)
-    candidates = defaultdict(lambda: 0)
+    votes      = defaultdict(return_none)
+    candidates = defaultdict(return_0)
 
     # Determine actual votes after politicianing
     for player in game.players:

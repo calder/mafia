@@ -4,8 +4,8 @@ from .util import *
 
 from termcolor import colored
 
-PUBLIC = SingletonValue("PUBLIC")
-START = SingletonValue("Start")
+PUBLIC = SingletonValue("PUBLIC", 462028731)
+START = SingletonValue("START", 502402573)
 
 class Event(object):
   def __init__(self, *, phase=None, to=None):
@@ -21,7 +21,7 @@ class Event(object):
   def __str__(self):
     if self.to is None:
       return "%s: [%s]" % (self.phase, self.message)
-    elif self.to is PUBLIC:
+    elif self.to == PUBLIC:
       return "%s: %s" % (self.phase, self.message)
     else:
       to = self.to if not isinstance(self.to, list) else \
@@ -38,7 +38,7 @@ class Event(object):
 
   @property
   def style(self):
-    if self.to is PUBLIC: return ["bold"]
+    if self.to == PUBLIC: return ["bold"]
 
   def colored_str(self):
     return colored(str(self), self.color, attrs=self.style)

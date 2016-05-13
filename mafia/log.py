@@ -16,6 +16,9 @@ class Log(list):
   def __str__(self):
     return "\n".join([event.colored_str() for event in self])
 
+  def __add__(self, other):
+    return Log(super().__add__(other))
+
   def append(self, event):
     event.phase = self.current_phase
     for f in self.append_callbacks: f(event)

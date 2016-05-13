@@ -32,3 +32,6 @@ class LogTest(TestCase):
       events.Visited("Eve", "Alice"),
       events.Visited("Eve", "Bob", visible=False),
     ]))
+
+  def test_log_addition(self):
+    self.assertEqual(type(Log([]) + Log([])), Log)

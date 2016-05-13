@@ -1,5 +1,8 @@
 import itertools
 
+def return_none(): return None
+def return_0(): return 0
+
 def assert_equal(x, y):
   if x != y:
     print("------------------------------------------------------------")
@@ -10,11 +13,15 @@ def assert_equal(x, y):
   assert x == y
 
 class SingletonValue(object):
-  def __init__(self, name):
+  def __init__(self, name, id):
     self.name = name
+    self.id   = id
 
   def __repr__(self):
     return self.name
+
+  def __eq__(self, other):
+    return isinstance(other, SingletonValue) and self.id == other.id
 
 def str_list(list, empty):
   if len(list) == 0: return empty
