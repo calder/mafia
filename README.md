@@ -133,4 +133,3 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [ ] Busdrivers should be Ventriloquistable
   - [ ] Test exception __str__ methods
   - [ ] Test action parsing error cases
-  - [ ] Replace Faction.apparent_members with Faction.secret_membership

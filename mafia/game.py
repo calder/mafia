@@ -85,9 +85,8 @@ class Game(object):
       self.log.append(events.RoleAnnouncement(player, player.role))
 
     for faction in self.factions:
-      members = faction.apparent_members
-      if members and len(members) > 1:
-        self.log.append(events.FactionAnnouncement(faction, members))
+      if not faction.secret_membership and len(faction.members) > 1:
+        self.log.append(events.FactionAnnouncement(faction, faction.members))
       if faction.leader and faction.action:
         self.log.append(events.FactionLeaderAnnouncement(faction, faction.leader))
 

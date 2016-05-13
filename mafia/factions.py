@@ -11,7 +11,8 @@ class Fate(enum.Enum):
   undecided = 3
 
 class Faction(object):
-  wins_exclusively = True
+  wins_exclusively  = True
+  secret_membership = False
 
   def __init__(self, name):
     self.name = name
@@ -37,20 +38,17 @@ class Faction(object):
     return [p for p in self.game.all_players if p.faction == self]
 
   @property
-  def apparent_members(self):
-    return [p for p in self.game.players if self in p.apparent_factions]
-
-  @property
   def action(self):
     member_actions = [p.faction_action for p in self.members if p.faction_action]
     if member_actions: return FactionAction(self, OneOfAction(member_actions))
 
 class Town(Faction):
-  adjective      = "Town"
-  alignment      = Alignment.good
-  is_town_friend = True
-  is_town_enemy  = False
-  objective      = "You win if all the mafia are eliminated."
+  adjective         = "Town"
+  alignment         = Alignment.good
+  is_town_friend    = True
+  is_town_enemy     = False
+  objective         = "You win if all the mafia are eliminated."
+  secret_membership = True
 
   def __init__(self):
     super().__init__("Town")
@@ -61,10 +59,6 @@ class Town(Faction):
     if len(town_friends) == 0: return Fate.lost
     if len(town_enemies) == 0: return Fate.won
     return Fate.undecided
-
-  @property
-  def apparent_members(self):
-    return None
 
 class JokerFaction(Faction):
   adjective        = "Third Party"
