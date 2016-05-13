@@ -5,7 +5,7 @@ from .util import *
 from termcolor import colored
 
 PUBLIC = SingletonValue("PUBLIC", 462028731)
-START = SingletonValue("START", 502402573)
+START = SingletonValue("Start", 502402573)
 
 class Event(object):
   def __init__(self, *, phase=None, to=None):
