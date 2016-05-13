@@ -81,7 +81,7 @@ class FactionLeaderAnnouncement(Event):
 
   @property
   def message(self):
-    if self.phase is START:
+    if self.phase == START:
       return "You are the leader of the %s." % self.faction
     else:
       return "You are now the leader of the %s." % self.faction
@@ -103,7 +103,7 @@ class RoleAnnouncement(Event):
 
   @property
   def message(self):
-    if self.phase is START:
+    if self.phase == START:
       return "You are the %s." % self.player.role
     else:
       return "You are now the %s." % self.player.role
