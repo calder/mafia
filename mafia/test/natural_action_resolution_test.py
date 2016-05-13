@@ -28,6 +28,7 @@ class NaturalActionResolutionTest(TestCase):
       events.Busdriven(self.villager, self.goon),
       events.Visited(self.roleblocker, self.goon, original_target=self.villager),
       events.Blocked(self.goon),
+      events.NoDeaths(),
     ], phase=night0))
     assert self.villager.alive is True
 
@@ -77,5 +78,6 @@ class NaturalActionResolutionTest(TestCase):
       events.Busdriven(self.roleblocker, self.goon),
       events.Visited(self.roleblocker, self.goon, original_target=self.roleblocker),
       events.Blocked(self.goon),
+      events.NoDeaths(),
     ], phase=night0))
     assert self.villager.alive is True

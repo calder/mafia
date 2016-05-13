@@ -76,6 +76,7 @@ class BodyguardTest(TestCase):
       events.Visited(self.goon, self.villager),
       events.Protected(self.villager),
       events.Protected(self.bodyguard),
+      events.NoDeaths(),
     ], phase=night0))
 
     assert self.villager.alive is True

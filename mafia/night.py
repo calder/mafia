@@ -77,6 +77,9 @@ class Night(Phase):
     # Resolve actions
     self.resolve_actions(actions, game=game)
 
+    if len(game.log.phase(self).type(events.Died)) == 0:
+      game.log.append(events.NoDeaths())
+
     # Advance effects
     for player in game.all_players:
       for effect in player.effects:

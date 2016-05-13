@@ -46,6 +46,10 @@ class Event(object):
 class Announcement(Event):
   pass
 
+class PublicEvent(Event):
+  def __init__(self, **kwargs):
+    super().__init__(to=PUBLIC, **kwargs)
+
 class Result(Event):
   def __init__(self, *, target, to, **kwargs):
     super().__init__(to=to, **kwargs)
@@ -153,13 +157,12 @@ class Delayed(Event):
   def message(self):
     return "%s's action was delayed." % self.player
 
-class Died(Event):
+class Died(PublicEvent):
   color = "red"
 
   def __init__(self, player, **kwargs):
     super().__init__(**kwargs)
     self.player = player
-    self.to     = PUBLIC
 
   @property
   def message(self):
@@ -181,7 +184,16 @@ class Lynched(Died):
   def message(self):
     return "%s, the %s, was lynched." % (self.player, self.player.role)
 
-class NoLynch(Event):
+class NoDeaths(PublicEvent):
+  color = "green"
+
+  @property
+  def message(self):
+    return "Nobody died."
+
+class NoLynch(PublicEvent):
+  color = "green"
+
   @property
   def message(self):
     return "Nobody was lynched."

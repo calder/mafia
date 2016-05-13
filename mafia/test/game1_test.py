@@ -129,6 +129,7 @@ def test_game1():
     events.VisiteesResult([gijosh], target=asmar, to=fejta),
     events.VisitorsResult([asmar, tony], target=gijosh, to=justin),
     events.VisitorsResult([fejta, gijosh], target=asmar, to=justin),
+    events.NoDeaths(),
   ], phase=night1))
   assert gijosh.alive is True
 
@@ -201,6 +202,7 @@ def test_game1():
   assert_equal(g.log.phase(night3), Log([
     events.Visited(leese, kim),
     events.VisitorsResult([asmar, brian, justin], target=kim, to=leese),
+    events.NoDeaths(),
   ], phase=night3))
 
   day4 = Day(4)

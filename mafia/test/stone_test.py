@@ -24,6 +24,7 @@ class StoneTest(TestCase):
     assert_equal(self.game.log.phase(night1), Log([
       events.Visited(self.vigilante1, self.villager),
       events.Protected(self.villager),
+      events.NoDeaths(),
     ], phase=night1))
     assert self.villager.alive
 

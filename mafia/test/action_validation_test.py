@@ -37,6 +37,7 @@ class ActionValidationTest(TestCase):
     assert_equal(self.game.log.phase(night0), Log([
       events.Visited(self.cop, self.goon),
       events.InvestigationResult(Alignment.evil, target=self.goon, to=self.cop),
+      events.NoDeaths(),
     ], phase=night0))
 
   def test_compelled_action_no_choice(self):
@@ -46,4 +47,4 @@ class ActionValidationTest(TestCase):
     night0 = Night(0)
     self.game.resolve(night0)
 
-    assert_equal(2, len(self.game.log.phase(night0)))
+    assert_equal(3, len(self.game.log.phase(night0)))
