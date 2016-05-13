@@ -86,7 +86,7 @@ class FactionLeaderAnnouncement(Event):
   def full_message(self):
     parts = [self.message]
     if self.faction.action:
-      commands = "\n".join(["- " + i for i in self.faction.action.help()])
+      commands = "\n".join(["  " + i for i in self.faction.action.help()])
       parts.append("---------------------------------------\n" \
                    "You may send me the following commands:\n%s" % commands)
     return "\n\n".join(parts)
@@ -110,7 +110,7 @@ class RoleAnnouncement(Event):
     parts += self.role.descriptions
     parts += [self.role.objective]
     if self.player.action:
-      commands = "\n".join(["- " + i for i in self.player.action.help()])
+      commands = "\n".join(["  " + i for i in self.player.action.help()])
       parts.append("---------------------------------------\n" \
                    "You may send me the following commands:\n%s" % commands)
     return "\n\n".join(parts)

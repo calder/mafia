@@ -56,8 +56,8 @@ class StrTest(TestCase):
       "You are now the leader of the Alliance.\n\n" \
       "---------------------------------------\n" \
       "You may send me the following commands:\n" \
-      "- hob1: hitman kill PLAYER\n" \
-      "- hob2: kill PLAYER"
+      "  hob1: hitman kill PLAYER\n" \
+      "  hob2: kill PLAYER"
     )
 
   def test_role_announcement_full_message(self):
@@ -73,5 +73,5 @@ class StrTest(TestCase):
       "You win if your mafia accounts for half or more of the surviving players.\n\n" \
       "---------------------------------------\n" \
       "You may send me the following commands:\n" \
-      "- protect PLAYER"
+      "  protect PLAYER"
     )
