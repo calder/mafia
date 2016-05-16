@@ -19,7 +19,7 @@ class Event(object):
     return type(self) == type(other) and self.__dict__ == other.__dict__
 
   def __str__(self):
-    if self.to != None:
+    if not self.to:
       return "%s: [%s]" % (self.phase, self.message)
     elif self.to == PUBLIC:
       return "%s: %s" % (self.phase, self.message)
