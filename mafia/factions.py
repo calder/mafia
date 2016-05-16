@@ -69,7 +69,7 @@ class JokerFaction(Faction):
 
   def __init__(self, name, *, must_lynch=1):
     super().__init__(name)
-    self.must_lynch = 1
+    self.must_lynch = must_lynch
 
   def fate(self, **kwargs):
     living  = len(self.members)
