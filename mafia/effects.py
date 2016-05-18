@@ -105,10 +105,14 @@ class GuardedBy(Effect):
     self.bodyguard = bodyguard
     self.elite     = elite
 
-  def on_killed_fn(self, base, *, game, player, by, **kwargs):
-    game.log.append(events.Protected(player))
-    resolve_kill(by, self.bodyguard, game=game, **kwargs)
-    if self.elite: resolve_kill(self.bodyguard, by, game=game)
+  def on_killed_fn(self, base, *, game, player, by, protectable, **kwargs):
+    if protectable:
+      game.log.append(events.Protected(player))
+      resolve_kill(by, self.bodyguard, game=game, **kwargs)
+      if self.elite:
+        resolve_kill(self.bodyguard, by, game=game)
+    else:
+      base()
 
 class Unlynchable(Effect):
   def on_lynched_fn(self, base, *, game, player):

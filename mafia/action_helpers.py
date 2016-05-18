@@ -12,10 +12,14 @@ def resolve_death(player, *, game):
      and player.faction.action:
      game.log.append(mafia.events.FactionLeaderAnnouncement(player.faction, player.faction.leader))
 
-def resolve_kill(player, target, *, game, protectable=True):
+def resolve_kill(player, target, *, game, protectable=True, stack=None):
   # Skip redundant kills
   if not target.alive:
     return
 
-  # Kill the victim
-  target.on_killed(game=game, player=target, by=player, protectable=protectable)
+  stack = stack or []
+  if target in stack:
+    protectable = False
+  stack = stack + [target]
+
+  target.on_killed(game=game, player=target, by=player, protectable=protectable, stack=stack)

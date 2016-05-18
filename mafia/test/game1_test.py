@@ -249,3 +249,18 @@ def test_game1():
   ], phase=day5))
   assert_equal(g.winners(), [becky, hung])
   assert not g.is_game_over()
+
+  night6 = Night(6)
+  night6.add_action(Busdrive(sahil, sahil, alex))
+  night6.add_action(Guard(alex, sahil))
+  night6.add_action(FactionAction(mafia, HitmanKill(paul, sahil)))
+  g.resolve(night6)
+
+  assert_equal(g.log.phase(night6), Log([
+    events.Visited(sahil, sahil),
+    events.Visited(sahil, alex),
+    events.Busdriven(sahil, alex),
+    events.Visited(alex, alex, original_target=sahil),
+    events.Visited(paul, alex, visible=False, original_target=sahil),
+    events.Died(alex),
+  ], phase=night6))
