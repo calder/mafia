@@ -15,7 +15,7 @@ def roleblock_targets_player(self, other):
 
 def protection_from_paranoid_gun_owner(self, other):
   return any([t.kills_visitors for t in self.targets]) and \
-         isinstance(other, Protect) and other.target == self.player
+         isinstance(other, ProtectiveAction) and other.target == self.player
 
 class Action(ActionBase):
   @property
@@ -117,6 +117,9 @@ class Action(ActionBase):
   def depends_on(self, other):
     return any([d(self, other) and other != self for d in self.dependencies])
 
+class ProtectiveAction(Action):
+  pass
+
 class Autopsy(Action):
   precedence = 200
 
@@ -125,17 +128,15 @@ class Autopsy(Action):
     visitors = set(v.player for v in visits if v.player != self.player)
     game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
 
-class EliteGuard(Action):
-  precedence = 1001
-
-  def _resolve(self, game):
-    self.target.add_effect(GuardedBy(self.player, elite=True))
-
-class Guard(Action):
+class Guard(ProtectiveAction):
   precedence = 1001
 
   def _resolve(self, game):
     self.target.add_effect(GuardedBy(self.player))
+
+class EliteGuard(Guard):
+  def _resolve(self, game):
+    self.target.add_effect(GuardedBy(self.player, elite=True))
 
 class Busdrive(Action):
   precedence = 0
@@ -215,7 +216,7 @@ class Possess(Action):
   def _resolve(self, game):
     self.target.add_effect(MustTarget(self.new_target))
 
-class Protect(Action):
+class Protect(ProtectiveAction):
   precedence = 1000
 
   def _resolve(self, game):
