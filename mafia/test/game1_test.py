@@ -217,27 +217,27 @@ def test_game1():
   ], phase=day4))
 
   night4 = Night(4)
-  night4.add_action(Possess(dave, paul, sahil))
-  night4.add_action(Busdrive(sahil, sahil, sami))
+  night4.add_action(Possess(dave, paul, dave))
+  night4.add_action(Busdrive(sahil, dave, sami))
   night4.add_action(FactionAction(mafia, HitmanKill(paul, dave)))
   night4.add_action(Roleblock(spencer, brian))
-  night4.add_action(Protect(tony, sahil))
+  night4.add_action(Protect(tony, dave))
   night4.add_action(Watch(brian, spencer))
   g.resolve(night4)
 
   assert_equal(g.log.phase(night4), Log([
-    events.Visited(sahil, sahil),
+    events.Visited(sahil, dave),
     events.Visited(sahil, sami),
-    events.Busdriven(sahil, sami),
+    events.Busdriven(dave, sami),
     events.Visited(dave, paul),
     events.Visited(spencer, brian),
-    events.Visited(tony, sami, original_target=sahil),
-    events.Visited(paul, sami, visible=False, original_target=sahil),
+    events.Visited(tony, sami, original_target=dave),
+    events.Visited(paul, sami, visible=False, original_target=dave),
     events.Died(sami),
     events.Blocked(brian),
   ], phase=night4))
   assert not sami.alive
-  assert sahil.alive
+  assert dave.alive
 
   day5 = Day(5)
   day5.set_vote(becky, becky)
@@ -251,16 +251,16 @@ def test_game1():
   assert not g.is_game_over()
 
   night6 = Night(6)
-  night6.add_action(Busdrive(sahil, sahil, alex))
-  night6.add_action(Guard(alex, sahil))
-  night6.add_action(FactionAction(mafia, HitmanKill(paul, sahil)))
+  night6.add_action(Busdrive(sahil, dave, alex))
+  night6.add_action(Guard(alex, dave))
+  night6.add_action(FactionAction(mafia, HitmanKill(paul, dave)))
   g.resolve(night6)
 
   assert_equal(g.log.phase(night6), Log([
-    events.Visited(sahil, sahil),
+    events.Visited(sahil, dave),
     events.Visited(sahil, alex),
-    events.Busdriven(sahil, alex),
-    events.Visited(alex, alex, original_target=sahil),
-    events.Visited(paul, alex, visible=False, original_target=sahil),
+    events.Busdriven(dave, alex),
+    events.Visited(alex, alex, original_target=dave),
+    events.Visited(paul, alex, visible=False, original_target=dave),
     events.Died(alex),
   ], phase=night6))

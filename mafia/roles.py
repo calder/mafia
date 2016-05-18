@@ -153,7 +153,7 @@ class Busdriver(Role):
 
   @property
   def action(self):
-    return Busdrive(placeholders.Self(), placeholders.Player(), placeholders.Player())
+    return Busdrive(placeholders.Self(), placeholders.Other(), placeholders.Other())
 
 class Cop(Role):
   description = "You may investigate one player each night. " \
