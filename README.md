@@ -134,7 +134,5 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [ ] Test exception __str__ methods
   - [ ] Test action parsing error cases
   - [ ] Make certain roles modifier only
-  - [ ] Paranoid gun owner kills should respect doctors
-  - [ ] Fix Bodyguard kill loop
   - [ ] Coalesce vote emails
   - [ ] Don't send investigation results to dead players

@@ -10,15 +10,20 @@ def busdrive_shares_target(self, other):
   return isinstance(other, Busdrive) and \
          len(set(self.targets).intersection(other.targets)) > 0
 
-def roleblock_targetted_player(self, other):
-  return isinstance(other, Roleblock) and self.player == other.target
+def roleblock_targets_player(self, other):
+  return isinstance(other, Roleblock) and other.target == self.player
+
+def protection_from_paranoid_gun_owner(self, other):
+  return any([t.kills_visitors for t in self.targets]) and \
+         isinstance(other, Protect) and other.target == self.player
 
 class Action(ActionBase):
   @property
   def dependencies(self):
     return [
-      roleblock_targetted_player,
+      roleblock_targets_player,
       busdrive_shares_target,
+      protection_from_paranoid_gun_owner,
     ]
 
   def __init__(self, player, targets, *, visible=True, **kwargs):
@@ -90,7 +95,8 @@ class Action(ActionBase):
         game.log.append(events.Visited(self.player, target,
                                        visible=self.player.role.visible,
                                        original_target=raw_target))
-        self.target.on_visited(game=game, player=self.target, by=self.player)
+        if self.target.kills_visitors:
+          resolve_kill(self.target, self.player, game=game)
 
     # Resolve action
     self._resolve(game)

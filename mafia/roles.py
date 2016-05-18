@@ -61,6 +61,10 @@ class RoleBase(object):
   def is_town_friend(self):
     return self.faction.is_town_friend
 
+  @property
+  def kills_visitors(self):
+    return False
+
   def on_killed(self, *, game, player, **kwargs):
     game.log.append(events.Died(player))
     resolve_death(player, game=game)
@@ -68,9 +72,6 @@ class RoleBase(object):
   def on_lynched(self, *, game, player, **kwargs):
     game.log.append(events.Lynched(player))
     resolve_death(player, game=game)
-
-  def on_visited(self, **kwargs):
-    pass
 
   @property
   def visible(self):
@@ -269,8 +270,9 @@ class Overeager(Role):
 class ParanoidGunOwner(Role):
   description = "You automatically kill any player who visits you."
 
-  def on_visited(self, *, game, player, by):
-    resolve_kill(player, by, game=game)
+  @property
+  def kills_visitors(self):
+    return True
 
 class Politician(Role):
   description = "You may steal one player's vote each night. " \

@@ -17,9 +17,11 @@ def resolve_kill(player, target, *, game, protectable=True, stack=None):
   if not target.alive:
     return
 
+  # Prevent infinite bodyguarding loops
   stack = stack or []
   if target in stack:
     protectable = False
   stack = stack + [target]
 
+  # Resolve the kill
   target.on_killed(game=game, player=target, by=player, protectable=protectable, stack=stack)

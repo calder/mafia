@@ -73,6 +73,10 @@ class Player(object):
     return self.role.is_town_friend
 
   @mixin("effects")
+  def kills_visitors(self):
+    return self.role.kills_visitors
+
+  @mixin("effects")
   def must_target(self):
     return None
 
@@ -83,10 +87,6 @@ class Player(object):
   @mixin_fn("effects")
   def on_lynched(self, **kwargs):
     return self.role.on_lynched(**kwargs)
-
-  @mixin_fn("effects")
-  def on_visited(self, **kwargs):
-    return self.role.on_visited(**kwargs)
 
   @mixin("effects")
   def role(self):
