@@ -153,7 +153,7 @@ class Busdrive(Action):
     return action
 
   def help(self):
-    return ["%s PLAYER1 PLAYER2" % self.name]
+    return ["%s PLAYER1 and PLAYER2" % self.name]
 
   def _resolve(self, game):
     a = self.targets[0]

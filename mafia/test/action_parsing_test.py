@@ -79,7 +79,7 @@ class ActionParsingTest(TestCase):
 
   def test_busdrive_help(self):
     """Test Busdrive help."""
-    assert_equal(self.busdriver.action.help(), ["busdrive PLAYER1 PLAYER2"])
+    assert_equal(self.busdriver.action.help(), ["busdrive PLAYER1 and PLAYER2"])
 
   def test_parse_faction_action(self):
     """Test FactionAction parsing."""
