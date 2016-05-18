@@ -66,7 +66,6 @@ def test_game1():
     events.Visited(max, justin),
     events.Doubled(justin),
     events.Visited(gijosh, josh),
-    events.InvestigationResult(Alignment.good, target=josh, to=gijosh),
     events.Visited(tony, asmar),
     events.Visited(alex, max),
     events.Visited(scott, alex),
@@ -77,6 +76,7 @@ def test_game1():
     events.Protected(alex),
     events.Died(scott),
     events.Died(wac),
+    events.InvestigationResult(Alignment.good, target=josh, to=gijosh),
   ], phase=night0))
   assert max.alive
   assert alex.alive
@@ -116,17 +116,17 @@ def test_game1():
 
   assert_equal(g.log.phase(night1), Log([
     events.Visited(tyler, brian),
-    events.Visited(gijosh, asmar),
-    events.InvestigationResult(Alignment.good, target=asmar, to=gijosh),
-    events.Visited(tony, gijosh),
-    events.Visited(asmar, gijosh),
-    events.Protected(gijosh),
-    events.Visited(devin, calder),
     events.Visited(fejta, asmar),
+    events.Visited(gijosh, asmar),
+    events.Visited(tony, gijosh),
     events.Visited(justin, gijosh),
     events.Visited(justin, asmar),
     events.Delayed(brian),
+    events.Visited(asmar, gijosh),
+    events.Protected(gijosh),
+    events.Visited(devin, calder),
     events.VisiteesResult([gijosh], target=asmar, to=fejta),
+    events.InvestigationResult(Alignment.good, target=asmar, to=gijosh),
     events.VisitorsResult([asmar, tony], target=gijosh, to=justin),
     events.VisitorsResult([fejta, gijosh], target=asmar, to=justin),
     events.NoDeaths(),
@@ -162,20 +162,20 @@ def test_game1():
     events.Visited(spencer, tony),
     events.Visited(tyler, alphago),
     events.Died(tyler),
+    events.Visited(brian, tony),
+    events.Visited(brian, kim),
+    events.Visited(fejta, tony),
     events.Visited(gijosh, sami),
-    events.InvestigationResult(Alignment.evil, target=sami, to=gijosh),
+    events.Visited(justin, kim),
     events.Blocked(tony),
     events.Visited(asmar, kim),
     events.Died(kim),
     events.Died(asmar),
     events.FactionLeaderAnnouncement(mafia, dave),
-    events.Visited(brian, tony),
-    events.Visited(brian, kim),
-    events.Visited(fejta, tony),
-    events.Visited(justin, kim),
     events.VisitorsResult([fejta, spencer], target=tony, to=brian),
     events.VisitorsResult([asmar, justin], target=kim, to=brian),
     events.VisiteesResult([], target=tony, to=fejta),
+    events.InvestigationResult(Alignment.evil, target=sami, to=gijosh),
     events.VisitorsResult([asmar, brian], target=kim, to=justin),
   ], phase=night2))
   assert not kim.alive
@@ -232,9 +232,9 @@ def test_game1():
     events.Visited(dave, paul),
     events.Visited(spencer, brian),
     events.Visited(tony, sami, original_target=dave),
+    events.Blocked(brian),
     events.Visited(paul, sami, visible=False, original_target=dave),
     events.Died(sami),
-    events.Blocked(brian),
   ], phase=night4))
   assert not sami.alive
   assert dave.alive

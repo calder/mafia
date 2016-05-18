@@ -6,6 +6,10 @@ from .log import *
 from . import placeholders
 from .util import *
 
+#####################################
+###   Inter-Action Dependencies   ###
+#####################################
+
 def busdrive_shares_target(self, other):
   return isinstance(other, Busdrive) and \
          len(set(self.targets).intersection(other.targets)) > 0
@@ -16,6 +20,10 @@ def roleblock_targets_player(self, other):
 def protection_from_paranoid_gun_owner(self, other):
   return any([t.kills_visitors for t in self.targets]) and \
          isinstance(other, ProtectiveAction) and other.target == self.player
+
+#############################
+###   Base Action Class   ###
+#############################
 
 class Action(ActionBase):
   @property
@@ -117,8 +125,19 @@ class Action(ActionBase):
   def depends_on(self, other):
     return any([d(self, other) and other != self for d in self.dependencies])
 
+##########################
+###   Action Classes   ###
+##########################
+
+class KillingAction(Action):
+  pass
+
 class ProtectiveAction(Action):
   pass
+
+###################
+###   Actions   ###
+###################
 
 class Autopsy(Action):
   precedence = 200
@@ -127,16 +146,6 @@ class Autopsy(Action):
     visits = game.log.visits_to(self.target)
     visitors = set(v.player for v in visits if v.player != self.player)
     game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
-
-class Guard(ProtectiveAction):
-  precedence = 1001
-
-  def _resolve(self, game):
-    self.target.add_effect(GuardedBy(self.player))
-
-class EliteGuard(Guard):
-  def _resolve(self, game):
-    self.target.add_effect(GuardedBy(self.player, elite=True))
 
 class Busdrive(Action):
   precedence = 0
@@ -182,7 +191,19 @@ class Double(Action):
     self.target.add_effect(ExtraAction())
     game.log.append(events.Doubled(self.target))
 
-class HitmanKill(Action):
+class EliteGuard(ProtectiveAction):
+  precedence = 1001
+
+  def _resolve(self, game):
+    self.target.add_effect(GuardedBy(self.player, elite=True))
+
+class Guard(ProtectiveAction):
+  precedence = 1001
+
+  def _resolve(self, game):
+    self.target.add_effect(GuardedBy(self.player))
+
+class HitmanKill(KillingAction):
   precedence = 2000
 
   def _resolve(self, game):
@@ -191,10 +212,11 @@ class HitmanKill(Action):
 class Investigate(Action):
   precedence = 1000
 
-  def _resolve(self, game):
-    game.log.append(events.InvestigationResult(self.target.apparent_alignment, target=self.raw_target, to=self.player))
+  def _resolve_post(self, game):
+    if self.player.alive:
+      game.log.append(events.InvestigationResult(self.target.apparent_alignment, target=self.raw_target, to=self.player))
 
-class Kill(Action):
+class Kill(KillingAction):
   precedence = 2000
 
   def _resolve(self, game):
@@ -235,17 +257,19 @@ class StealVote(Action):
     self.target.add_effect(VotesWith(self.player))
 
 class Track(Action):
-  precedence = 3000
+  precedence = 1000
 
   def _resolve_post(self, game):
-    visits = game.log.this_phase().visits_by(self.target)
-    targets = set(v.target for v in visits)
-    game.log.append(events.VisiteesResult(sorted(targets), target=self.raw_target, to=self.player))
+    if self.player.alive:
+      visits = game.log.this_phase().visits_by(self.target)
+      targets = set(v.target for v in visits)
+      game.log.append(events.VisiteesResult(sorted(targets), target=self.raw_target, to=self.player))
 
 class Watch(Action):
-  precedence = 3000
+  precedence = 1000
 
   def _resolve_post(self, game):
-    visits = game.log.this_phase().visits_to(self.target)
-    visitors = set(v.player for v in visits if v.player is not self.player)
-    game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))
+    if self.player.alive:
+      visits = game.log.this_phase().visits_to(self.target)
+      visitors = set(v.player for v in visits if v.player is not self.player)
+      game.log.append(events.VisitorsResult(sorted(visitors), target=self.raw_target, to=self.player))

@@ -135,4 +135,4 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [ ] Test action parsing error cases
   - [ ] Make certain roles modifier only
   - [ ] Coalesce vote emails
-  - [ ] Don't send investigation results to dead players
+  - [ ] Cops should return a player's alignment before recruiting

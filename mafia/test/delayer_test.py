@@ -33,8 +33,8 @@ class DelayerTest(TestCase):
 
     assert_equal(self.game.log.phase(night1), Log([
       events.Visited(self.cop, self.roleblocker),
-      events.InvestigationResult(Alignment.good, target=self.roleblocker, to=self.cop),
       events.Visited(self.cop, self.ventriloquist),
+      events.InvestigationResult(Alignment.good, target=self.roleblocker, to=self.cop),
       events.InvestigationResult(Alignment.good, target=self.ventriloquist, to=self.cop),
       events.NoDeaths(),
     ], phase=night1))

@@ -69,14 +69,14 @@ class RoleblockerTest(TestCase):
     if roleblock:
       assert_equal(self.game.log, Log([
         events.Visited(self.roleblocker, watcher),
+        events.Blocked(watcher),
         events.Visited(self.goon, self.villager),
         events.Died(self.villager),
-        events.Blocked(watcher),
       ], phase=night0))
     else:
       assert_equal(self.game.log, Log([
+        events.Visited(watcher, self.villager),
         events.Visited(self.goon, self.villager),
         events.Died(self.villager),
-        events.Visited(watcher, self.villager),
         events.VisitorsResult([self.goon], target=self.villager, to=watcher),
       ], phase=night0))
