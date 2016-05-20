@@ -11,6 +11,7 @@ print("| Role | Action | Description |")
 print("| ---- | ------ | ----------- |")
 for role in mafia.ROLES:
   exemplar = role(FakeRole(mafia.Town()))
-  action = "*%s*" % exemplar.action if exemplar.action != "FAKE" else ""
-  if action: action = action.__class__.__name__
+  action = exemplar.action if exemplar.action != "FAKE" else ""
+  if action:
+    action = "*%s*" % action.__class__.__name__
   print("| **%s** | %s | %s |" % (role.name(), action, role.description))
