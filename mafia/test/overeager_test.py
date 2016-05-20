@@ -13,10 +13,17 @@ def test_overeager():
   assert (not villager.alive) or (not vigilante.alive)
 
 def test_overeager_villager():
-  """Test that an Overeager Villager doesn't break everything."""
+  """Test that an Overeager Villager doesn't break everything.
+
+  This is important because Overeager players could somehow lose
+  their action, and we don't want the game to break.
+  """
   g = TestGame()
   town = g.add_faction(Town())
-  eager_villager = g.add_player("Villager", Overeager(Villager(town)))
+  villager_role = Villager(town)
+  villager_role.action = 123
+  eager_villager = g.add_player("Villager", Overeager(villager_role))
+  del villager_role.action
 
   night0 = Night(0)
   g.resolve(night0)

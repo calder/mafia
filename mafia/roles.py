@@ -8,6 +8,10 @@ from .virtual_actions import *
 
 import re
 
+#############################
+###   Base Role Classes   ###
+#############################
+
 class RoleBase(object):
   def __init__(self, faction):
     assert isinstance(faction, Faction)
@@ -121,6 +125,19 @@ class Role(object):
   def objective(self):
     return self.faction.objective
 
+########################
+###   Role Classes   ###
+########################
+
+class ModifierRole(Role):
+  def __init__(self, faction_or_role):
+    assert isinstance(faction_or_role, Role)
+    super().__init__(faction_or_role)
+
+#################
+###   Roles   ###
+#################
+
 class ActionDoubler(Role):
   description = "You may double one player each night. " \
                 "That player may use their action twice the following night."
@@ -137,7 +154,7 @@ class Bodyguard(Role):
   def action(self):
     return Guard(placeholders.Self(), placeholders.Other())
 
-class Bulletproof(Role):
+class Bulletproof(ModifierRole):
   description = "You cannot be killed at night."
 
   def on_killed(self, *, game, player, protectable, **kwargs):
@@ -251,17 +268,26 @@ class Miller(Role):
   def apparent_alignment(self):
     return Alignment.evil
 
-class Ninja(Role):
+class Ninja(ModifierRole):
   description = "Your night actions are invisible to Trackers, Watchers, " \
                 "and Forensic Investigators."
+
+  def __init__(self, faction_or_role):
+    super().__init__(faction_or_role)
+    assert faction_or_role.action or faction_or_role.faction_action
 
   @property
   def visible(self):
     return False
 
-class Overeager(Role):
+class Overeager(ModifierRole):
   description = "You MUST use your action each night. If you do not, " \
                 "a target will be chosen for you at random."
+
+  def __init__(self, faction):
+    super().__init__(faction)
+    assert faction.action
+
   @property
   def action(self):
     if self.base.action:
@@ -298,7 +324,7 @@ class Tracker(Role):
   def action(self):
     return Track(placeholders.Self(), placeholders.Player())
 
-class Unlynchable(Role):
+class Unlynchable(ModifierRole):
   description = "You are immune to lynching."
 
   def on_lynched(self, *, game, player):
@@ -322,7 +348,7 @@ class Watcher(Role):
   def action(self):
     return Watch(placeholders.Self(), placeholders.Player())
 
-class Vengeful(Role):
+class Vengeful(ModifierRole):
   description = "You automatically kill anyone who kills you."
 
   def on_killed(self, *, game, player, by, protectable, **kwargs):

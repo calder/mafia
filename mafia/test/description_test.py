@@ -6,6 +6,7 @@ class DescriptionTest(TestCase):
   def setUp(self):
     self.factions = self.strict_subclasses(mafia.Faction)
     self.roles    = self.strict_subclasses(mafia.Role)
+    self.roles.remove(mafia.ModifierRole)
 
   def strict_subclasses(self, cls):
     """Return all strict subclasses of the given class in 'mafia'."""
