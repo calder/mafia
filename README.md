@@ -138,3 +138,4 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [ ] Test action parsing error cases
   - [ ] Coalesce vote emails
   - [ ] Cops should return a player's alignment before recruiting
+  - [ ] Rethink factions

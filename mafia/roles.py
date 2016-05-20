@@ -173,7 +173,7 @@ class Busdriver(Role):
   description = "You may busdrive two players each night. " \
                 "Anyone who targets the first player will automatically " \
                 "target the second player instead, and vice versa. " \
-                "You may not target yourself."
+                "You cannot target yourself."
 
   @property
   def action(self):
@@ -199,8 +199,8 @@ class Delayer(Role):
 
 class Doctor(Role):
   description = "You may protect one player each night. " \
-                "They may not be killed that night. " \
-                "You may not protect yourself."
+                "That player cannot be killed that night. " \
+                "You cannot protect yourself."
   @property
   def action(self):
     return Protect(placeholders.Self(), placeholders.Other())
@@ -262,10 +262,10 @@ class Hitman(Role):
     return HitmanKill(placeholders.Self(), placeholders.Player())
 
 class Joker(Role):
-  description = "You have a very specific death wish."
+  description = "You win only if you get lynched."
 
 class Lyncher(Role):
-  description = "You hold a very specific grudge."
+  description = "You win only if a specific player gets lynched."
 
 class Miller(Role):
   description = "You appear guilty to cop investigations."
@@ -316,7 +316,7 @@ class Politician(Role):
 
 class Roleblocker(Role):
   description = "You may roleblock one player each night. " \
-                "That player may not use their action that night."
+                "That player cannot use their action that night."
 
   @property
   def action(self):
