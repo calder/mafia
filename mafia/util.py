@@ -1,4 +1,5 @@
 import itertools
+import sys
 
 def return_none(): return None
 def return_0(): return 0
@@ -57,3 +58,10 @@ def fill_randomly(x, **kwargs):
   for k, v in x.__dict__.items():
     if has_method(v, "random_instance"):
       x.__dict__[k] = v.random_instance(**kwargs)
+
+def strict_subclasses(cls, namespace):
+  """Return all strict subclasses of the given type in a namespace."""
+  return [c for c in vars(namespace).values()
+                  if type(c) == type
+                  and issubclass(c, cls)
+                  and c != cls]

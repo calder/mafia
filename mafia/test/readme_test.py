@@ -1,10 +1,12 @@
+import os
 import re
 from termcolor import colored
 from unittest import TestCase
 
 class ReadMeTest(TestCase):
   def setUp(self):
-    with open("README.md") as file:
+    readme_path = os.path.join(os.path.dirname(__file__), "../../README.md")
+    with open(readme_path) as file:
       self.readme = file.read()
 
   def exec_block(self, regex):

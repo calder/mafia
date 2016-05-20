@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+
+import os
+import mafia
+
+role_page = os.path.join(os.path.dirname(__file__), "../doc/roles.md")
+with open(role_page, "w") as file:
+  file.write("| Role | Description |\n")
+  file.write("| ---- | ----------- |\n")
+  for role in mafia.ROLES:
+    file.write("| **%s** | %s |\n" % (role.name(), role.description))

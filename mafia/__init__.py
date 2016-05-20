@@ -18,3 +18,5 @@ from .roles import *
 from .util import *
 from .virtual_actions import *
 
+FACTIONS = sorted(strict_subclasses(Faction, mafia), key=lambda t: str(t))
+ROLES = sorted(set(strict_subclasses(Role, mafia)) - set([ModifierRole]), key=lambda t: str(t))

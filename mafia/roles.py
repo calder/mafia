@@ -4,6 +4,7 @@ from . import effects
 from . import events
 from . import placeholders
 from .player import *
+from .util import *
 from .virtual_actions import *
 
 import re
@@ -109,13 +110,17 @@ class Role(object):
   def __str__(self):
     return "%s %s" % (self.faction.adjective, self.adjective)
 
+  @classmethod
+  def name(cls):
+    return " ".join(re.findall(r"[A-Z]+[a-z]*", cls.__name__))
+
   @property
   def adjective(self):
     return " ".join(self.adjectives)
 
   @property
   def adjectives(self):
-    return re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__) + self.base.adjectives
+    return [self.name()] + self.base.adjectives
 
   @property
   def descriptions(self):
