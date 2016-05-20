@@ -3,10 +3,10 @@
 | **Action Doubler** | You may double one player each night. That player may use their action twice the following night. |
 | **Bodyguard** | You may guard one player each night. If that player is killed, you die instead of them. |
 | **Bulletproof** | You cannot be killed at night. |
-| **Busdriver** | You may busdrive two players each night. Anyone who targets the first player will automatically target the second player instead, and vice versa. |
+| **Busdriver** | You may busdrive two players each night. Anyone who targets the first player will automatically target the second player instead, and vice versa. You may not target yourself. |
 | **Cop** | You may investigate one player each night. You discover their alignment. Good means pro-town, Evil means Mafia or Third Party. |
 | **Delayer** | You may delay one player each night. That player's action will be resolved the following night along with their regular action from that night. |
-| **Doctor** | You may protect one player each night. They are immune to night kills that night. You may not protect yourself. |
+| **Doctor** | You may protect one player each night. They may not be killed that night. You may not protect yourself. |
 | **Double Voter** | Your lynch vote counts as two votes. |
 | **Elite Bodyguard** | You may guard one player each night. If that player is killed, you die instead of them. You also kill whoever killed them. |
 | **Forensic Investigator** | You may investigate one dead player each night. You discover everyone who ever visited that player throughout the course of the game. |
@@ -23,7 +23,7 @@
 | **Politician** | You may steal one player's vote each night. That player automatically votes with you the next day. |
 | **Roleblocker** | You may roleblock one player each night. That player may not use their action that night. |
 | **Tracker** | You may track one player each night. You discover everyone they visit that night. |
-| **Unlynchable** | You are immune to lynching. |
+| **Unlynchable** | You cannot be lynched. |
 | **Usurper** | You win with your faction, but only if you are its leader at the end of the game. |
 | **Vengeful** | You automatically kill anyone who kills you. |
 | **Ventriloquist** | You may possess one player each night. You may override their target with someone of your choosing. |

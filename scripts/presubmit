@@ -4,6 +4,9 @@ cd "`dirname "$0"`"/..
 
 nosetests || exit 1
 
+scripts/make-role-page | colordiff doc/roles.md - \
+  || { echo "\nFAIL: doc/roles.md is out of date. Run\n  scripts/make-role-page > doc/roles.md\nto update it."; exit 1; }
+
 echo
 ! grep -r "print(" mafia/*.py mafia/*/*.py \
   --exclude=mafia/util.py \

@@ -172,7 +172,8 @@ class Bulletproof(ModifierRole):
 class Busdriver(Role):
   description = "You may busdrive two players each night. " \
                 "Anyone who targets the first player will automatically " \
-                "target the second player instead, and vice versa."
+                "target the second player instead, and vice versa. " \
+                "You may not target yourself."
 
   @property
   def action(self):
@@ -198,7 +199,7 @@ class Delayer(Role):
 
 class Doctor(Role):
   description = "You may protect one player each night. " \
-                "They are immune to night kills that night. " \
+                "They may not be killed that night. " \
                 "You may not protect yourself."
   @property
   def action(self):
@@ -330,7 +331,7 @@ class Tracker(Role):
     return Track(placeholders.Self(), placeholders.Player())
 
 class Unlynchable(ModifierRole):
-  description = "You are immune to lynching."
+  description = "You cannot be lynched."
 
   def on_lynched(self, *, game, player):
     game.log.append(events.NoLynch())
