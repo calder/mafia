@@ -12,6 +12,8 @@ sudo easy_install3 mafia
 
 ## Usage
 
+See [Roles](doc/roles.md) for a complete list of roles.
+
 ```python
 from mafia import *
 
@@ -101,6 +103,7 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [x] Goon
   - [x] Godfather
   - [x] Governor
+  - [ ] Hider
   - [ ] Jack of All Trades
   - [ ] Jailkeeper
   - [x] Joker

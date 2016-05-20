@@ -9,16 +9,12 @@ class ReadMeTest(TestCase):
     with open(readme_path) as file:
       self.readme = file.read()
 
-  def exec_block(self, regex):
-    match = re.search(regex, self.readme, re.MULTILINE + re.DOTALL)
-    if match:
+  def test_python_blocks(self):
+    block_re = re.compile(r"""```python\n(.*?)\n```""", re.MULTILINE + re.DOTALL)
+    matches = re.findall(block_re, self.readme)
+    for match in matches:
       print("---------ReadMeTest: exec()ing:---------")
-      for i, line in enumerate(match.group(1).split("\n"), start=1):
+      for i, line in enumerate(match.split("\n"), start=1):
         print("%s %s" % (colored("%2d:" % i, "yellow"), line))
       print("----------------------------------------")
-      exec(compile(match.group(1), "<CODE BLOCK>", "exec"))
-    else:
-      raise RuntimeError("Block not found.")
-
-  def test_usage(self):
-    return self.exec_block(r"""## Usage\n\n```python\n(.*?)\n```""")
+      exec(compile(match, "<CODE BLOCK>", "exec"))
