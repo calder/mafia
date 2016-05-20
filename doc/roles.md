@@ -10,10 +10,10 @@
 | **Double Voter** |  | Your lynch vote counts as two votes. |
 | **Elite Bodyguard** | *EliteGuard* | You may guard one player each night. If that player is killed, you die instead of them. You also kill whoever killed them. |
 | **Forensic Investigator** | *Autopsy* | You may investigate one dead player each night. You discover everyone who ever visited that player throughout the course of the game. |
-| **Godfather** |  | You appear innocent to cop investigations. |
-| **Goon** |  | You may kill one player each night, but only at your faction leader's command. |
+| **Godfather** | *Kill* | You appear innocent to cop investigations. |
+| **Goon** | *Kill* | You may kill one player each night, but only at your faction leader's command. |
 | **Governor** |  | Whoever you vote for during the day (except yourself) cannot be lynched that day. |
-| **Hitman** |  | You may kill one player each night, but only at your faction leader's command. They cannot be protected. |
+| **Hitman** | *HitmanKill* | You may kill one player each night, but only at your faction leader's command. They cannot be protected. |
 | **Joker** |  | You have a very specific death wish. |
 | **Lyncher** |  | You hold a very specific grudge. |
 | **Miller** |  | You appear guilty to cop investigations. |
@@ -24,7 +24,7 @@
 | **Roleblocker** | *Roleblock* | You may roleblock one player each night. That player may not use their action that night. |
 | **Tracker** | *Track* | You may track one player each night. You discover everyone they visit that night. |
 | **Unlynchable** |  | You cannot be lynched. |
-| **Usurper** |  | You win with your faction, but only if you are its leader at the end of the game. |
+| **Usurper** | *Kill* | You win with your faction, but only if you are its leader at the end of the game. |
 | **Vengeful** |  | You automatically kill anyone who kills you. |
 | **Ventriloquist** | *Possess* | You may possess one player each night. You may override their target with someone of your choosing. |
 | **Vigilante** | *Kill* | You may kill one player each night. |

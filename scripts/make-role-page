@@ -2,16 +2,25 @@
 
 import mafia
 
+FAKE_ACTION = mafia.SingletonValue("FAKE_ACTION", 195636807)
+
 class FakeRole(mafia.Role):
   @property
   def action(self):
-    return "FAKE"
+    return FAKE_ACTION
 
 print("| Role | Action | Description |")
 print("| ---- | ------ | ----------- |")
 for role in mafia.ROLES:
   exemplar = role(FakeRole(mafia.Town()))
-  action = exemplar.action if exemplar.action != "FAKE" else ""
+  action = None
+  if exemplar.action != FAKE_ACTION:
+    action = exemplar.action
+  if exemplar.faction_action:
+    action = exemplar.faction_action
   if action:
     action = "*%s*" % action.__class__.__name__
+  else:
+    action = ""
+
   print("| **%s** | %s | %s |" % (role.name(), action, role.description))
