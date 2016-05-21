@@ -53,11 +53,7 @@ class StrTest(TestCase):
     announcement = events.FactionLeaderAnnouncement(self.mafia, self.hob1)
     self.assertEqual(
       announcement.full_message,
-      "You are now the leader of the Alliance.\n\n" \
-      "---------------------------------------\n" \
-      "You may send me the following commands:\n" \
-      "  hob1: hitman kill PLAYER\n" \
-      "  hob2: kill PLAYER"
+      "You are now the leader of the Alliance."
     )
 
   def test_role_announcement_full_message(self):
@@ -68,12 +64,5 @@ class StrTest(TestCase):
     announcement = events.RoleAnnouncement(sue, sue.role)
     self.assertEqual(
       announcement.full_message,
-      "You are now the Mafia Doctor Ninja Hitman.\n\n" \
-      "Doctor stuff...\n\nNinja stuff...\n\nHitman stuff...\n\n" \
-      "You win if your mafia accounts for half or more of the surviving players.\n\n" \
-      "---------------------------------------\n" \
-      "You may send me the following commands:\n" \
-      "  protect PLAYER\n" \
-      "  vote for PLAYER\n" \
-      "  unvote"
+      "You are now the Mafia Doctor Ninja Hitman."
     )

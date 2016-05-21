@@ -11,26 +11,10 @@ class InvalidPlayer(InvalidAction):
   def __str__(self):
     return "%r is not a valid player." % self.player
 
-class InvalidSender(InvalidAction):
-  def __str__(self):
-    return "You are not allowed to submit that action."
-
-class MalformedAction(InvalidAction):
-  def __init__(self, help):
-    self.help = help
+class WrongPhase(InvalidAction):
+  def __init__(self, *, right_phase):
+    self.right_phase = right_phase
 
   def __str__(self):
-    help = "\n  ".join(self.help)
-    return "Action must be one of the following:\n  %s" % help
-
-class MalformedVote(InvalidAction):
-  def __str__(self):
-    return "Votes must take the form:\n  vote for PLAYER"
-
-class NoFactionAction(InvalidAction):
-  def __str__(self):
-    return "No faction actions available."
-
-class NoIndividualAction(InvalidAction):
-  def __str__(self):
-    return "No actions available."
+    return "That action can only be used during the %s." % \
+           self.right_phase.__class__.__name__

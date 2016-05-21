@@ -49,21 +49,6 @@ class Action(ActionBase):
   def matches(self, other, **kwargs):
     return matches(self, other, player=self.player, **kwargs)
 
-  def parse(self, s, *, game, player):
-    match = re.fullmatch(r"%s (\w+)" % self.name, s)
-    if not match:
-      raise MalformedAction(self.help())
-    target = game.player_named(match.group(1))
-    if not target:
-      raise InvalidPlayer(match.group(1))
-    action = self.with_player(player).with_target(target)
-    if not self.matches(action):
-      raise IllegalAction()
-    return action
-
-  def help(self):
-    return ["%s PLAYER" % self.name]
-
   @property
   def name(self):
     words = re.findall(r"[A-Z]+[a-z]*", self.__class__.__name__)
@@ -152,24 +137,6 @@ class Busdrive(Action):
 
   def __init__(self, player, target1, target2):
     super().__init__(player, [target1, target2])
-
-  def parse(self, s, *, game, player):
-    match = re.fullmatch(r"%s (\w+) and (\w+)" % self.name, s)
-    if not match:
-      raise MalformedAction(self.help())
-    target1 = game.player_named(match.group(1))
-    target2 = game.player_named(match.group(2))
-    if not target1:
-      raise InvalidPlayer(target1)
-    if not target2:
-      raise InvalidPlayer(target2)
-    action = self.with_player(player).with_targets([target1, target2])
-    if not self.matches(action):
-      raise IllegalAction()
-    return action
-
-  def help(self):
-    return ["%s PLAYER1 and PLAYER2" % self.name]
 
   def _resolve(self, game):
     a = self.targets[0]

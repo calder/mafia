@@ -8,6 +8,15 @@ class UtilTest(TestCase):
     with self.assertRaises(AssertionError):
       assert_equal(123, 321)
 
+  def test_flatten(self):
+    assert_equal(flatten([]), [])
+    assert_equal(flatten([[]]), [])
+    assert_equal(flatten([[], []]), [])
+    assert_equal(flatten([[], [1]]), [1])
+    assert_equal(flatten([[1], [2, 3]]), [1,2,3])
+    assert_equal(flatten([[1, 2], [3]]), [1,2,3])
+    assert_equal(flatten([[1, [2]], [3]]), [1,[2],3])
+
   def test_str_list(self):
     assert_equal(str_list([], "zilch"), "zilch")
     assert_equal(str_list([1], "zilch"), "1")

@@ -1,3 +1,4 @@
+from .exceptions import *
 from . import player
 
 class Placeholder(object):

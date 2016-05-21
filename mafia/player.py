@@ -1,3 +1,4 @@
+from .exceptions import *
 from .mixin import *
 
 class Player(object):
@@ -7,6 +8,7 @@ class Player(object):
     super().__init__()
     self.name    = name
     self.info    = info
+    self.will    = ""
     self._role   = role
     self.effects = []
 
@@ -16,11 +18,15 @@ class Player(object):
   def __lt__(self, other):
     return self.name < other.name
 
+  def add_effect(self, effect):
+    self.effects.append(effect)
+
   def matches(self, other, **kwargs):
     return self == other
 
-  def add_effect(self, effect):
-    self.effects.append(effect)
+  @property
+  def unique_name(self):
+    return self.name.replace(" ", "").lower()
 
   @mixin("effects")
   def action(self):

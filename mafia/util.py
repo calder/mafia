@@ -13,6 +13,15 @@ def assert_equal(x, y):
     print("------------------------------------------------------------")
   assert x == y
 
+def assert_contains(element, list):
+  if element not in list:
+    print("------------------------------------------------------------")
+    print(element)
+    print("---------------------------not in---------------------------")
+    print(list)
+    print("------------------------------------------------------------")
+  assert element in list
+
 class SingletonValue(object):
   def __init__(self, name, id):
     self.name = name
@@ -23,6 +32,9 @@ class SingletonValue(object):
 
   def __eq__(self, other):
     return isinstance(other, SingletonValue) and self.id == other.id
+
+def flatten(list_of_lists):
+  return list(itertools.chain(*list_of_lists))
 
 def str_list(list, empty):
   if len(list) == 0: return empty

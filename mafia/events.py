@@ -86,15 +86,6 @@ class FactionLeaderAnnouncement(Event):
     else:
       return "You are now the leader of the %s." % self.faction
 
-  @property
-  def full_message(self):
-    parts = [self.message]
-    if self.faction.action:
-      commands = "\n".join(["  " + i for i in self.faction.action.help()])
-      parts.append("---------------------------------------\n" \
-                   "You may send me the following commands:\n%s" % commands)
-    return "\n\n".join(parts)
-
 class RoleAnnouncement(Event):
   def __init__(self, player, role, **kwargs):
     super().__init__(to=player, **kwargs)
@@ -107,18 +98,6 @@ class RoleAnnouncement(Event):
       return "You are the %s." % self.player.role
     else:
       return "You are now the %s." % self.player.role
-
-  @property
-  def full_message(self):
-    parts = [self.message]
-    parts += self.role.descriptions
-    parts += [self.role.objective]
-    if self.player.action:
-      commands = self.player.action.help() + ["vote for PLAYER", "unvote"]
-      commands = "\n".join(["  " + c for c in commands])
-      parts.append("---------------------------------------\n" \
-                   "You may send me the following commands:\n%s" % commands)
-    return "\n\n".join(parts)
 
 ##################
 ###   Events   ###
