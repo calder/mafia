@@ -42,8 +42,8 @@ class Parser(object):
     commands = copy.copy(self.commands)
     if player.action:
       commands.append(self.get_action_command(player.action))
-    if player.faction.leader == player:
-      for member in player.faction.members:
+    if player.faction.leader(game=self.game) == player:
+      for member in player.faction.members(game=self.game):
         if member.faction_action:
           commands.append(self.get_faction_action_command(player.faction, member.faction_action))
     if phase:

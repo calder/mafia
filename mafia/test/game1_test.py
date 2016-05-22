@@ -7,14 +7,12 @@ def test_game1():
   town     = g.add_faction(Town())
   masons   = g.add_faction(Masonry("Test Team", town))
   mafia    = g.add_faction(Mafia("VMX Mafia"))
-  jokers   = g.add_faction(JokerFaction("Jokers"))
-  lynchers = g.add_faction(LyncherFaction("Lynchers"))
 
   alex     = g.add_player("Alex", Bodyguard(town))
   alphago  = g.add_player("AlphaGo", ParanoidGunOwner(town))
   andy     = g.add_player("Andy", Governor(town))
   asmar    = g.add_player("Asmar", Godfather(mafia))
-  becky    = g.add_player("Becky", Joker(jokers))
+  becky    = g.add_player("Becky", Joker())
   brian    = g.add_player("Brian", Bulletproof(Watcher(town)))
   calder   = g.add_player("Calder", DoubleVoter(town))
   dave     = g.add_player("Dave", Unlynchable(Ventriloquist(mafia)))
@@ -23,7 +21,7 @@ def test_game1():
   doug     = g.add_player("Doug", Villager(town))
   fejta    = g.add_player("Fejta", Tracker(town))
   gijosh   = g.add_player("GI Josh", Cop(town))
-  hung     = g.add_player("Hung", Lyncher(lynchers))
+  hung     = g.add_player("Hung", Lyncher())
   josh     = g.add_player("Josh", Villager(masons))
   justin   = g.add_player("Justin", Watcher(town))
   kim      = g.add_player("Kim", Vengeful(Miller(town)))
@@ -39,11 +37,10 @@ def test_game1():
   tony     = g.add_player("Tony", Doctor(town))
   tyler    = g.add_player("Tyler", Delayer(town))
   wac      = g.add_player("Wac", Goon(mafia))
+  hung.role.set_target(doug)
 
-  assert_equal(mafia.members, [asmar, dave, paul, sami, tarl, wac])
-  assert_equal(g.all_factions, [jokers, lynchers, masons, town, mafia])
+  assert_equal(mafia.members(game=g), [asmar, dave, paul, sami, tarl, wac])
 
-  lynchers.set_target(doug)
   g.begin()
 
   assert_equal(g.log.filter(lambda e: not isinstance(e, events.RoleAnnouncement)), Log([

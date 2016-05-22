@@ -1,16 +1,15 @@
 import mafia
 
 def resolve_death(player, *, game):
-  old_faction_leader = player.faction.leader
+  old_faction_leader = player.faction.leader(game=game)
 
   # Kill the player
   player.add_effect(mafia.effects.Dead())
 
   # Send promotion to new faction leader if necessary
-  if old_faction_leader == player \
-     and player.faction.leader \
-     and player.faction.action:
-     game.log.append(mafia.events.FactionLeaderAnnouncement(player.faction, player.faction.leader))
+  new_faction_leader = player.faction.leader(game=game)
+  if new_faction_leader != old_faction_leader and player.faction.action(game=game):
+     game.log.append(mafia.events.FactionLeaderAnnouncement(player.faction, new_faction_leader))
 
 def resolve_kill(player, target, *, game, protectable=True, stack=None):
   # Skip redundant kills

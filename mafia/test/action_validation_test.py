@@ -18,8 +18,8 @@ class ActionValidationTest(TestCase):
 
   def test_faction_action(self):
     """Only a faction member should be able to use the faction's action."""
-    assert     self.mafia.action.matches(FactionAction(self.mafia, Kill(self.goon, self.cop)))
-    assert not self.mafia.action.matches(FactionAction(self.mafia, Kill(self.cop, self.cop)))
+    assert     self.mafia.action(game=self.game).matches(FactionAction(self.mafia, Kill(self.goon, self.cop)))
+    assert not self.mafia.action(game=self.game).matches(FactionAction(self.mafia, Kill(self.cop, self.cop)))
 
   def test_compelled_action_matching(self):
     """Compelled actions should match their concrete counterparts."""

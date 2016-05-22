@@ -139,6 +139,18 @@ class ModifierRole(Role):
     assert isinstance(faction_or_role, Role)
     super().__init__(faction_or_role)
 
+class NeutralRole(Role):
+  def __init__(self, role=None):
+    super().__init__(role or ThirdParty("Third-Party"))
+
+  @property
+  def alignment(self):
+    return Alignment.neutral
+
+  @property
+  def wins_exclusively(self):
+    return False
+
 #################
 ###   Roles   ###
 #################
@@ -261,11 +273,29 @@ class Hitman(Role):
   def faction_action(self):
     return HitmanKill(placeholders.Self(), placeholders.Player())
 
-class Joker(Role):
+class Joker(NeutralRole):
   description = "You win only if you get lynched."
 
-class Lyncher(Role):
+  def fate(self, *, player, game):
+    if player.alive:
+      return Fate.undecided
+    if game.log.has_been_lynched(player):
+      return Fate.won
+    return Fate.lost
+
+class Lyncher(NeutralRole):
   description = "You win only if a specific player gets lynched."
+
+  def set_target(self, target):
+    self.target = target
+
+  def fate(self, *, player, game):
+    assert self.target
+    if self.target.alive:
+      return Fate.undecided
+    if game.log.has_been_lynched(self.target):
+      return Fate.won
+    return Fate.lost
 
 class Miller(Role):
   description = "You appear guilty to cop investigations."
@@ -290,9 +320,9 @@ class Overeager(ModifierRole):
   description = "You MUST use your action each night. If you do not, " \
                 "a target will be chosen for you at random."
 
-  def __init__(self, faction):
-    super().__init__(faction)
-    assert faction.action
+  def __init__(self, role):
+    super().__init__(role)
+    assert role.action
 
   @property
   def action(self):
@@ -340,10 +370,10 @@ class Usurper(Goon):
   description = "You win with your faction, but only if you are " \
                 "its leader at the end of the game."
 
-  def fate(self, *, player):
-    faction_fate = self.base.fate(player=player)
+  def fate(self, *, player, game):
+    faction_fate = self.base.fate(player=player, game=game)
     if faction_fate == Fate.won:
-      return Fate.won if self.faction.leader == player else Fate.lost
+      return Fate.won if self.faction.leader(game=game) == player else Fate.lost
     return faction_fate
 
 class Watcher(Role):

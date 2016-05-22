@@ -85,10 +85,12 @@ class Game(object):
       self.log.append(events.RoleAnnouncement(player, player.role))
 
     for faction in self.factions:
-      if not faction.secret_membership and len(faction.members) > 1:
-        self.log.append(events.FactionAnnouncement(faction, faction.members))
-      if faction.leader and faction.action:
-        self.log.append(events.FactionLeaderAnnouncement(faction, faction.leader))
+      members = faction.members(game=self)
+      if not faction.secret_membership and len(members) > 1:
+        self.log.append(events.FactionAnnouncement(faction, members))
+      leader = faction.leader(game=self)
+      if leader and faction.action(game=self):
+        self.log.append(events.FactionLeaderAnnouncement(faction, leader))
 
   def resolve(self, phase):
     self.log.current_phase = phase
@@ -114,12 +116,8 @@ class Game(object):
     """Return a faction with the given name (case insensitive) or None."""
     return self.faction_names.get(name, None)
 
-  @property
-  def all_factions(self):
-    return sorted(set([p.faction for p in self.all_players]))
-
   def winners(self):
-    fates = {p: p.fate(player=p) for p in self.all_players}
+    fates = {p: p.fate(player=p, game=self) for p in self.all_players}
     winners   = sorted([f for f in fates if fates[f] == Fate.won])
     undecided = sorted([f for f in fates if fates[f] == Fate.undecided])
     losers    = sorted([f for f in fates if fates[f] == Fate.lost])

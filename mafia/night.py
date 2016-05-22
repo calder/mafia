@@ -29,18 +29,6 @@ class Night(Phase):
   def next_phase(self):
     return mafia.Day(self.number + 1)
 
-  def add_parsed(self, player, string, *, game):
-    if ":" in string:
-      action    = player.faction.action
-      exception = NoFactionAction()
-    else:
-      action    = player.action
-      exception = NoIndividualAction()
-
-    if not action:
-      raise exception
-    self.add_action(action.parse(string, game=game, player=player))
-
   def add_action(self, action):
     self.raw_actions.append(action)
 
@@ -52,7 +40,8 @@ class Night(Phase):
         for i in range(player.action_count):
           options.append(player.action)
     for faction in game.factions:
-      if faction.action: options.append(faction.action)
+      if faction.action(game=game):
+        options.append(faction.action(game=game))
 
     # Check actions
     actions = []

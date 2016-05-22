@@ -38,6 +38,10 @@ class Player(object):
     return 1
 
   @mixin("effects")
+  def alignment(self):
+    return self.role.alignment
+
+  @mixin("effects")
   def alive(self):
     return True
 
