@@ -9,7 +9,7 @@ class StrTest(TestCase):
 
     self.game  = TestGame()
     self.town  = self.game.add_faction(Town())
-    self.mafia = self.game.add_faction(Mafia("Alliance"))
+    self.mafia = self.game.add_faction(Mafia("The Alliance"))
     self.jayne = self.game.add_player("Jayne", Villager(self.town))
     self.mal   = self.game.add_player("Mal", Villager(self.town))
     self.hob1  = self.game.add_player("HoB 1", Hitman(self.mafia))
@@ -47,22 +47,4 @@ class StrTest(TestCase):
   def test_faction_leader_announcement_message(self):
     announcement = events.FactionLeaderAnnouncement(self.mafia, self.hob1)
     announcement.phase = START
-    self.assertEqual(announcement.message, "You are the leader of the Alliance.")
-
-  def test_faction_leader_announcement_full_message(self):
-    announcement = events.FactionLeaderAnnouncement(self.mafia, self.hob1)
-    self.assertEqual(
-      announcement.full_message,
-      "You are now the leader of the Alliance.",
-    )
-
-  def test_role_announcement_full_message(self):
-    sue = Player("Sue", Doctor(Ninja(Hitman(self.mafia))))
-    sue.role.description = "Doctor stuff..."
-    sue.role.base.description = "Ninja stuff..."
-    sue.role.base.base.description = "Hitman stuff..."
-    announcement = events.RoleAnnouncement(sue, sue.role)
-    self.assertEqual(
-      announcement.full_message,
-      "You are now the Mafia Doctor Ninja Hitman.",
-    )
+    self.assertEqual(announcement.message, "You are the leader of The Alliance.")

@@ -1,8 +1,10 @@
 class InvalidAction(Exception):
-  pass
+  def __str__(self):
+    return "Invalid action."
 
 class IllegalAction(InvalidAction):
-  pass
+  def __str__(self):
+    return "Illegal action."
 
 class InvalidPlayer(InvalidAction):
   def __init__(self, player):

@@ -29,10 +29,6 @@ class Event(object):
       return "%s: %s: %s" % (self.phase, to, self.message)
 
   @property
-  def full_message(self):
-    return self.message
-
-  @property
   def color(self):
     if self.to != None: return "cyan"
 
@@ -67,11 +63,7 @@ class FactionAnnouncement(Event):
 
   @property
   def message(self):
-    return "You are the %s." % self.faction.name
-
-  @property
-  def full_message(self):
-    return "%s, you are the %s." % (str_player_list(self.faction.members), self.faction.name)
+    return "You are %s." % self.faction.name
 
 class FactionLeaderAnnouncement(Event):
   def __init__(self, faction, leader, **kwargs):
@@ -82,9 +74,9 @@ class FactionLeaderAnnouncement(Event):
   @property
   def message(self):
     if self.phase == START:
-      return "You are the leader of the %s." % self.faction
+      return "You are the leader of %s." % self.faction
     else:
-      return "You are now the leader of the %s." % self.faction
+      return "You are now the leader of %s." % self.faction
 
 class RoleAnnouncement(Event):
   def __init__(self, player, role, **kwargs):
