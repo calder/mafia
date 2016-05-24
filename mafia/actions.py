@@ -156,7 +156,7 @@ class Double(Action):
 
   def _resolve(self, game):
     self.target.add_effect(ExtraAction())
-    game.log.append(events.Doubled(self.target))
+    game.log.append(events.ExtraAction(self.target))
 
 class EliteGuard(ProtectiveAction):
   precedence = 1001

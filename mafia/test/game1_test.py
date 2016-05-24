@@ -61,7 +61,7 @@ def test_game1():
 
   assert_equal(g.log.phase(night0), Log([
     events.Visited(max, justin),
-    events.Doubled(justin),
+    events.ExtraAction(justin),
     events.Visited(gijosh, josh),
     events.Visited(tony, asmar),
     events.Visited(alex, max),

@@ -140,16 +140,15 @@ class Died(PublicEvent):
   def message(self):
     return "%s, the %s, has died." % (self.player, self.player.role)
 
-class Doubled(Event):
+class ExtraAction(Event):
   color = "green"
 
   def __init__(self, player, **kwargs):
-    super().__init__(**kwargs)
-    self.player = player
+    super().__init__(to=player, **kwargs)
 
   @property
   def message(self):
-    return "%s's action was doubled." % self.player
+    return "You may use your action an extra time next night."
 
 class Lynched(Died):
   @property
