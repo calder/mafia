@@ -12,8 +12,8 @@ class Command(object):
     self.command = command
     self.phase   = phase
 
-    pattern = pattern.replace("<PLAYER>", r"(\w+)")
-    pattern = pattern.replace("<TEXT>", r"(.*)")
+    pattern = pattern.replace("PLAYER", r"(\w+)")
+    pattern = pattern.replace("TEXT", r"(.*)")
     self.regex = re.compile(pattern, re.DOTALL + re.IGNORECASE)
 
 # TODO: Generalize.
@@ -21,11 +21,11 @@ class Parser(object):
   def __init__(self, game):
     self.game = game
     self.commands = [
-      Command(r"\s*(?:vote|lynch) <PLAYER>.*?", self.update_vote, phase=Day,
-              help="vote <PLAYER>"),
+      Command(r"\s*(?:vote|lynch) PLAYER.*?", self.update_vote, phase=Day,
+              help="vote PLAYER"),
       Command(r"\s*unvote|(?:cancel|clear|delete|retract|undo) vote.*?", self.clear_vote, phase=Day,
               help="unvote"),
-      Command(r"\s*(?:leave|set|update|write) will:?<TEXT>", self.update_will,
+      Command(r"\s*(?:leave|set|update|write) will:?TEXT", self.update_will,
               help="set will:\n..."),
     ]
 
@@ -51,7 +51,7 @@ class Parser(object):
     return commands
 
   def get_action_command(self, action):
-    targets = " ".join(["<PLAYER>" for t in action.targets])
+    targets = " ".join(["PLAYER" for t in action.targets])
     pattern = "%s %s" % (action.name, targets)
     return Command(pattern, self.perform_action(action), phase=Night)
 

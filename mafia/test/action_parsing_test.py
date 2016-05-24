@@ -67,7 +67,7 @@ class ActionParsingTest(TestCase):
 
   def test_action_help(self):
     """Test Action help."""
-    assert_contains("investigate <PLAYER>", self.parser.get_help(self.cop))
+    assert_contains("investigate PLAYER", self.parser.get_help(self.cop))
 
   def test_parse_busdrive(self):
     """Test Busdrive parsing."""
@@ -83,7 +83,7 @@ class ActionParsingTest(TestCase):
 
   def test_busdrive_help(self):
     """Test Busdrive help."""
-    assert_contains("busdrive <PLAYER> <PLAYER>", self.parser.get_help(self.busdriver))
+    assert_contains("busdrive PLAYER PLAYER", self.parser.get_help(self.busdriver))
 
   def test_parse_faction_action(self):
     """Test FactionAction parsing."""
@@ -94,10 +94,10 @@ class ActionParsingTest(TestCase):
   def test_faction_action_help(self):
     """Test FactionAction help."""
     help = self.parser.get_help(self.godfather)
-    assert_contains("godfather: kill <PLAYER>", help)
-    assert_contains("goon: kill <PLAYER>", help)
-    assert_contains("hitman: hitman kill <PLAYER>", help)
-    assert_contains("usurper: kill <PLAYER>", help)
+    assert_contains("godfather: kill PLAYER", help)
+    assert_contains("goon: kill PLAYER", help)
+    assert_contains("hitman: hitman kill PLAYER", help)
+    assert_contains("usurper: kill PLAYER", help)
 
   def test_chain_of_command(self):
     """The chain of command should be the order players were added in."""
