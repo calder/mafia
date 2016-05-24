@@ -193,8 +193,8 @@ class Busdriver(Role):
 
 class Cop(Role):
   description = "You may investigate one player each night. " \
-                "You discover their alignment. Good means pro-town, " \
-                "Evil means Mafia or Third Party."
+                "You discover their alignment -- 'Good' if they are " \
+                "Town, 'Evil' if they are Mafia or Third Party."
 
   @property
   def action(self):
@@ -243,8 +243,7 @@ class ForensicInvestigator(Role):
     return Autopsy(placeholders.Self(), placeholders.Corpse())
 
 class Goon(Role):
-  description = "You may kill one player each night, but only at " \
-                "your faction leader's command."
+  description = "Your faction leader may order you to make a kill."
 
   @property
   def faction_action(self):
@@ -266,8 +265,7 @@ class Governor(Role):
     return Pardon(placeholders.Self, placeholders.Other(), visible=False)
 
 class Hitman(Role):
-  description = "You may kill one player each night, but only at " \
-                "your faction leader's command. They cannot be protected."
+  description = Goon.description + " Your target cannot be protected."
 
   @property
   def faction_action(self):

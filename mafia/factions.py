@@ -57,7 +57,7 @@ class Town(Faction):
 class Mafia(Faction):
   adjective = "Mafia"
   alignment = Alignment.evil
-  objective = "You win if you outnumber all other players in the game."
+  objective = "You win if your faction outnumbers all other players in the game."
 
   def fate(self, *, game, **kwargs):
     members = self.members(game=game)

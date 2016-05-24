@@ -26,7 +26,7 @@ class Parser(object):
       Command(r"\s*unvote|(?:cancel|clear|delete|retract|undo) vote.*?", self.clear_vote, phase=Day,
               help="unvote"),
       Command(r"\s*(?:leave|set|update|write) will:?TEXT", self.update_will,
-              help="set will:\n..."),
+              help="set will: ..."),
     ]
 
   def parse(self, phase, player, message):
@@ -39,7 +39,7 @@ class Parser(object):
     raise InvalidAction()
 
   def get_commands(self, player, *, phase=None):
-    commands = copy.copy(self.commands)
+    commands = []
     if player.action:
       commands.append(self.get_action_command(player.action))
     if player.faction.leader(game=self.game) == player:
@@ -48,7 +48,7 @@ class Parser(object):
           commands.append(self.get_faction_action_command(player.faction, member.faction_action))
     if phase:
       commands = [c for c in commands if isinstance(c.phase, phase)]
-    return commands
+    return commands + self.commands
 
   def get_action_command(self, action):
     targets = " ".join(["PLAYER" for t in action.targets])
