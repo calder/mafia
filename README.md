@@ -54,7 +54,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
 
 Install dependencies:
 ```sh
-sudo pip3 install coverage nose nose-parameterized termcolor
+sudo pip3 install coverage pytest termcolor
 ```
 
 Set up presubmit hooks:
@@ -64,7 +64,7 @@ scripts/install-git-hooks
 
 Run tests:
 ```sh
-nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index.html
+py.test
 ```
 
 
@@ -137,3 +137,4 @@ nosetests --with-coverage --cover-html --cover-package=mafia && open cover/index
   - [ ] Test exception __str__ methods
   - [ ] Test action parsing error cases
   - [ ] Cops should return a player's alignment before recruiting
+  - [ ] Inform people that their action has been doubled

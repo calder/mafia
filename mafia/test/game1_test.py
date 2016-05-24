@@ -1,8 +1,8 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 def test_game1():
-  g = TestGame()
+  g = LoggingGame()
 
   town     = g.add_faction(Town())
   masons   = g.add_faction(Masonry("Test Team", town))

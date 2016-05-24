@@ -70,8 +70,8 @@ class Blocked(Effect):
     return True
 
 class ChangeRole(Effect):
-  def __init__(self, role, *, expiration=Never(), **kwargs):
-    super().__init__(expiration=expiration, **kwargs)
+  def __init__(self, role, *, expiration=None, **kwargs):
+    super().__init__(expiration=expiration or Never(), **kwargs)
     self._role = role
 
   @property
@@ -79,8 +79,8 @@ class ChangeRole(Effect):
     return self._role
 
 class Dead(Effect):
-  def __init__(self, *, expiration=Never(), **kwargs):
-    super().__init__(expiration=expiration, **kwargs)
+  def __init__(self, *, expiration=None, **kwargs):
+    super().__init__(expiration=expiration or Never(), **kwargs)
 
   @property
   def alive(self):
@@ -92,8 +92,8 @@ class Delayed(Effect):
     return True
 
 class ExtraAction(Effect):
-  def __init__(self, extra_actions=1, *, expiration=Nights(2), **kwargs):
-    super().__init__(expiration=expiration, **kwargs)
+  def __init__(self, extra_actions=1, *, expiration=None, **kwargs):
+    super().__init__(expiration=expiration or Nights(2), **kwargs)
     self.extra_actions = extra_actions
 
   def action_count_fn(self, base):

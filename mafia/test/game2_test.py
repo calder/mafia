@@ -1,10 +1,10 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 from unittest import TestCase
 
 def test_game2():
-  g = TestGame()
+  g = LoggingGame()
   town  = g.add_faction(Town())
   mafia = g.add_faction(Mafia("NSA"))
   alice  = g.add_player("Alice", Villager(town))

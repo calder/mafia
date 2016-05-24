@@ -17,14 +17,10 @@ setup(
   install_requires=[
     "termcolor",
   ],
-  setup_requires=[
-    "nose",
-  ],
   tests_require=[
-    "nose-parameterized",
+    "pytest",
   ],
 
   # Settings
-  test_suite="nose.collector",
   zip_safe=True,
 )

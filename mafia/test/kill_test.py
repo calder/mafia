@@ -1,11 +1,11 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 from unittest import TestCase
 
 class KillTest(TestCase):
   def setUp(self):
-    self.game = TestGame()
+    self.game = LoggingGame()
     self.town = self.game.add_faction(Town())
     self.villager   = self.game.add_player("Villager", Villager(self.town))
     self.vigilante1 = self.game.add_player("Vigilante 1", Vigilante(self.town))

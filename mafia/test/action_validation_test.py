@@ -1,11 +1,11 @@
-from .test_game import *
+from .util import *
 from mafia import *
 
 from unittest import TestCase
 
 class ActionValidationTest(TestCase):
   def setUp(self):
-    self.game = TestGame()
+    self.game = LoggingGame()
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("Mafia"))
     self.cop  = self.game.add_player("Cop", Cop(self.town))

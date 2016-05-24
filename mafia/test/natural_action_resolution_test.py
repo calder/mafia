@@ -1,12 +1,11 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
-from nose_parameterized import parameterized
 from unittest import TestCase
 
 class NaturalActionResolutionTest(TestCase):
   def setUp(self):
-    self.game = TestGame()
+    self.game = LoggingGame()
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("Mafia"))
     self.busdriver   = self.game.add_player("Busdriver", Busdriver(self.town))

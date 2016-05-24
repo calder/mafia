@@ -1,11 +1,11 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 from unittest import TestCase
 
 class WinnerTest(TestCase):
   def setUp(self):
-    self.game = TestGame()
+    self.game = LoggingGame()
     self.town   = self.game.add_faction(Town())
     self.mafia  = self.game.add_faction(Mafia("Mafia"))
     self.villager1 = self.game.add_player("Villager 1", Villager(self.town))
@@ -70,7 +70,7 @@ class WinnerTest(TestCase):
     assert_equal(self.game.winners(), [self.joker])
 
   def test_everyone_loses(self):
-    g = TestGame()
+    g = LoggingGame()
     town = g.add_faction(Town())
     villager = g.add_player("Villager", Villager(town))
     villager.add_effect(effects.Dead())

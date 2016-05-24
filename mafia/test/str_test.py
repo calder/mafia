@@ -1,5 +1,5 @@
 from mafia import *
-from .test_game import *
+from .util import *
 
 from unittest import TestCase
 
@@ -7,7 +7,7 @@ class StrTest(TestCase):
   def setUp(self):
     self.maxDiff = None
 
-    self.game  = TestGame()
+    self.game  = LoggingGame()
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("The Alliance"))
     self.jayne = self.game.add_player("Jayne", Villager(self.town))

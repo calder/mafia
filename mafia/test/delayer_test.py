@@ -1,11 +1,11 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 from unittest import TestCase
 
 class DelayerTest(TestCase):
   def setUp(self):
-    self.game = TestGame()
+    self.game = LoggingGame()
     self.town = self.game.add_faction(Town())
     self.delayer       = self.game.add_player("Delayer", Delayer(self.town))
     self.cop           = self.game.add_player("Cop", Cop(self.town))

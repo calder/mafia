@@ -1,9 +1,9 @@
-from .test_game import *
+from .util import *
 from mafia import *
 
 def test_overeager():
   """Test that an Overeager role has a compelled action."""
-  g = TestGame()
+  g = LoggingGame()
   town = g.add_faction(Town())
   villager  = g.add_player("Villager", Villager(town))
   vigilante = g.add_player("Vigilante", Overeager(Vigilante(town)))
@@ -18,7 +18,7 @@ def test_overeager_villager():
   This is important because Overeager players could somehow lose
   their action, and we don't want the game to break.
   """
-  g = TestGame()
+  g = LoggingGame()
   town = g.add_faction(Town())
   villager_role = Villager(town)
   villager_role.action = 123

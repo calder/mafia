@@ -1,6 +1,8 @@
 from mafia import Game
 
-class TestGame(Game):
+class LoggingGame(Game):
+  """A Game subclass that automatically logs all events."""
+
   def __init__(self):
     super().__init__(seed=42)
     self.log.on_append(self.print_event)

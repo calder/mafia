@@ -1,11 +1,11 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 from unittest import TestCase
 
 class PoliticianTest(TestCase):
   def setUp(self):
-    self.game = TestGame()
+    self.game = LoggingGame()
     self.town  = self.game.add_faction(Town())
     self.mafia = self.game.add_faction(Mafia("Mafia"))
     self.double_voter = self.game.add_player("Double Voter", Villager(self.town))

@@ -1,11 +1,11 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 from unittest import TestCase
 
 class ParanoidGunOwnerTest(TestCase):
   def setUp(self):
-    self.game = TestGame()
+    self.game = LoggingGame()
     self.town = self.game.add_faction(Town())
     self.gun_owner = self.game.add_player("Paranoid Gun Owner", ParanoidGunOwner(self.town))
     self.bodyguard = self.game.add_player("Bodyguard", Bodyguard(self.town))

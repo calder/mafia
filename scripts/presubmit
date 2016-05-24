@@ -7,7 +7,7 @@ RESET=`tput sgr0`
 
 cd "`dirname "$0"`"/..
 
-nosetests || exit 1
+py.test || exit 1
 
 scripts/make-role-page | colordiff doc/roles.md - \
   || { echo "\n${RED}ERROR${RESET}: doc/roles.md is out of date. Run\n  scripts/make-role-page > doc/roles.md\nto update it."; exit 1; }
@@ -15,8 +15,8 @@ scripts/make-role-page | colordiff doc/roles.md - \
 echo
 ! grep -r "print(" mafia/*.py mafia/*/*.py \
   --exclude=mafia/util.py \
+  --exclude=mafia/test/util.py \
   --exclude=mafia/test/readme_test.py \
-  --exclude=mafia/test/test_game.py \
   || { echo "\n${RED}ERROR${RESET}: Remove leftover print statements before committing."; exit 1; }
 
 echo

@@ -1,11 +1,11 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 from unittest import TestCase
 
 class LynchTest(TestCase):
   def setUp(self):
-    self.game = TestGame()
+    self.game = LoggingGame()
     self.town = self.game.add_faction(Town())
     self.villager1 = self.game.add_player("Villager 1", Villager(self.town))
     self.villager2 = self.game.add_player("Villager 2", Villager(self.town))

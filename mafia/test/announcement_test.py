@@ -1,11 +1,11 @@
 from mafia import *
-from .test_game import TestGame
+from .util import *
 
 from unittest import TestCase
 
 class AnnouncementTest(TestCase):
   def test_begin(self):
-    game  = TestGame()
+    game  = LoggingGame()
     mafia = game.add_faction(Mafia("Mafia"))
     goon  = game.add_player("Goon", Goon(mafia))
     game.begin()
