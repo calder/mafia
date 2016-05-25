@@ -38,7 +38,9 @@ class Log(list):
     return self.phase(self.current_phase)
 
   def to(self, to):
-    return self.filter(lambda event: event.to == to)
+    return self.filter(lambda event: event.to == events.PUBLIC or
+                                     event.to == to or
+                                     (event.to and to in event.to))
 
   def type(self, type):
     return self.filter(lambda event: isinstance(event, type))

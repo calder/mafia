@@ -6,7 +6,9 @@ class LogTest(TestCase):
   def setUp(self):
     self.test_log = Log([
       events.Visited("Alice", "Doctor", phase=START),
-      events.Visited("Bob", "Cop", to="Bob"),
+      events.Visited("Alice", "Eve", to=events.PUBLIC),
+      events.Visited("Alice", "Eve", to="Bob"),
+      events.Visited("Alice", "Eve", to=["Bob"]),
       events.Visited("Alice", "Bob"),
       events.Visited("Bob", "Alice"),
       events.Visited("Eve", "Alice"),
@@ -20,7 +22,9 @@ class LogTest(TestCase):
 
   def test_to(self):
     assert_equal(self.test_log.to("Bob"), Log([
-      events.Visited("Bob", "Cop", to="Bob"),
+      events.Visited("Alice", "Eve", to=events.PUBLIC),
+      events.Visited("Alice", "Eve", to="Bob"),
+      events.Visited("Alice", "Eve", to=["Bob"]),
     ]))
 
   def test_invisible_visits_to(self):
