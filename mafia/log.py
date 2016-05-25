@@ -34,11 +34,11 @@ class Log(list):
   def phase(self, phase):
     return self.filter(lambda event: event.phase == phase)
 
-  def to(self, to):
-    return self.filter(lambda event: event.to == to)
-
   def this_phase(self):
     return self.phase(self.current_phase)
+
+  def to(self, to):
+    return self.filter(lambda event: event.to == to)
 
   def type(self, type):
     return self.filter(lambda event: isinstance(event, type))
