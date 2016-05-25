@@ -1,19 +1,20 @@
-from mafia.log import *
+from mafia import *
 
 from unittest import TestCase
 
 class LogTest(TestCase):
   def setUp(self):
     self.test_log = Log([
+      events.RoleAnnouncement("Alice", "Doctor", phase=START),
       events.Visited("Alice", "Bob"),
       events.Visited("Bob", "Alice"),
       events.Visited("Eve", "Alice"),
       events.Visited("Eve", "Bob", visible=False),
     ])
 
-  def test_visits_to(self):
-    assert_equal(self.test_log.visits_to("Bob"), Log([
-      events.Visited("Alice", "Bob"),
+  def test_phase(self):
+    assert_equal(self.test_log.phase(START), Log([
+      events.RoleAnnouncement("Alice", "Doctor", phase=START),
     ]))
 
   def test_invisible_visits_to(self):

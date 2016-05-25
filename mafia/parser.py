@@ -23,10 +23,11 @@ class Parser(object):
     self.commands = [
       Command(r"\s*(?:vote|lynch) PLAYER.*?", self.update_vote, phase=Day,
               help="vote PLAYER"),
-      Command(r"\s*unvote|(?:cancel|clear|delete|retract|undo) vote.*?", self.clear_vote, phase=Day,
+      Command(r"\s*unvote|(?:cancel|clear|delete|retract|undo) vote.*?", self.update_vote, phase=Day,
               help="unvote"),
       Command(r"\s*(?:leave|set|update|write) will:?TEXT", self.update_will,
               help="set will: ..."),
+      Command(r"\s*help.*?", self.show_help),
     ]
 
   def parse(self, phase, player, message):
@@ -69,9 +70,6 @@ class Parser(object):
       raise InvalidPlayer(name)
     return player
 
-  def clear_vote(self, phase, player):
-    phase.set_vote(player, None)
-
   def perform_action(self, action):
     def inner(phase, player, *targets):
       targets = [self.get_player(player) for player in targets]
@@ -87,8 +85,12 @@ class Parser(object):
       phase.add_action(FactionAction(faction, action.with_targets(targets)))
     return inner
 
-  def update_vote(self, phase, player, vote):
-    phase.set_vote(player, self.get_player(vote))
+  def update_vote(self, phase, player, vote=None):
+    vote = vote and self.get_player(vote)
+    phase.set_vote(player, vote)
 
   def update_will(self, phase, player, will):
     player.will = will.strip()
+
+  def show_help(self, phase, player):
+    raise HelpRequested()

@@ -1,3 +1,6 @@
+class HelpRequested(Exception):
+  pass
+
 class InvalidAction(Exception):
   def __str__(self):
     return "Invalid action."

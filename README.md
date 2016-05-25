@@ -137,3 +137,4 @@ py.test
   - [ ] Test exception __str__ methods
   - [ ] Test action parsing error cases
   - [ ] Cops should return a player's alignment before recruiting
+  - [ ] Implement action retracting

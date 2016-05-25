@@ -193,7 +193,7 @@ class Busdriver(Role):
 
 class Cop(Role):
   description = "You may investigate one player each night. " \
-                "You discover their alignment -- 'Good' if they are " \
+                "You discover their alignment — 'Good' if they are " \
                 "Town, 'Evil' if they are Mafia or Third Party."
 
   @property
@@ -243,7 +243,7 @@ class ForensicInvestigator(Role):
     return Autopsy(placeholders.Self(), placeholders.Corpse())
 
 class Goon(Role):
-  description = "Your faction leader may order you to make a kill."
+  description = "Your faction leader may order you to kill another player."
 
   @property
   def faction_action(self):

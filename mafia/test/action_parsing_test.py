@@ -122,3 +122,7 @@ class ActionParsingTest(TestCase):
     # Off-phase faction action
     with self.assertRaises(WrongPhase):
       self.parser.parse(Day(1), self.godfather, "goon: kill cop")
+
+  def test_help(self):
+    with self.assertRaises(HelpRequested):
+      self.parser.parse(Night(0), self.godfather, "help")
