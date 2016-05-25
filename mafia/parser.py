@@ -4,6 +4,7 @@ import re
 
 from .day import *
 from .night import *
+from . import placeholders
 
 class Command(object):
   def __init__(self, pattern, command, *, help=None, phase=None):
@@ -65,6 +66,9 @@ class Parser(object):
     return [c.help for c in self.get_commands(player, phase=phase)]
 
   def get_player(self, name):
+    if name == "nobody":
+      return None
+
     player = self.game.player_named(name)
     if not player:
       raise InvalidPlayer(name)
@@ -73,6 +77,14 @@ class Parser(object):
   def perform_action(self, action):
     def inner(phase, player, *targets):
       targets = [self.get_player(player) for player in targets]
+
+      # Action cancellation support
+      if not all(targets):
+        targets = [placeholders.Any() for t in targets]
+        match = action.with_targets(targets)
+        phase.raw_actions = list(filter(lambda a: not match.matches(a), phase.raw_actions))
+        return
+
       real_action = action.with_targets(targets)
       if not action.matches(real_action):
         raise IllegalAction()

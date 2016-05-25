@@ -1,5 +1,5 @@
 from .exceptions import *
-from . import player
+from .player import Player as RealPlayer
 
 class Placeholder(object):
   def __str__(self):
@@ -10,9 +10,13 @@ class Placeholder(object):
     """For printing of Actions."""
     return self
 
+class Any(Placeholder):
+  def matches(self, other, **kwargs):
+    return True
+
 class Player(Placeholder):
   def matches(self, other, **kwargs):
-    return isinstance(other, player.Player) and other.alive
+    return isinstance(other, RealPlayer) and other.alive
 
   def random_instance(self, *, game, **kwargs):
     return game.random.choice(game.players)
@@ -40,4 +44,4 @@ class Self(Player):
 
 class Corpse(Placeholder):
   def matches(self, other, **kwargs):
-    return isinstance(other, player.Player) and not other.alive
+    return isinstance(other, RealPlayer) and not other.alive

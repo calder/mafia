@@ -6,7 +6,7 @@ A library for moderating games of [Mafia](http://wiki.mafiascum.net/).
 ## Installing
 
 ```sh
-sudo easy_install3 mafia
+sudo pip3 install mafia
 ```
 
 
@@ -137,4 +137,3 @@ py.test
   - [ ] Test exception __str__ methods
   - [ ] Test action parsing error cases
   - [ ] Cops should return a player's alignment before recruiting
-  - [ ] Implement action retracting

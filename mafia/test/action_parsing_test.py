@@ -24,6 +24,8 @@ class ActionParsingTest(TestCase):
     night0 = Night(0)
     self.parser.parse(night0, self.godfather, "hitman: hitman kill cop")
     self.parser.parse(night0, self.doctor, "protect cop")
+    self.parser.parse(night0, self.cop, "investigate godfather")
+    self.parser.parse(night0, self.cop, "investigate nobody")
     with self.assertRaises(InvalidAction):
       self.parser.parse(night0, self.villager, "busdriver: kill godfather")
     with self.assertRaises(InvalidAction):
