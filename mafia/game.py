@@ -72,6 +72,7 @@ class Game(object):
 
     player_name = player.name.lower().replace(" ", "")
     assert player_name not in self.player_names
+    assert player_name != "nobody"
 
     self.player_list.append(player)
     self.player_names[player_name] = player
