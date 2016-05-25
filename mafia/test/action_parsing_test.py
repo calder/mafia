@@ -45,7 +45,7 @@ class ActionParsingTest(TestCase):
     self.parser.parse(day0, self.godfather, "vote cop")
     self.parser.parse(day0, self.cop, "vote godfather")
     self.parser.parse(day0, self.usurper, "lynch godfather")
-    self.parser.parse(day0, self.hitman, "unvote")
+    self.parser.parse(day0, self.hitman, "vote nobody")
     self.game.resolve(day0)
 
     assert_equal(self.game.log.phase(day0), Log([

@@ -24,8 +24,6 @@ class Parser(object):
     self.commands = [
       Command(r"\s*(?:vote|lynch) PLAYER.*?", self.update_vote, phase=Day,
               help="vote PLAYER"),
-      Command(r"\s*unvote|(?:cancel|clear|delete|retract|undo) vote.*?", self.update_vote, phase=Day,
-              help="unvote"),
       Command(r"\s*(?:leave|set|update|write) will:?TEXT", self.update_will,
               help="set will: ..."),
       Command(r"\s*help.*?", self.show_help),
@@ -68,7 +66,6 @@ class Parser(object):
   def get_player(self, name):
     if name == "nobody":
       raise UndoRequested()
-
     player = self.game.player_named(name)
     if not player:
       raise InvalidPlayer(name)
@@ -96,7 +93,10 @@ class Parser(object):
     return inner
 
   def update_vote(self, phase, player, vote=None):
-    vote = vote and self.get_player(vote)
+    try:
+      vote = vote and self.get_player(vote)
+    except UndoRequested:
+      vote = None
     phase.set_vote(player, vote)
 
   def update_will(self, phase, player, will):
