@@ -16,6 +16,9 @@ class InvalidPlayer(InvalidAction):
   def __str__(self):
     return "%r is not a valid player." % self.player
 
+class UndoRequested(Exception):
+  pass
+
 class WrongPhase(InvalidAction):
   def __init__(self, *, right_phase):
     self.right_phase = right_phase

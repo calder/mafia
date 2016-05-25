@@ -67,7 +67,7 @@ class Parser(object):
 
   def get_player(self, name):
     if name == "nobody":
-      return None
+      raise UndoRequested()
 
     player = self.game.player_named(name)
     if not player:
@@ -76,19 +76,17 @@ class Parser(object):
 
   def perform_action(self, action):
     def inner(phase, player, *targets):
-      targets = [self.get_player(player) for player in targets]
-
-      # Action cancellation support
-      if not all(targets):
+      try:
+        targets = [self.get_player(player) for player in targets]
+        real_action = action.with_targets(targets)
+        if not action.matches(real_action):
+          raise IllegalAction()
+        phase.add_action(real_action)
+      except UndoRequested:
         targets = [placeholders.Any() for t in targets]
         match = action.with_targets(targets)
         phase.raw_actions = list(filter(lambda a: not match.matches(a), phase.raw_actions))
-        return
 
-      real_action = action.with_targets(targets)
-      if not action.matches(real_action):
-        raise IllegalAction()
-      phase.add_action(real_action)
     return inner
 
   def perform_faction_action(self, faction, action):
