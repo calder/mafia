@@ -26,7 +26,8 @@ class Parser(object):
               help="vote PLAYER"),
       Command(r"\s*(?:leave|set|update|write) will:?TEXT", self.update_will,
               help="set will: ..."),
-      Command(r"\s*help.*?", self.show_help),
+      Command(r"\s*help.*?", self.show_help,
+              help="help"),
     ]
 
   def parse(self, phase, player, message):
