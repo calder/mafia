@@ -19,6 +19,22 @@ class VirtualAction(ActionBase):
   def player(self, player):
     self.action = self.action.with_player(player)
 
+  @property
+  def name(self):
+    return self.action.name
+
+  @property
+  def targets(self):
+    return self.action.targets
+
+  @property
+  def raw_targets(self):
+    return self.action.raw_targets
+
+  @raw_targets.setter
+  def raw_targets(self, raw_targets):
+    self.action = self.action.with_targets(raw_targets)
+
   def concrete_action(self):
     return self.action.concrete_action()
 

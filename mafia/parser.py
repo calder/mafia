@@ -79,7 +79,7 @@ class Parser(object):
     def inner(phase, player, *targets):
       try:
         targets = [self.get_player(player) for player in targets]
-        real_action = action.with_targets(targets)
+        real_action = action.with_targets(targets).concrete_action()
         if not action.matches(real_action):
           raise IllegalAction()
         phase.add_action(real_action)

@@ -71,6 +71,18 @@ class ActionParsingTest(TestCase):
     """Test Action help."""
     assert_contains("investigate PLAYER", self.parser.get_help(self.cop))
 
+  def test_parse_compelled_action(self):
+    """Test Compelled Action parsing."""
+    self.cop.add_effect(effects.ChangeRole(Overeager(self.cop.role)))
+    night0 = Night(0)
+    self.parser.parse(night0, self.cop, "investigate doctor")
+    assert Investigate(self.cop, self.doctor).matches(night0.raw_actions[0], debug=True)
+
+  def test_compelled_action_help(self):
+    """Test Compelled Action help."""
+    self.cop.add_effect(effects.ChangeRole(Overeager(self.cop.role)))
+    assert_contains("investigate PLAYER", self.parser.get_help(self.cop))
+
   def test_parse_busdrive(self):
     """Test Busdrive parsing."""
     night0 = Night(0)

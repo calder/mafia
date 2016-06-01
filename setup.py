@@ -3,7 +3,7 @@ from setuptools import *
 setup(
   # Metadata
   name="mafia",
-  version="0.8",
+  version="0.9",
   author="Calder Coalson",
   author_email="caldercoalson@gmail.com",
   url="https://github.com/calder/mafia",
