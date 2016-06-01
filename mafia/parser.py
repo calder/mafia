@@ -53,18 +53,21 @@ class Parser(object):
 
   def get_action_command(self, action):
     targets = " ".join(["PLAYER" for t in action.targets])
-    pattern = "%s %s" % (action.name, targets)
-    return Command(pattern, self.perform_action(action), phase=Night)
+    pattern = "\s*%s %s.*?" % (action.name, targets)
+    help = "%s %s" % (action.name, targets)
+    return Command(pattern, self.perform_action(action), phase=Night, help=help)
 
   def get_faction_action_command(self, faction, action):
     command = self.get_action_command(action)
-    pattern = "%s: %s" % (action.player.unique_name, command.pattern)
-    return Command(pattern, self.perform_faction_action(faction, action), phase=Night)
+    pattern = "\s*%s: %s.*?" % (action.player.unique_name, command.pattern)
+    help = "%s: %s" % (action.player.unique_name, command.help)
+    return Command(pattern, self.perform_faction_action(faction, action), phase=Night, help=help)
 
   def get_help(self, player, *, phase=None):
     return [c.help for c in self.get_commands(player, phase=phase)]
 
   def get_player(self, name):
+    name = name.lower()
     if name == "nobody":
       raise UndoRequested()
     player = self.game.player_named(name)

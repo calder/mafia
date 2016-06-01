@@ -22,7 +22,7 @@ class ActionParsingTest(TestCase):
   def test_night_parsing(self):
     """Test Night action parsing."""
     night0 = Night(0)
-    self.parser.parse(night0, self.godfather, "hitman: hitman kill cop")
+    self.parser.parse(night0, self.godfather, "Hitman: Hitman Kill Cop!")
     self.parser.parse(night0, self.doctor, "protect cop")
     self.parser.parse(night0, self.cop, "investigate godfather")
     self.parser.parse(night0, self.cop, "investigate nobody")
