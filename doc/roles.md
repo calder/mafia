@@ -1,3 +1,11 @@
+
+Roles
+-----
+
+Roles may be stacked in most conceivable combinations. i.e. it is possible to
+have a Bulletproof Unlynchable Watcher Godfather. Not that you would want to.
+
+
 | Role | Action | Description |
 | ---- | ------ | ----------- |
 | **Action Doubler** | *Double* | You may double one player each night. That player may use their action twice the following night. |

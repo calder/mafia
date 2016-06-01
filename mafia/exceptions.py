@@ -25,4 +25,4 @@ class WrongPhase(InvalidAction):
 
   def __str__(self):
     return "That action can only be used during the %s." % \
-           self.right_phase.__class__.__name__
+           self.right_phase.__name__

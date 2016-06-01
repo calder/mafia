@@ -2,6 +2,14 @@
 
 import mafia
 
+HEADER = """
+Roles
+-----
+
+Roles may be stacked in most conceivable combinations. i.e. it is possible to
+have a Bulletproof Unlynchable Watcher Godfather. Not that you would want to.
+"""
+
 FAKE_ACTION = mafia.SingletonValue("FAKE_ACTION", 195636807)
 
 class FakeRole(mafia.Role):
@@ -9,6 +17,8 @@ class FakeRole(mafia.Role):
   def action(self):
     return FAKE_ACTION
 
+print(HEADER)
+print()
 print("| Role | Action | Description |")
 print("| ---- | ------ | ----------- |")
 for role in mafia.ROLES:
