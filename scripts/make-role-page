@@ -17,8 +17,8 @@ class FakeRole(mafia.Role):
   def action(self):
     return FAKE_ACTION
 
-print(HEADER)
-print()
+print(HEADER.strip())
+print("\n")
 print("| Role | Action | Description |")
 print("| ---- | ------ | ----------- |")
 for role in mafia.ROLES:

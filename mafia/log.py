@@ -14,8 +14,7 @@ class Log(list):
     self.current_phase = None
 
   def __str__(self):
-    events = "\n".join(["  %s," % event.colored_str() for event in self])
-    return "Log:\n%s" % events
+    return "\n".join([event.colored_str() for event in self])
 
   def __add__(self, other):
     return Log(super().__add__(other))
