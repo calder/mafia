@@ -6,7 +6,7 @@ A library for resolving games of [Mafia](http://wiki.mafiascum.net/). See the [`
 ## Installing
 
 ```sh
-sudo pip3 install mafia
+sudo pip3 install --upgrade mafia
 ```
 
 
@@ -57,9 +57,9 @@ Install dependencies:
 sudo pip3 install --upgrade coverage pytest termcolor
 ```
 
-Set up presubmit hooks:
+Set up pre-commit hooks:
 ```sh
-scripts/install-git-hooks
+scripts/install_git_hooks.sh
 ```
 
 Run tests:
