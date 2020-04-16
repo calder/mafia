@@ -67,7 +67,7 @@ class Day(Phase):
         candidates[votes[player]] += player.votes
 
     # Try to lynch the first viable candidate by number of votes or coin flip
-    candidate_list = game.shuffled([(c,p) for p,c in sorted(candidates.items())])
+    candidate_list = game.shuffled([(c,p) for p,c in candidates.items()])
     candidate_list = [p for c,p in sorted(candidate_list, reverse=True)]
     victim = candidate_list[0] if len(candidate_list) > 0 else None
     if victim:
