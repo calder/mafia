@@ -1,6 +1,6 @@
-# Mafia
+# ⚖️ Mafia
 
-A library for moderating games of [Mafia](http://wiki.mafiascum.net/).
+A library for resolving games of [Mafia](http://wiki.mafiascum.net/). See the [`godfather`](https://github.com/calder/godfather) package for a simple email moderator based on it.
 
 
 ## Installing
