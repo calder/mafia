@@ -54,7 +54,7 @@ See [mafia/test/game1_test.py](mafia/test/game1_test.py) for examples of some cr
 
 Install dependencies:
 ```sh
-sudo pip3 install coverage pytest termcolor
+sudo pip3 install --upgrade coverage pytest termcolor
 ```
 
 Set up presubmit hooks:
