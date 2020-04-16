@@ -1,16 +1,16 @@
-#!/bin/sh
+#!/bin/sh -e
 
 # Colors
-RED=`tput setaf 1`
-GREEN=`tput setaf 2`
-RESET=`tput sgr0`
+RED="$(tput setaf 1)"
+GREEN="$(tput setaf 2)"
+RESET="$(tput sgr0)"
 
-cd "`dirname "$0"`"/..
+cd "$(dirname "$0")/.."
 
-py.test || exit 1
+pytest
 
-scripts/make-role-page | colordiff doc/roles.md - \
-  || { echo "\n${RED}ERROR${RESET}: doc/roles.md is out of date. Run\n  scripts/make-role-page > doc/roles.md\nto update it."; exit 1; }
+scripts/make_role_page.py | colordiff doc/roles.md - \
+  || { echo "\n${RED}ERROR${RESET}: doc/roles.md is out of date. Run\n  scripts/make_role_page.py > doc/roles.md\nto update it."; exit 1; }
 
 echo
 ! grep -r "print(" mafia/*.py mafia/*/*.py \
