@@ -21,7 +21,7 @@ def test_game1():
   doug     = g.add_player("Doug", Villager(town))
   fejta    = g.add_player("Fejta", Tracker(town))
   gijosh   = g.add_player("GI Josh", Cop(town))
-  hung     = g.add_player("Hung", Lyncher())
+  hung     = g.add_player("Hung", Lyncher(doug))
   josh     = g.add_player("Josh", Villager(masons))
   justin   = g.add_player("Justin", Watcher(town))
   kim      = g.add_player("Kim", Vengeful(Miller(town)))
@@ -37,7 +37,6 @@ def test_game1():
   tony     = g.add_player("Tony", Doctor(town))
   tyler    = g.add_player("Tyler", Delayer(town))
   wac      = g.add_player("Wac", Goon(mafia))
-  hung.role.set_target(doug)
 
   assert_equal(mafia.members(game=g), [asmar, dave, paul, sami, tarl, wac])
 

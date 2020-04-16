@@ -284,7 +284,8 @@ class Joker(NeutralRole):
 class Lyncher(NeutralRole):
   description = "You win only if a specific player gets lynched."
 
-  def set_target(self, target):
+  def __init__(self, target):
+    super().__init__()
     self.target = target
 
   def fate(self, *, player, game):
