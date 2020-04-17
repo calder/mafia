@@ -1,6 +1,7 @@
 import itertools
 import sys
 
+# Pickle'able constuctors for defaultdict entries
 def return_none(): return None
 def return_0(): return 0
 
