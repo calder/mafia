@@ -59,8 +59,8 @@ class Parser(object):
 
   def get_faction_action_command(self, faction, action):
     command = self.get_action_command(action)
-    pattern = "\s*%s: %s.*?" % (action.player.unique_name, command.pattern)
-    help = "%s: %s" % (action.player.unique_name, command.help)
+    pattern = "\s*%s: %s.*?" % (action.player.name.lower(), command.pattern)
+    help = "%s: %s" % (action.player.name.lower(), command.help)
     return Command(pattern, self.perform_faction_action(faction, action), phase=Night, help=help)
 
   def get_help(self, player, *, phase=None):

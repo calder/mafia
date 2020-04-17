@@ -24,10 +24,6 @@ class Player(object):
   def matches(self, other, **kwargs):
     return self == other
 
-  @property
-  def unique_name(self):
-    return self.name.replace(" ", "").lower()
-
   @mixin("effects")
   def action(self):
     if self.role.action:
