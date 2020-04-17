@@ -24,15 +24,15 @@ class ParserTest(TestCase):
     self.parser = Parser(self.game)
 
   def test_default_commands(self):
-    assert [c.help for c in self.parser.get_commands(self.villager1)] == DEFAULT_COMMANDS
+    assert_equal([c.help for c in self.parser.get_commands(self.villager1)], DEFAULT_COMMANDS)
 
   def test_action(self):
-    assert [c.help for c in self.parser.get_commands(self.cop)] == [
+    assert_equal([c.help for c in self.parser.get_commands(self.cop)], [
         "investigate PLAYER",
-    ] + DEFAULT_COMMANDS
+    ] + DEFAULT_COMMANDS)
 
   def test_faction_action(self):
-    assert [c.help for c in self.parser.get_commands(self.goon1)] == [
+    assert_equal([c.help for c in self.parser.get_commands(self.goon1)], [
         "goon 1: kill PLAYER",
         "goon 2: kill PLAYER",
-    ] + DEFAULT_COMMANDS
+    ] + DEFAULT_COMMANDS)
